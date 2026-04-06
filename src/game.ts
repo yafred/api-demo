@@ -63,6 +63,9 @@ export class GameCtrl implements BoardCtrl {
   playing = () => this.game.state.status == 'started';
 
   chessgroundConfig = () => ({
+    real3D: {
+      sceneAssetUrl: 'scene.glb',
+    },
     orientation: this.pov,
     fen: makeFen(this.chess.toSetup()),
     lastMove: this.lastMove,

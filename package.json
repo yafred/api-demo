@@ -6,17 +6,19 @@
   "dependencies": {
     "@bity/oauth2-auth-code-pkce": "^2",
     "bootstrap": "^5",
-    "chessground": "^8.2.1",
+    "chessground": "../chessground",
     "chessops": "^0.10.5",
     "page": "^1",
+    "concurrently": "^9.2.1",
     "snabbdom": "^3"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^29",
     "@rollup/plugin-node-resolve": "^16",
-    "@rollup/plugin-typescript": "^12",
     "@rollup/plugin-terser": "^1",
+    "@rollup/plugin-typescript": "^12",
     "@types/page": "^1",
+    "concurrently": "^9.2.1",
     "http-server": "^14",
     "prettier": "^2",
     "rollup": "^4",
@@ -28,6 +30,7 @@
   "scripts": {
     "build": "rollup --config",
     "watch": "rollup --config --watch",
+    "dev": "concurrently -k -n chessground,app,server \"pnpm --dir ../chessground exec tsc --sourceMap --declaration --watch\" \"pnpm watch\" \"http-server -c-1\"",
     "prod": "rollup --config --config-prod",
     "serve": "http-server"
   }

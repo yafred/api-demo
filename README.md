@@ -23,6 +23,23 @@ This is an example for a fully client side OAuth app that uses various APIs.
 1. `pnpm run build`
 1. `pnpm run serve` or any other method to serve the app on http://localhost:8000
 
+## Develop against a local chessground checkout
+
+This app depends on `../chessground`, but the linked package exports `dist/chessground.js`. That means:
+
+1. `pnpm run serve` only serves the already-built `index.js`; it does not rebuild this app.
+1. Changes in `../chessground/src` are not visible until `../chessground/dist` is rebuilt.
+
+To work on both repos together, run:
+
+1. `pnpm run dev`
+
+This starts three processes:
+
+- a TypeScript watch build in `../chessground`
+- the Rollup watch build for this app
+- `http-server` with caching disabled
+
 ## Points of interest
 
 - [ND-JSON stream reader](https://github.com/lichess-org/api-demo/blob/master/src/ndJsonStream.ts)
