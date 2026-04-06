@@ -1,6 +1,4 @@
 node_modules/
 package-lock.json
-dist/index.min.js
-dist/style.min.css
 index.js
 style.css
