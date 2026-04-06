@@ -28,6 +28,7 @@ export default (args) => ({
       include: ["scss/*"],
       output: args["config-prod"] ? "./dist/style.min.css" : "./style.css",
       runtime: sass,
+      silenceDeprecations: ["legacy-js-api", "import", "global-builtin", "color-functions", "mixed-decls"],
       ...(args["config-prod"] ? { outputStyle: "compressed" } : {}),
     }),
   ],
