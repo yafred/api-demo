@@ -17195,18 +17195,6 @@ progress {
   align-items: center;
 }
 
-.seek-page {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: space-evenly;
-  height: 50vh;
-}
-.seek-page__awaiting {
-  display: flex;
-  align-items: center;
-}
-
 .games {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -17267,4 +17255,16 @@ progress {
 }
 .game-page__state {
   text-align: center;
+}
+
+.seek-page {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 50vh;
+}
+.seek-page__awaiting {
+  display: flex;
+  align-items: center;
 }
