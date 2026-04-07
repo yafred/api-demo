@@ -66527,6 +66527,7 @@ void main() {
         let draggedPiece = null;
         let pinnedPiece = null;
         let ignoredPiece = null;
+        let pieceHighlightFilter = () => true;
         const squareHighlight = new Mesh(new PlaneGeometry(1, 1), new MeshBasicMaterial({
             color: 16245375,
             transparent: true,
@@ -66604,6 +66605,12 @@ void main() {
             setIgnoredPiece(piece) {
                 ignoredPiece = piece;
             },
+            setPieceHighlightFilter(filter) {
+                pieceHighlightFilter = filter;
+                if (hovered && !pieceHighlightFilter(hovered)) {
+                    clearHoveredState();
+                }
+            },
             updateFromPointerEvent(event) {
                 const rect = domElement.getBoundingClientRect();
                 mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -66637,6 +66644,9 @@ void main() {
                     if (candidate && ignoredPiece && candidate === ignoredPiece) {
                         continue;
                     }
+                    if (candidate && !pieceHighlightFilter(candidate)) {
+                        continue;
+                    }
                     if (candidate) {
                         hitPiece = candidate;
                         break;
@@ -66656,7 +66666,8 @@ void main() {
                         squareHighlight.position.z = Math.round(boardPoint.z + 3.5) - 3.5;
                         squareHighlight.visible = true;
                         hasHighlightedSquare = true;
-                        targetPiece = getPieceAtSquare(scene, squareHighlight.position.x, squareHighlight.position.z);
+                        const pieceAtSquare = getPieceAtSquare(scene, squareHighlight.position.x, squareHighlight.position.z);
+                        targetPiece = pieceAtSquare && pieceHighlightFilter(pieceAtSquare) ? pieceAtSquare : null;
                     }
                     else {
                         squareHighlight.visible = false;
@@ -66682,7 +66693,7 @@ void main() {
     }
 
     const pieceCodes = new Set(['K', 'Q', 'R', 'B', 'N', 'P', 'k', 'q', 'r', 'b', 'n', 'p']);
-    function setupPieceInteraction({ scene, camera, renderer, controls, hoverController, }) {
+    function setupPieceInteraction({ scene, camera, renderer, controls, hoverController, allowWhiteInteraction: initialAllowWhiteInteraction = true, allowBlackInteraction: initialAllowBlackInteraction = true, }) {
         const pointerRaycaster = new Raycaster();
         const pointerNdc = new Vector2();
         const boardPlane = new Plane(new Vector3(0, 1, 0), 0);
@@ -66717,6 +66728,8 @@ void main() {
         let activeMouseButton = null;
         let hoverDisabledForOrbit = false;
         let onMoveAttempt = undefined;
+        let allowWhiteInteraction = initialAllowWhiteInteraction;
+        let allowBlackInteraction = initialAllowBlackInteraction;
         function getPieceMeshFromObject(object) {
             let current = object;
             while (current) {
@@ -66756,6 +66769,10 @@ void main() {
         function isOppositeColor(a, b) {
             return isWhitePiece(a) !== isWhitePiece(b);
         }
+        function canInteractWithPiece(piece) {
+            return isWhitePiece(piece) ? allowWhiteInteraction : allowBlackInteraction;
+        }
+        hoverController.setPieceHighlightFilter(canInteractWithPiece);
         function parseSquare(square) {
             const normalized = square.trim().toLowerCase();
             if (!/^[a-h][1-8]$/.test(normalized)) {
@@ -66830,6 +66847,9 @@ void main() {
             hoverController.setPinnedPiece(null);
         }
         function selectPiece(piece) {
+            if (!canInteractWithPiece(piece)) {
+                return;
+            }
             selectedPiece = piece;
             hoverController.setPinnedPiece(piece);
         }
@@ -66861,6 +66881,20 @@ void main() {
         }
         function setMoveAttemptCallback(callback) {
             onMoveAttempt = callback;
+        }
+        function setAllowWhiteInteraction(allow) {
+            allowWhiteInteraction = allow;
+            hoverController.setPieceHighlightFilter(canInteractWithPiece);
+            if (selectedPiece && !canInteractWithPiece(selectedPiece)) {
+                clearSelection();
+            }
+        }
+        function setAllowBlackInteraction(allow) {
+            allowBlackInteraction = allow;
+            hoverController.setPieceHighlightFilter(canInteractWithPiece);
+            if (selectedPiece && !canInteractWithPiece(selectedPiece)) {
+                clearSelection();
+            }
         }
         function moveProgrammatically(fromX, fromZ, toX, toZ) {
             if (dragState) {
@@ -66911,6 +66945,9 @@ void main() {
                         clearSelection();
                         return true;
                     }
+                }
+                if (!canInteractWithPiece(targetPiece)) {
+                    return true;
                 }
                 selectPiece(targetPiece);
                 return true;
@@ -66997,6 +67034,9 @@ void main() {
                     event.preventDefault();
                     event.stopPropagation();
                 }
+                return;
+            }
+            if (!canInteractWithPiece(piece)) {
                 return;
             }
             // If a piece is pinned, clicking another piece should act as a click target,
@@ -67087,6 +67127,8 @@ void main() {
             moveProgrammaticallyBySquare,
             setLastMoveSquares,
             setMoveAttemptCallback,
+            setAllowWhiteInteraction,
+            setAllowBlackInteraction,
         };
     }
 
@@ -67151,6 +67193,12 @@ void main() {
                 return true; // allow all moves for now
             });
         }
+        if (config?.turnColor) {
+            const isWhiteTurn = config.turnColor === 'white';
+            const isMyTurn = (isWhiteTurn && config.movable?.color === 'white') || (!isWhiteTurn && config.movable?.color === 'black') || config.movable?.color === 'both';
+            interactionController.setAllowWhiteInteraction(isWhiteTurn && isMyTurn);
+            interactionController.setAllowBlackInteraction(!isWhiteTurn && isMyTurn);
+        }
         // Load the scene and pieces
         loader.load(sceneAssetUrl, (gltf) => {
             scene.add(gltf.scene);
@@ -67195,6 +67243,12 @@ void main() {
                 }
                 if (config.fen) {
                     fenToScene(config.fen, scene, pieces, materials);
+                }
+                if (config?.turnColor) {
+                    const isWhiteTurn = config.turnColor === 'white';
+                    const isMyTurn = (isWhiteTurn && config.movable?.color === 'white') || (!isWhiteTurn && config.movable?.color === 'black') || config.movable?.color === 'both';
+                    interactionController.setAllowWhiteInteraction(isWhiteTurn && isMyTurn);
+                    interactionController.setAllowBlackInteraction(!isWhiteTurn && isMyTurn);
                 }
             },
             getFen() {
