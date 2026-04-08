@@ -3,7 +3,6 @@ import { Me } from '../auth';
 import { Ctrl } from '../ctrl';
 import { MaybeVNodes } from '../interfaces';
 import { href } from '../routing';
-import colorpicker from './colorpicker';
 import '../../scss/_navbar.scss';
 
 export default function (ctrl: Ctrl, body: MaybeVNodes): VNode {
@@ -44,7 +43,7 @@ const renderNavBar = (ctrl: Ctrl) =>
       ),
       h('div#navbarSupportedContent.collapse.navbar-collapse', [
         h('ul.navbar-nav.me-auto.mb-lg-0"'),
-        h('ul.navbar-nav', [colorpicker(), ctrl.auth.me ? userNav(ctrl.auth.me) : anonNav()]),
+        h('ul.navbar-nav', [ctrl.auth.me ? userNav(ctrl.auth.me) : anonNav()]),
       ]),
     ]),
   ]);

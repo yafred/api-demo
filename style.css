@@ -8767,18 +8767,7 @@ cg-board square.current-premove {
   justify-content: flex-end;
 }
 
-.colorpicker {
-  display: flex;
-  align-items: center;
-  margin-right: 1em;
-}
-
-#colorpicker {
-  border-radius: 0.25em;
-}
-
 body {
-  --board-color: "#f0d9b5";
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -17200,20 +17189,6 @@ progress {
     display: none !important;
   }
 }
-#navbarSupportedContent {
-  justify-content: flex-end;
-}
-
-.colorpicker {
-  display: flex;
-  align-items: center;
-  margin-right: 1em;
-}
-
-#colorpicker {
-  border-radius: 0.25em;
-}
-
 .challenge-page {
   display: flex;
   flex-flow: column;
@@ -17299,6 +17274,10 @@ progress {
 }
 .game-page__state {
   text-align: center;
+}
+
+#navbarSupportedContent {
+  justify-content: flex-end;
 }
 
 .seek-page {
