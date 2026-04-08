@@ -7,10 +7,13 @@ import terser from "@rollup/plugin-terser";
 
 export default (args) => ({
   input: "src/main.ts",
+  external: [
+    "three",
+    /^three\/examples\/jsm\//,
+  ],
   output: {
     file: args["config-prod"] ? "dist/index.min.js" : "index.js",
-    format: "iife",
-    name: "LichessDemo",
+    format: "es",
     plugins: args["config-prod"]
       ? [
           terser({
