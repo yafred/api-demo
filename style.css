@@ -8688,8 +8688,12 @@ cg-board square.current-premove {
 .game-page {
   display: flex;
   flex-flow: column;
-  max-width: 60vh;
-  margin: 5vh auto;
+  flex: 1 1 auto;
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
 }
 .game-page__player {
   display: flex;
@@ -8721,6 +8725,15 @@ cg-board square.current-premove {
 }
 .game-page__board {
   flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.game-page__board > .cg-wrap {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 0;
 }
 .game-page__state {
   text-align: center;
@@ -8766,6 +8779,24 @@ cg-board square.current-premove {
 
 body {
   --board-color: "#f0d9b5";
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.app-shell__content {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0;
+  overflow: auto;
+}
+
+.app-shell__content--game,
+.app-shell__content--tv {
+  overflow: hidden;
 }
 
 .login .about {
@@ -17219,8 +17250,12 @@ progress {
 .game-page {
   display: flex;
   flex-flow: column;
-  max-width: 60vh;
-  margin: 5vh auto;
+  flex: 1 1 auto;
+  height: 100%;
+  width: 100%;
+  min-height: 0;
+  margin: 0;
+  overflow: hidden;
 }
 .game-page__player {
   display: flex;
@@ -17252,6 +17287,15 @@ progress {
 }
 .game-page__board {
   flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.game-page__board > .cg-wrap {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 0;
 }
 .game-page__state {
   text-align: center;

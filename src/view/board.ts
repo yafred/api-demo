@@ -15,7 +15,6 @@ export const renderBoard = (ctrl: BoardCtrl) =>
           },
         },
       },
-      'loading...'
     )
   );
 

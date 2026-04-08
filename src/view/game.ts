@@ -17,10 +17,10 @@ export const renderGame: (ctrl: GameCtrl) => Renderer = ctrl => _ =>
         },
       },
       [
-        renderGamePlayer(ctrl, opposite(ctrl.pov)),
+        //renderGamePlayer(ctrl, opposite(ctrl.pov)),
         renderBoard(ctrl),
-        renderGamePlayer(ctrl, ctrl.pov),
-        ctrl.playing() ? renderButtons(ctrl) : renderState(ctrl),
+        //renderGamePlayer(ctrl, ctrl.pov),
+        //ctrl.playing() ? renderButtons(ctrl) : renderState(ctrl),
       ]
     ),
   ];

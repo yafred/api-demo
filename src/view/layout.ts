@@ -7,7 +7,15 @@ import colorpicker from './colorpicker';
 import '../../scss/_navbar.scss';
 
 export default function (ctrl: Ctrl, body: MaybeVNodes): VNode {
-  return h('body', [renderNavBar(ctrl), h('div.container', body)]);
+  const fullBleed = ctrl.page == 'game' || ctrl.page == 'tv';
+
+  return h('body', [
+    renderNavBar(ctrl),
+    h(
+      `div.app-shell__content.app-shell__content--${ctrl.page}`,
+      fullBleed ? body : [h('div.container', body)]
+    ),
+  ]);
 }
 
 const renderNavBar = (ctrl: Ctrl) =>

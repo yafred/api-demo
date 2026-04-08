@@ -4610,7 +4610,11 @@ const setColor = (color) => {
 };
 
 function layout (ctrl, body) {
-    return h('body', [renderNavBar(ctrl), h('div.container', body)]);
+    const fullBleed = ctrl.page == 'game' || ctrl.page == 'tv';
+    return h('body', [
+        renderNavBar(ctrl),
+        h(`div.app-shell__content.app-shell__content--${ctrl.page}`, fullBleed ? body : [h('div.container', body)]),
+    ]);
 }
 const renderNavBar = (ctrl) => h('header.navbar.navbar-expand-md.navbar-dark.bg-dark', [
     h('div.container', [
@@ -4673,6 +4677,47 @@ const renderChallenge = ctrl => _ => [
         }, 'Cancel'),
     ]),
 ];
+
+function clockContent(time, decay) {
+    if (!time && time !== 0)
+        return h('span', '-');
+    if (time == 2147483647)
+        return h('span');
+    const millis = time + (decay || 0);
+    return millis > 1000 * 60 * 60 * 24 ? correspondence(millis) : realTime(millis);
+}
+const realTime = (millis) => {
+    const date = new Date(millis);
+    return h('span.clock--realtime.font-monospace', [
+        pad2(date.getUTCMinutes()) + ':' + pad2(date.getUTCSeconds()),
+        h('tenths', '.' + Math.floor(date.getUTCMilliseconds() / 100).toString()),
+    ]);
+};
+const correspondence = (ms) => {
+    const date = new Date(ms), minutes = prefixInteger(date.getUTCMinutes(), 2), seconds = prefixInteger(date.getSeconds(), 2);
+    let hours, str = '';
+    if (ms >= 86400 * 1000) {
+        // days : hours
+        const days = date.getUTCDate() - 1;
+        hours = date.getUTCHours();
+        str += (days === 1 ? 'One day' : `${days} days`) + ' ';
+        if (hours !== 0)
+            str += `${hours} hours`;
+    }
+    else if (ms >= 3600 * 1000) {
+        // hours : minutes
+        hours = date.getUTCHours();
+        str += bold(prefixInteger(hours, 2)) + ':' + bold(minutes);
+    }
+    else {
+        // minutes : seconds
+        str += bold(minutes) + ':' + bold(seconds);
+    }
+    return h('span.clock--correspondence', str);
+};
+const pad2 = (num) => (num < 10 ? '0' : '') + num;
+const prefixInteger = (num, length) => (num / Math.pow(10, length)).toFixed(length).slice(2);
+const bold = (x) => `<b>${x}</b>`;
 
 const colors = ['white', 'black'];
 const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
@@ -4791,47 +4836,6 @@ const squaresBetween = (x1, y1, x2, y2) => {
     }
     return squares.map(pos2key).filter(k => k !== undefined);
 };
-
-function clockContent(time, decay) {
-    if (!time && time !== 0)
-        return h('span', '-');
-    if (time == 2147483647)
-        return h('span');
-    const millis = time + (decay || 0);
-    return millis > 1000 * 60 * 60 * 24 ? correspondence(millis) : realTime(millis);
-}
-const realTime = (millis) => {
-    const date = new Date(millis);
-    return h('span.clock--realtime.font-monospace', [
-        pad2(date.getUTCMinutes()) + ':' + pad2(date.getUTCSeconds()),
-        h('tenths', '.' + Math.floor(date.getUTCMilliseconds() / 100).toString()),
-    ]);
-};
-const correspondence = (ms) => {
-    const date = new Date(ms), minutes = prefixInteger(date.getUTCMinutes(), 2), seconds = prefixInteger(date.getSeconds(), 2);
-    let hours, str = '';
-    if (ms >= 86400 * 1000) {
-        // days : hours
-        const days = date.getUTCDate() - 1;
-        hours = date.getUTCHours();
-        str += (days === 1 ? 'One day' : `${days} days`) + ' ';
-        if (hours !== 0)
-            str += `${hours} hours`;
-    }
-    else if (ms >= 3600 * 1000) {
-        // hours : minutes
-        hours = date.getUTCHours();
-        str += bold(prefixInteger(hours, 2)) + ':' + bold(minutes);
-    }
-    else {
-        // minutes : seconds
-        str += bold(minutes) + ':' + bold(seconds);
-    }
-    return h('span.clock--correspondence', str);
-};
-const pad2 = (num) => (num < 10 ? '0' : '') + num;
-const prefixInteger = (num, length) => (num / Math.pow(10, length)).toFixed(length).slice(2);
-const bold = (x) => `<b>${x}</b>`;
 
 const anim = (mutation, state) => state.animation.enabled ? animate(mutation, state) : render$2(mutation, state);
 function render$2(mutation, state) {
@@ -7704,7 +7708,7 @@ const renderBoard = (ctrl) => h('div.game-page__board', h('div.cg-wrap', {
             ctrl.setGround(Chessground(vnode.elm, ctrl.chessgroundConfig()));
         },
     },
-}, 'loading...'));
+}));
 const renderPlayer = (ctrl, color, clock, name, title, rating, aiLevel) => {
     return h('div.game-page__player', {
         class: {
@@ -7713,7 +7717,7 @@ const renderPlayer = (ctrl, color, clock, name, title, rating, aiLevel) => {
     }, [
         h('div.game-page__player__user', [
             title && h('span.game-page__player__user__title.display-5', title),
-            h('span.game-page__player__user__name.display-5', aiLevel ? `Stockfish level ${aiLevel}` : name || 'Anon'),
+            h('span.game-page__player__user__name.display-5', name || 'Anon'),
             h('span.game-page__player__user__rating', rating || ''),
         ]),
         h('div.game-page__player__clock.display-6', clock),
@@ -7726,29 +7730,12 @@ const renderGame = ctrl => _ => [
             destroy: ctrl.onUnmount,
         },
     }, [
-        renderGamePlayer(ctrl, opposite(ctrl.pov)),
+        //renderGamePlayer(ctrl, opposite(ctrl.pov)),
         renderBoard(ctrl),
-        renderGamePlayer(ctrl, ctrl.pov),
-        ctrl.playing() ? renderButtons(ctrl) : renderState(ctrl),
+        //renderGamePlayer(ctrl, ctrl.pov),
+        //ctrl.playing() ? renderButtons(ctrl) : renderState(ctrl),
     ]),
 ];
-const renderButtons = (ctrl) => h('div.btn-group.mt-4', [
-    h('button.btn.btn-secondary', {
-        attrs: { type: 'button', disabled: !ctrl.playing() },
-        on: {
-            click() {
-                if (confirm('Confirm?'))
-                    ctrl.resign();
-            },
-        },
-    }, ctrl.chess.fullmoves > 1 ? 'Resign' : 'Abort'),
-]);
-const renderState = (ctrl) => h('div.game-page__state', ctrl.game.state.status);
-const renderGamePlayer = (ctrl, color) => {
-    const p = ctrl.game[color];
-    const clock = clockContent(ctrl.timeOf(color), color == ctrl.chess.turn && ctrl.chess.fullmoves > 1 && ctrl.playing() ? ctrl.lastUpdateAt - Date.now() : 0);
-    return renderPlayer(ctrl, color, clock, p.name, p.title, p.rating, p.aiLevel);
-};
 
 const renderHome = ctrl => (ctrl.auth.me ? userHome(ctrl) : anonHome());
 const userHome = (ctrl) => [
