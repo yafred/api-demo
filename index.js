@@ -4632,12 +4632,7 @@ const renderNavBar = (ctrl) => h('header.navbar.navbar-expand-md.navbar-dark.bg-
             },
         }, h('span.navbar-toggler-icon')),
         h('div#navbarSupportedContent.collapse.navbar-collapse', [
-            h('ul.navbar-nav.me-auto.mb-lg-0"', [
-                h('li.nav-item', h('a.nav-link', {
-                    class: { active: ctrl.page == 'tv' },
-                    attrs: href('/tv'),
-                }, 'Watch TV')),
-            ]),
+            h('ul.navbar-nav.me-auto.mb-lg-0"'),
             h('ul.navbar-nav', [colorpicker(), ctrl.auth.me ? userNav(ctrl.auth.me) : anonNav()]),
         ]),
     ]),
