@@ -1,6 +1,6 @@
-# Lichess OAuth app demo
+# Lichess 3D
 
-This is an example for a fully client side OAuth app that uses various APIs.
+Play on Lichess with a 3D board using Lichess' public API.
 
 ## Features
 
@@ -15,7 +15,7 @@ This is an example for a fully client side OAuth app that uses various APIs.
 
 ## Try it out
 
-[The demo app is hosted on Github Pages](https://lichess-org.github.io/api-demo/)
+[This app is hosted on Github Pages](https://yafred.github.io/Lichess3D/)
 
 ## Run it on your machine
 
@@ -25,10 +25,7 @@ This is an example for a fully client side OAuth app that uses various APIs.
 
 ## Develop against a local chessground checkout
 
-This app depends on `../chessground`, but the linked package exports `dist/chessground.js`. That means:
-
-1. `pnpm run serve` only serves the already-built `index.js`; it does not rebuild this app.
-1. Changes in `../chessground/src` are not visible until `../chessground/dist` is rebuilt.
+Clone https://github.com/yafred/chessground
 
 To work on both repos together, run:
 
