@@ -1,7 +1,5 @@
 node_modules/
 package-lock.json
-index.js
-style.css
 dist/index.min.js
 dist/style.min.css
 dist/scene.glb

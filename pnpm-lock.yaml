@@ -20,9 +20,6 @@ importers:
       chessops:
         specifier: ^0.10.5
         version: 0.10.5
-      concurrently:
-        specifier: ^9.2.1
-        version: 9.2.1
       page:
         specifier: ^1
         version: 1.11.6
@@ -45,6 +42,9 @@ importers:
       '@types/page':
         specifier: ^1
         version: 1.11.9
+      concurrently:
+        specifier: ^9.2.1
+        version: 9.2.1
       http-server:
         specifier: ^14
         version: 14.1.1
