@@ -13,23 +13,31 @@ Play on Lichess with a 3D board using Lichess' public API.
 - Create a game seek
 - Watch Lichess TV
 
-## Try it out
+## Use it
 
-[This app is hosted on Github Pages](https://yafred.github.io/Lichess3D/)
+This app is available [here](https://yafred.github.io/Lichess3D/)
 
 ## Run it on your machine
 
-1. `pnpm install`
-1. `pnpm run build`
-1. `pnpm run serve` or any other method to serve the app on http://localhost:8000
+At the moment, it is a bit messy. 
+We bundle chessground with Lichess3D.
+So, you need Lichess3D and chessground in the same parent folder.
 
-## Develop against a local chessground checkout
+1. Clone https://github.com/yafred/chessground (switch to branch chess3D) 
+2. `cd chessground`
+3. `pnpm install`
+4. `pnpm run compile`
+5. `cd ..`
+6. Clone https://github.com/yafred/Lichess3D (switch to branch chess3D) 
+7. `cd Lichess3D`
+8. `pnpm install` 
+9. `pnpm run build` 
+10. `pnpm run serve`
 
-Clone https://github.com/yafred/chessground
+## Work on both repos together
 
-To work on both repos together, run:
-
-1. `pnpm run dev`
+1. `cd Lichess3D`
+2. `pnpm run dev`
 
 This starts three processes:
 

@@ -1,4 +1,8 @@
 @charset "UTF-8";
+#navbarSupportedContent {
+  justify-content: flex-end;
+}
+
 :root,
 [data-bs-theme=light] {
   --bs-blue: #0d6efd;
@@ -8379,6 +8383,18 @@ progress {
     display: none !important;
   }
 }
+.challenge-page {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 50vh;
+}
+.challenge-page__awaiting {
+  display: flex;
+  align-items: center;
+}
+
 :root,
 [data-bs-theme=light] {
   --bs-blue: #0d6efd;
@@ -17187,22 +17203,6 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 70vh;
-}
-
-.challenge-page {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: space-evenly;
-  height: 50vh;
-}
-.challenge-page__awaiting {
-  display: flex;
-  align-items: center;
-}
-
-#navbarSupportedContent {
-  justify-content: flex-end;
 }
 
 .games {
