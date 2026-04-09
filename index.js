@@ -4600,7 +4600,7 @@ const renderNavBar = (ctrl) => h('header.navbar.navbar-expand-md.navbar-dark.bg-
     h('div.container', [
         h('a.navbar-brand', {
             attrs: href('/'),
-        }, 'Lichess API Demo'),
+        }, 'Lichess 3D'),
         h('button.navbar-toggler', {
             attrs: {
                 type: 'button',
@@ -7770,14 +7770,14 @@ const anonHome = () => [
     ]),
 ];
 const renderAbout = () => h('div.about', [
-    h('p', 'This is an example for a fully client side OAuth app that uses various Lichess APIs.'),
+    h('p', 'This is using Lichess public API to play game on a 3D board.'),
     h('ul', [
         h('li', h('a', {
-            attrs: { href: 'https://github.com/lichess-org/api-demo' },
-        }, 'Source code of this demo')),
+            attrs: { href: 'https://github.com/yafred/Lichess3D' },
+        }, 'Source code')),
         h('li', h('a', {
-            attrs: { href: 'https://github.com/lichess-org/api-demo#lichess-oauth-app-demo' },
-        }, 'README')),
+            attrs: { href: 'https://lichess-org.github.io/api-demo/' },
+        }, 'Lichess API demo')),
         h('li', h('a', {
             attrs: { href: 'https://lichess.org/api' },
         }, 'Lichess.org API documentation')),

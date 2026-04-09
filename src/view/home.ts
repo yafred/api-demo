@@ -95,16 +95,16 @@ const anonHome = () => [
 
 const renderAbout = () =>
   h('div.about', [
-    h('p', 'This is an example for a fully client side OAuth app that uses various Lichess APIs.'),
+    h('p', 'This is using Lichess public API to play game on a 3D board.'),
     h('ul', [
       h(
         'li',
         h(
           'a',
           {
-            attrs: { href: 'https://github.com/lichess-org/api-demo' },
+            attrs: { href: 'https://github.com/yafred/Lichess3D' },
           },
-          'Source code of this demo'
+          'Source code'
         )
       ),
       h(
@@ -112,9 +112,9 @@ const renderAbout = () =>
         h(
           'a',
           {
-            attrs: { href: 'https://github.com/lichess-org/api-demo#lichess-oauth-app-demo' },
+            attrs: { href: 'https://lichess-org.github.io/api-demo/' },
           },
-          'README'
+          'Lichess API demo'
         )
       ),
       h(

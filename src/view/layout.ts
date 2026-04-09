@@ -25,7 +25,7 @@ const renderNavBar = (ctrl: Ctrl) =>
         {
           attrs: href('/'),
         },
-        'Lichess API Demo'
+        'Lichess 3D'
       ),
       h(
         'button.navbar-toggler',
