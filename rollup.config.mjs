@@ -4,6 +4,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import scss from "rollup-plugin-scss";
 import sass from "sass";
 import terser from "@rollup/plugin-terser";
+import { copyFileSync } from "fs";
 
 export default (args) => ({
   input: "src/main.ts",
@@ -34,5 +35,11 @@ export default (args) => ({
       silenceDeprecations: ["legacy-js-api", "import", "global-builtin", "color-functions", "mixed-decls"],
       ...(args["config-prod"] ? { outputStyle: "compressed" } : {}),
     }),
+    args["config-prod"] && {
+      name: "copy-scene",
+      writeBundle() {
+        copyFileSync("scene.glb", "dist/scene.glb");
+      },
+    },
   ],
 });
