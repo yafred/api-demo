@@ -7770,7 +7770,7 @@ const anonHome = () => [
     ]),
 ];
 const renderAbout = () => h('div.about', [
-    h('p', 'This is using Lichess public API to play game on a 3D board.'),
+    h('p', 'Play games on Lichess using a 3D board and Lichess public API.'),
     h('ul', [
         h('li', h('a', {
             attrs: { href: 'https://github.com/yafred/Lichess3D' },

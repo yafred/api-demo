@@ -1,4 +1,16 @@
 @charset "UTF-8";
+.challenge-page {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 50vh;
+}
+.challenge-page__awaiting {
+  display: flex;
+  align-items: center;
+}
+
 #navbarSupportedContent {
   justify-content: flex-end;
 }
@@ -8383,18 +8395,6 @@ progress {
     display: none !important;
   }
 }
-.challenge-page {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: space-evenly;
-  height: 50vh;
-}
-.challenge-page__awaiting {
-  display: flex;
-  align-items: center;
-}
-
 :root,
 [data-bs-theme=light] {
   --bs-blue: #0d6efd;
