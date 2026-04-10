@@ -96,6 +96,7 @@ const anonHome = () => [
 const renderAbout = () =>
   h('div.about', [
     h('p', 'Play games on Lichess using a 3D board and Lichess public API.'),
+    h('p', 'WORK IN PROGRESS ...'),
     h('ul', [
       h(
         'li',

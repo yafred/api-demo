@@ -2,6 +2,8 @@
 
 Play on Lichess with a 3D board using Lichess' public API.
 
+WORK IN PROGRESS ...
+
 ## Features
 
 - Fully client side, no server needed
