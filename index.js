@@ -6701,6 +6701,7 @@ function start3D(sceneRoot, config) {
     const pieces = new Map();
     const sceneAssetUrl = config.real3D.sceneAssetUrl; // config.real3D is the reason we are here.
     const defaultFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
+    let currentOrientation = config.orientation;
     // Camera
     const { width: initialWidth, height: initialHeight } = getSceneRootSize();
     const camera = new THREE.PerspectiveCamera(45, initialWidth / initialHeight, 0.1, 100);
@@ -6727,10 +6728,11 @@ function start3D(sceneRoot, config) {
     light2.target.position.set(0, 0, 0);
     scene.add(light2);
     function setOrientation(orientation) {
+        currentOrientation = orientation;
         const side = orientation === 'black' ? -1 : 1;
         camera.position.set(0, 15, 8 * side);
-        camera.updateProjectionMatrix();
         controls.target.set(0, 0, 0);
+        camera.updateProjectionMatrix();
         controls.update();
     }
     setOrientation(config.orientation);
@@ -6824,7 +6826,7 @@ function start3D(sceneRoot, config) {
             if ('movable' in config) {
                 allowedMoveDests = config.movable?.dests;
             }
-            if ('orientation' in config) {
+            if ('orientation' in config && config.orientation && config.orientation !== currentOrientation) {
                 setOrientation(config.orientation);
             }
             setAllowInteractionForColors(config);
