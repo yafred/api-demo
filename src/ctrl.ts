@@ -69,7 +69,7 @@ export class Ctrl {
       {
         rated: true,
         time: minutes,
-        increment,
+        increment: increment,
       },
       this
     );
