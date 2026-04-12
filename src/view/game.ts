@@ -17,10 +17,12 @@ export const renderGame: (ctrl: GameCtrl) => Renderer = ctrl => _ =>
         },
       },
       [
-        //renderGamePlayer(ctrl, opposite(ctrl.pov)),
+        h('aside.game-page__left-float', [
+          renderGamePlayer(ctrl, opposite(ctrl.pov)),
+          renderGamePlayer(ctrl, ctrl.pov),
+          ctrl.playing() ? renderButtons(ctrl) : renderState(ctrl),
+        ]),
         renderBoard(ctrl),
-        //renderGamePlayer(ctrl, ctrl.pov),
-        //ctrl.playing() ? renderButtons(ctrl) : renderState(ctrl),
       ]
     ),
   ];
