@@ -10,15 +10,6 @@ export const renderHome: Renderer = ctrl => (ctrl.auth.me ? userHome(ctrl) : ano
 
 const userHome = (ctrl: Ctrl) => [
   h('div', [
-    h('div.btn-group.mt-5', [
-      h(
-        'button.btn.btn-outline-primary.btn-lg',
-        {
-          attrs: { type: 'button' },
-          on: { click: ctrl.openPuzzle },
-        },
-        'Puzzles',
-      ),
       h(
         'button.btn.btn-outline-primary.btn-lg',
         {
