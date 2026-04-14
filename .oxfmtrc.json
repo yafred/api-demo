@@ -4,7 +4,7 @@
   "printWidth": 110,
   "arrowParens": "avoid",
   "endOfLine": "lf",
-  "ignorePatterns": ["**/dist", "README.md"],
+  "ignorePatterns": ["**/dist", "README.md", "index.js", "style.css"],
   "sortPackageJson": false,
   "sortImports": {
     "customGroups": [
