@@ -10,13 +10,14 @@ export const renderHome: Renderer = ctrl => (ctrl.auth.me ? userHome(ctrl) : ano
 
 const userHome = (ctrl: Ctrl) => [
   h('div', [
+    h('div.btn-group.mt-5', [
       h(
         'button.btn.btn-outline-primary.btn-lg',
         {
           attrs: { type: 'button' },
           on: { click: ctrl.playAi },
         },
-        'Play the Lichess AI',
+        'Play the Lichess AI'
       ),
       h(
         'button.btn.btn-outline-primary.btn-lg',
@@ -24,7 +25,7 @@ const userHome = (ctrl: Ctrl) => [
           attrs: { type: 'button' },
           on: { click: () => ctrl.playMaia(10, 0) },
         },
-        'Play a casual 10+0 game with the maia1 BOT',
+        'Play a casual 10+0 game with the maia1 BOT'
       ),
     ]),
     h('h2.mt-5', 'Games in progress'),
@@ -33,7 +34,6 @@ const userHome = (ctrl: Ctrl) => [
     renderAbout(),
   ]),
 ];
-
 const renderGames = (ongoing: OngoingGames) =>
   ongoing.games.length ? ongoing.games.map(renderGameWidget) : [h('p', 'No ongoing games at the moment')];
 

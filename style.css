@@ -17436,18 +17436,6 @@ body {
     padding: 0.85rem;
   }
 }
-.seek-page {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: space-evenly;
-  height: 50vh;
-}
-.seek-page__awaiting {
-  display: flex;
-  align-items: center;
-}
-
 #navbarSupportedContent {
   justify-content: flex-end;
 }
@@ -17606,4 +17594,15 @@ body {
     width: auto;
     padding: 0.85rem;
   }
+}
+.seek-page {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 50vh;
+}
+.seek-page__awaiting {
+  display: flex;
+  align-items: center;
 }
