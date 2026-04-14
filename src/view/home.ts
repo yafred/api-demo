@@ -15,6 +15,14 @@ const userHome = (ctrl: Ctrl) => [
         'button.btn.btn-outline-primary.btn-lg',
         {
           attrs: { type: 'button' },
+          on: { click: ctrl.openPuzzle },
+        },
+        'Puzzles',
+      ),
+      h(
+        'button.btn.btn-outline-primary.btn-lg',
+        {
+          attrs: { type: 'button' },
           on: { click: ctrl.playAi },
         },
         'Play the Lichess AI',

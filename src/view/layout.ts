@@ -8,7 +8,7 @@ import { href } from '../routing';
 import '../../scss/_navbar.scss';
 
 export default function (ctrl: Ctrl, body: MaybeVNodes): VNode {
-  const fullBleed = ctrl.page == 'game' || ctrl.page == 'tv';
+  const fullBleed = ctrl.page == 'game' || ctrl.page == 'tv' || ctrl.page == 'puzzle';
 
   return h('body', [
     renderNavBar(ctrl),

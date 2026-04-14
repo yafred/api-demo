@@ -6,6 +6,7 @@ import { renderChallenge } from './challenge';
 import { renderGame } from './game';
 import { renderHome } from './home';
 import layout from './layout';
+import { renderPuzzle } from './puzzle';
 import { renderSeek } from './seek';
 import { renderTv } from './tv';
 
@@ -14,6 +15,7 @@ export default function view(ctrl: Ctrl): VNode {
 }
 
 const selectRenderer = (ctrl: Ctrl): Renderer => {
+  if (ctrl.page == 'puzzle') return ctrl.puzzle ? renderPuzzle(ctrl.puzzle) : renderLoading;
   if (ctrl.page == 'game') return ctrl.game ? renderGame(ctrl.game) : renderLoading;
   if (ctrl.page == 'home') return renderHome;
   if (ctrl.page == 'seek' && ctrl.seek) return renderSeek(ctrl.seek);

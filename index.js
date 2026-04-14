@@ -2580,7 +2580,7 @@ const BASE_PATH = location.pathname.replace(/\/$/, '');
 const url = (path) => `${BASE_PATH}${path}`;
 const href = (path) => ({ href: url(path) });
 
-const lichessHost = 'https://lichess.org';
+const lichessHost = 'http://localhost:9663';
 // export const lichessHost = 'http://l.org';
 const scopes = ['board:play'];
 const clientId = 'lichess-api-demo';
@@ -4419,6 +4419,25 @@ class OngoingGames {
     }
 }
 
+class PuzzleCtrl {
+    constructor(root) {
+        this.root = root;
+        this.chess = Chess.default();
+        this.lastUpdateAt = Date.now();
+        this.onUpdate = () => {
+            var _a;
+            (_a = this.ground) === null || _a === void 0 ? void 0 : _a.set(this.chessgroundConfig());
+        };
+        this.chessgroundConfig = () => ({
+            real3D: {
+                sceneAssetUrl: 'scene.glb',
+            },
+        });
+        this.setGround = (cg) => (this.ground = cg);
+        this.onUpdate();
+    }
+}
+
 class SeekCtrl {
     constructor(stream, root) {
         this.stream = stream;
@@ -4541,6 +4560,11 @@ class Ctrl {
                     this.redraw();
                 });
             }
+            this.redraw();
+        };
+        this.openPuzzle = async () => {
+            this.page = 'puzzle';
+            this.puzzle = new PuzzleCtrl(this);
             this.redraw();
         };
         this.openGame = async (id) => {
@@ -4693,7 +4717,7 @@ function isShadowRoot(node) {
 
 // and applies them to the HTMLElements such as popper and arrow
 
-function applyStyles(_ref) {
+function applyStyles$1(_ref) {
   var state = _ref.state;
   Object.keys(state.elements).forEach(function (name) {
     var style = state.styles[name] || {};
@@ -4765,11 +4789,11 @@ function effect$2(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var applyStyles$1 = {
+var applyStyles = {
   name: 'applyStyles',
   enabled: true,
   phase: 'write',
-  fn: applyStyles,
+  fn: applyStyles$1,
   effect: effect$2,
   requires: ['computeStyles']
 };
@@ -5016,7 +5040,7 @@ var toPaddingObject = function toPaddingObject(padding, state) {
   return mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
 };
 
-function arrow(_ref) {
+function arrow$1(_ref) {
   var _state$modifiersData$;
 
   var state = _ref.state,
@@ -5080,11 +5104,11 @@ function effect$1(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var arrow$1 = {
+var arrow = {
   name: 'arrow',
   enabled: true,
   phase: 'main',
-  fn: arrow,
+  fn: arrow$1,
   effect: effect$1,
   requires: ['popperOffsets'],
   requiresIfExists: ['preventOverflow']
@@ -5205,7 +5229,7 @@ function mapToStyles(_ref2) {
   return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
 }
 
-function computeStyles(_ref5) {
+function computeStyles$1(_ref5) {
   var state = _ref5.state,
       options = _ref5.options;
   var _options$gpuAccelerat = options.gpuAcceleration,
@@ -5247,11 +5271,11 @@ function computeStyles(_ref5) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var computeStyles$1 = {
+var computeStyles = {
   name: 'computeStyles',
   enabled: true,
   phase: 'beforeWrite',
-  fn: computeStyles,
+  fn: computeStyles$1,
   data: {}
 };
 
@@ -5679,7 +5703,7 @@ function getExpandedFallbackPlacements(placement) {
   return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
 }
 
-function flip(_ref) {
+function flip$1(_ref) {
   var state = _ref.state,
       options = _ref.options,
       name = _ref.name;
@@ -5799,11 +5823,11 @@ function flip(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var flip$1 = {
+var flip = {
   name: 'flip',
   enabled: true,
   phase: 'main',
-  fn: flip,
+  fn: flip$1,
   requiresIfExists: ['offset'],
   data: {
     _skip: false
@@ -5832,7 +5856,7 @@ function isAnySideFullyClipped(overflow) {
   });
 }
 
-function hide(_ref) {
+function hide$1(_ref) {
   var state = _ref.state,
       name = _ref.name;
   var referenceRect = state.rects.reference;
@@ -5861,12 +5885,12 @@ function hide(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var hide$1 = {
+var hide = {
   name: 'hide',
   enabled: true,
   phase: 'main',
   requiresIfExists: ['preventOverflow'],
-  fn: hide
+  fn: hide$1
 };
 
 function distanceAndSkiddingToXY(placement, rects, offset) {
@@ -5890,7 +5914,7 @@ function distanceAndSkiddingToXY(placement, rects, offset) {
   };
 }
 
-function offset(_ref2) {
+function offset$1(_ref2) {
   var state = _ref2.state,
       options = _ref2.options,
       name = _ref2.name;
@@ -5913,15 +5937,15 @@ function offset(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var offset$1 = {
+var offset = {
   name: 'offset',
   enabled: true,
   phase: 'main',
   requires: ['popperOffsets'],
-  fn: offset
+  fn: offset$1
 };
 
-function popperOffsets(_ref) {
+function popperOffsets$1(_ref) {
   var state = _ref.state,
       name = _ref.name;
   // Offsets are the actual position the popper needs to have to be
@@ -5936,11 +5960,11 @@ function popperOffsets(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var popperOffsets$1 = {
+var popperOffsets = {
   name: 'popperOffsets',
   enabled: true,
   phase: 'read',
-  fn: popperOffsets,
+  fn: popperOffsets$1,
   data: {}
 };
 
@@ -5948,7 +5972,7 @@ function getAltAxis(axis) {
   return axis === 'x' ? 'y' : 'x';
 }
 
-function preventOverflow(_ref) {
+function preventOverflow$1(_ref) {
   var state = _ref.state,
       options = _ref.options,
       name = _ref.name;
@@ -6071,11 +6095,11 @@ function preventOverflow(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var preventOverflow$1 = {
+var preventOverflow = {
   name: 'preventOverflow',
   enabled: true,
   phase: 'main',
-  fn: preventOverflow,
+  fn: preventOverflow$1,
   requiresIfExists: ['offset']
 };
 
@@ -6407,12 +6431,12 @@ function popperGenerator(generatorOptions) {
 }
 var createPopper$2 = /*#__PURE__*/popperGenerator(); // eslint-disable-next-line import/no-unused-modules
 
-var defaultModifiers$1 = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1];
+var defaultModifiers$1 = [eventListeners, popperOffsets, computeStyles, applyStyles];
 var createPopper$1 = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers$1
 }); // eslint-disable-next-line import/no-unused-modules
 
-var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1, offset$1, flip$1, preventOverflow$1, arrow$1, hide$1];
+var defaultModifiers = [eventListeners, popperOffsets, computeStyles, applyStyles, offset, flip, preventOverflow, arrow, hide];
 var createPopper = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers
 }); // eslint-disable-next-line import/no-unused-modules
@@ -6422,8 +6446,8 @@ var lib = /*#__PURE__*/Object.freeze({
     afterMain: afterMain,
     afterRead: afterRead,
     afterWrite: afterWrite,
-    applyStyles: applyStyles$1,
-    arrow: arrow$1,
+    applyStyles: applyStyles,
+    arrow: arrow,
     auto: auto,
     basePlacements: basePlacements,
     beforeMain: beforeMain,
@@ -6431,24 +6455,24 @@ var lib = /*#__PURE__*/Object.freeze({
     beforeWrite: beforeWrite,
     bottom: bottom,
     clippingParents: clippingParents,
-    computeStyles: computeStyles$1,
+    computeStyles: computeStyles,
     createPopper: createPopper,
     createPopperBase: createPopper$2,
     createPopperLite: createPopper$1,
     detectOverflow: detectOverflow,
     end: end$2,
     eventListeners: eventListeners,
-    flip: flip$1,
-    hide: hide$1,
+    flip: flip,
+    hide: hide,
     left: left,
     main: main$1,
     modifierPhases: modifierPhases,
-    offset: offset$1,
+    offset: offset,
     placements: placements,
     popper: popper,
     popperGenerator: popperGenerator,
-    popperOffsets: popperOffsets$1,
-    preventOverflow: preventOverflow$1,
+    popperOffsets: popperOffsets,
+    preventOverflow: preventOverflow,
     read: read$1,
     reference: reference,
     right: right,
@@ -11223,6 +11247,10 @@ const userHome = (ctrl) => [
         h('div.btn-group.mt-5', [
             h('button.btn.btn-outline-primary.btn-lg', {
                 attrs: { type: 'button' },
+                on: { click: ctrl.openPuzzle },
+            }, 'Puzzles'),
+            h('button.btn.btn-outline-primary.btn-lg', {
+                attrs: { type: 'button' },
                 on: { click: ctrl.playAi },
             }, 'Play the Lichess AI'),
             h('button.btn.btn-outline-primary.btn-lg', {
@@ -11294,7 +11322,7 @@ const renderAbout = () => h('div.about', [
 ]);
 
 function layout (ctrl, body) {
-    const fullBleed = ctrl.page == 'game' || ctrl.page == 'tv';
+    const fullBleed = ctrl.page == 'game' || ctrl.page == 'tv' || ctrl.page == 'puzzle';
     return h('body', [
         renderNavBar(ctrl),
         h(`div.app-shell__content.app-shell__content--${ctrl.page}`, fullBleed ? body : [h('div.container', body)]),
@@ -11374,10 +11402,19 @@ const renderTvPlayer = (ctrl, color) => {
     return renderPlayer(ctrl, color, clock, p.user.name, p.user.title, p.rating);
 };
 
+const renderPuzzle = ctrl => _ => [
+    h(`div.game-page.game-page`, [
+        h('aside.game-page__left-float', []),
+        renderBoard(ctrl),
+    ]),
+];
+
 function view(ctrl) {
     return layout(ctrl, selectRenderer(ctrl)(ctrl));
 }
 const selectRenderer = (ctrl) => {
+    if (ctrl.page == 'puzzle')
+        return ctrl.puzzle ? renderPuzzle(ctrl.puzzle) : renderLoading;
     if (ctrl.page == 'game')
         return ctrl.game ? renderGame(ctrl.game) : renderLoading;
     if (ctrl.page == 'home')

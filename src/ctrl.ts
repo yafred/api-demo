@@ -4,6 +4,7 @@ import { GameCtrl } from './game';
 import { Page } from './interfaces';
 import { Stream } from './ndJsonStream';
 import OngoingGames from './ongoingGames';
+import { PuzzleCtrl } from './puzzle';
 import { SeekCtrl } from './seek';
 import TvCtrl from './tv';
 import { formData } from './util';
@@ -17,6 +18,7 @@ export class Ctrl {
   seek?: SeekCtrl;
   challenge?: ChallengeCtrl;
   tv?: TvCtrl;
+  puzzle?: PuzzleCtrl;
 
   constructor(readonly redraw: () => void) {}
 
@@ -42,6 +44,11 @@ export class Ctrl {
     this.redraw();
   };
 
+  openPuzzle = async () => {
+    this.page = 'puzzle';
+    this.puzzle = new PuzzleCtrl(this);
+    this.redraw();
+  };
   openGame = async (id: string) => {
     this.page = 'game';
     this.game = undefined;
