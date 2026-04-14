@@ -1,7 +1,8 @@
-import { Ctrl } from "./ctrl";
-import { Stream } from "./ndJsonStream";
-import { formData } from "./util";
-import page from "page";
+import page from 'page';
+
+import { Ctrl } from './ctrl';
+import { Stream } from './ndJsonStream';
+import { formData } from './util';
 
 export class SeekCtrl {
   constructor(
@@ -13,19 +14,19 @@ export class SeekCtrl {
 
   awaitClose = async () => {
     await this.stream.closePromise;
-    if (this.root.page == "seek") page("/");
+    if (this.root.page == 'seek') page('/');
   };
 
   onUnmount = () => this.stream.close();
 
   static make = async (config: any, root: Ctrl) => {
     const stream = await root.auth.openStream(
-      "/api/board/seek",
+      '/api/board/seek',
       {
-        method: "post",
+        method: 'post',
         body: formData(config),
       },
-      (_) => {},
+      _ => {},
     );
     return new SeekCtrl(stream, root);
   };

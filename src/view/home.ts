@@ -1,43 +1,42 @@
-import { Chessground } from "chessground";
-import { h } from "snabbdom";
-import { Ctrl } from "../ctrl";
-import { Game, Renderer } from "../interfaces";
-import OngoingGames from "../ongoingGames";
-import { href } from "../routing";
+import { Chessground } from 'chessground';
+import { h } from 'snabbdom';
 
-export const renderHome: Renderer = (ctrl) => (ctrl.auth.me ? userHome(ctrl) : anonHome());
+import { Ctrl } from '../ctrl';
+import { Game, Renderer } from '../interfaces';
+import OngoingGames from '../ongoingGames';
+import { href } from '../routing';
+
+export const renderHome: Renderer = ctrl => (ctrl.auth.me ? userHome(ctrl) : anonHome());
 
 const userHome = (ctrl: Ctrl) => [
-  h("div", [
-    h("div.btn-group.mt-5", [
+  h('div', [
+    h('div.btn-group.mt-5', [
       h(
-        "button.btn.btn-outline-primary.btn-lg",
+        'button.btn.btn-outline-primary.btn-lg',
         {
-          attrs: { type: "button" },
+          attrs: { type: 'button' },
           on: { click: ctrl.playAi },
         },
-        "Play the Lichess AI",
+        'Play the Lichess AI',
       ),
       h(
-        "button.btn.btn-outline-primary.btn-lg",
+        'button.btn.btn-outline-primary.btn-lg',
         {
-          attrs: { type: "button" },
+          attrs: { type: 'button' },
           on: { click: () => ctrl.playMaia(10, 0) },
         },
-        "Play a casual 10+0 game with the maia1 BOT",
+        'Play a casual 10+0 game with the maia1 BOT',
       ),
     ]),
-    h("h2.mt-5", "Games in progress"),
-    h("div.games", renderGames(ctrl.games)),
-    h("h2.mt-5.mb-3", "About"),
+    h('h2.mt-5', 'Games in progress'),
+    h('div.games', renderGames(ctrl.games)),
+    h('h2.mt-5.mb-3', 'About'),
     renderAbout(),
   ]),
 ];
 
 const renderGames = (ongoing: OngoingGames) =>
-  ongoing.games.length
-    ? ongoing.games.map(renderGameWidget)
-    : [h("p", "No ongoing games at the moment")];
+  ongoing.games.length ? ongoing.games.map(renderGameWidget) : [h('p', 'No ongoing games at the moment')];
 
 const renderGameWidget = (game: Game) =>
   h(
@@ -46,12 +45,12 @@ const renderGameWidget = (game: Game) =>
       attrs: href(`/game/${game.gameId}`),
     },
     [
-      h("span.game-widget__opponent", [
-        h("span.game-widget__opponent__name", game.opponent.username || "Anon"),
-        game.opponent.rating && h("span.game-widget__opponent__rating", game.opponent.rating),
+      h('span.game-widget__opponent', [
+        h('span.game-widget__opponent__name', game.opponent.username || 'Anon'),
+        game.opponent.rating && h('span.game-widget__opponent__rating', game.opponent.rating),
       ]),
       h(
-        "span.game-widget__board.cg-wrap",
+        'span.game-widget__board.cg-wrap',
         {
           hook: {
             insert(vnode) {
@@ -68,66 +67,66 @@ const renderGameWidget = (game: Game) =>
             },
           },
         },
-        "board",
+        'board',
       ),
     ],
   );
 
 const anonHome = () => [
-  h("div.login.text-center", [
+  h('div.login.text-center', [
     renderAbout(),
-    h("div.big", [h("p", "Please log in to continue.")]),
+    h('div.big', [h('p', 'Please log in to continue.')]),
     h(
-      "a.btn.btn-primary.btn-lg.mt-5",
+      'a.btn.btn-primary.btn-lg.mt-5',
       {
-        attrs: href("/login"),
+        attrs: href('/login'),
       },
-      "Login with Lichess",
+      'Login with Lichess',
     ),
   ]),
 ];
 
 const renderAbout = () =>
-  h("div.about", [
-    h("p", "Play games on Lichess using a 3D board and Lichess public API."),
-    h("p", "WORK IN PROGRESS ..."),
-    h("ul", [
+  h('div.about', [
+    h('p', 'Play games on Lichess using a 3D board and Lichess public API.'),
+    h('p', 'WORK IN PROGRESS ...'),
+    h('ul', [
       h(
-        "li",
+        'li',
         h(
-          "a",
+          'a',
           {
-            attrs: { href: "https://github.com/yafred/Lichess3D" },
+            attrs: { href: 'https://github.com/yafred/Lichess3D' },
           },
-          "Source code",
+          'Source code',
         ),
       ),
       h(
-        "li",
+        'li',
         h(
-          "a",
+          'a',
           {
-            attrs: { href: "https://lichess-org.github.io/api-demo/" },
+            attrs: { href: 'https://lichess-org.github.io/api-demo/' },
           },
-          "Lichess API demo",
+          'Lichess API demo',
         ),
       ),
       h(
-        "li",
+        'li',
         h(
-          "a",
+          'a',
           {
-            attrs: { href: "https://lichess.org/api" },
+            attrs: { href: 'https://lichess.org/api' },
           },
-          "Lichess.org API documentation",
+          'Lichess.org API documentation',
         ),
       ),
     ]),
-    h("p", [
-      "Press ",
-      h("code", "<Ctrl+Shift+j>"),
-      " to open your browser console and view incoming events.",
-      h("br"),
-      "Check out the network tab as well to view API calls.",
+    h('p', [
+      'Press ',
+      h('code', '<Ctrl+Shift+j>'),
+      ' to open your browser console and view incoming events.',
+      h('br'),
+      'Check out the network tab as well to view API calls.',
     ]),
   ]);

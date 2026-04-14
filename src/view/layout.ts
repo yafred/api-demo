@@ -1,83 +1,85 @@
-import { h, VNode } from "snabbdom";
-import { Me } from "../auth";
-import { Ctrl } from "../ctrl";
-import { MaybeVNodes } from "../interfaces";
-import { href } from "../routing";
-import "../../scss/_navbar.scss";
+import { h, VNode } from 'snabbdom';
+
+import { Me } from '../auth';
+import { Ctrl } from '../ctrl';
+import { MaybeVNodes } from '../interfaces';
+import { href } from '../routing';
+
+import '../../scss/_navbar.scss';
 
 export default function (ctrl: Ctrl, body: MaybeVNodes): VNode {
-  const fullBleed = ctrl.page == "game" || ctrl.page == "tv";
+  const fullBleed = ctrl.page == 'game' || ctrl.page == 'tv';
 
-  return h("body", [
+  return h('body', [
     renderNavBar(ctrl),
     h(
       `div.app-shell__content.app-shell__content--${ctrl.page}`,
-      fullBleed ? body : [h("div.container", body)],
+      fullBleed ? body : [h('div.container', body)],
     ),
   ]);
 }
 
 const renderNavBar = (ctrl: Ctrl) =>
-  h("header.navbar.navbar-expand-md.navbar-dark.bg-dark", [
-    h("div.container", [
+  h('header.navbar.navbar-expand-md.navbar-dark.bg-dark', [
+    h('div.container', [
       h(
-        "a.navbar-brand",
+        'a.navbar-brand',
         {
-          attrs: href("/"),
+          attrs: href('/'),
         },
-        "Lichess 3D",
+        'Lichess 3D',
       ),
       h(
-        "button.navbar-toggler",
+        'button.navbar-toggler',
         {
           attrs: {
-            type: "button",
-            "data-bs-toggle": "collapse",
-            "data-bs-target": "#navbarSupportedContent",
-            "aria-controls": "navbarSupportedContent",
-            "aria-expanded": false,
-            "aria-label": "Toggle navigation",
+            type: 'button',
+            'data-bs-toggle': 'collapse',
+            'data-bs-target': '#navbarSupportedContent',
+            'aria-controls': 'navbarSupportedContent',
+            'aria-expanded': false,
+            'aria-label': 'Toggle navigation',
           },
         },
-        h("span.navbar-toggler-icon"),
+        h('span.navbar-toggler-icon'),
       ),
-      h("div#navbarSupportedContent.collapse.navbar-collapse", [
+      h('div#navbarSupportedContent.collapse.navbar-collapse', [
         h('ul.navbar-nav.me-auto.mb-lg-0"'),
-        h("ul.navbar-nav", [ctrl.auth.me ? userNav(ctrl.auth.me) : anonNav()]),
+        h('ul.navbar-nav', [ctrl.auth.me ? userNav(ctrl.auth.me) : anonNav()]),
       ]),
     ]),
   ]);
 
 const userNav = (me: Me) =>
-  h("li.nav-item.dropdown", [
+  h('li.nav-item.dropdown', [
     h(
-      "a#navbarDropdown.nav-link.dropdown-toggle",
+      'a#navbarDropdown.nav-link.dropdown-toggle',
       {
         attrs: {
-          href: "#",
-          role: "button",
-          "data-bs-toggle": "dropdown",
-          "aria-expanded": false,
+          href: '#',
+          role: 'button',
+          'data-bs-toggle': 'dropdown',
+          'aria-expanded': false,
         },
       },
       me.username,
     ),
     h(
-      "ul.dropdown-menu",
+      'ul.dropdown-menu',
       {
         attrs: {
-          "aria-labelledby": "navbarDropdown",
+          'aria-labelledby': 'navbarDropdown',
         },
       },
       [
         h(
-          "li",
+          'li',
           h(
-            "a.dropdown-item",
+            'a.dropdown-item',
             {
-              attrs: href("/logout"),
+              attrs: href('/logout'),
             },
-            "Log out",
+            'Log out',
           ),
         ),
       ],
@@ -86,12 +88,12 @@ const userNav = (me: Me) =>
 
 const anonNav = () =>
   h(
-    "li.nav-item",
+    'li.nav-item',
     h(
-      "a.btn.btn-primary.text-nowrap",
+      'a.btn.btn-primary.text-nowrap',
       {
-        attrs: href("/login"),
+        attrs: href('/login'),
       },
-      "Login with Lichess",
+      'Login with Lichess',
     ),
   );

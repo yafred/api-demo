@@ -1,13 +1,14 @@
-import { Ctrl } from "./ctrl";
-import { Game } from "./interfaces";
-import { Api as CgApi } from "chessground/api";
-import { Config as CgConfig } from "chessground/config";
-import { Stream } from "./ndJsonStream";
-import { Color, Key } from "chessground/types";
-import { opposite, parseUci } from "chessops/util";
-import { Chess, defaultSetup } from "chessops";
-import { makeFen, parseFen } from "chessops/fen";
-import { chessgroundDests } from "chessops/compat";
+import { Api as CgApi } from 'chessground/api';
+import { Config as CgConfig } from 'chessground/config';
+import { Color, Key } from 'chessground/types';
+import { Chess, defaultSetup } from 'chessops';
+import { chessgroundDests } from 'chessops/compat';
+import { makeFen, parseFen } from 'chessops/fen';
+import { opposite, parseUci } from 'chessops/util';
+
+import { Ctrl } from './ctrl';
+import { Game } from './interfaces';
+import { Stream } from './ndJsonStream';
 
 export interface BoardCtrl {
   chess: Chess;
@@ -31,7 +32,7 @@ export class GameCtrl implements BoardCtrl {
     private root: Ctrl,
   ) {
     this.game = game;
-    this.pov = this.game.black.id == this.root.auth.me?.id ? "black" : "white";
+    this.pov = this.game.black.id == this.root.auth.me?.id ? 'black' : 'white';
     this.onUpdate();
     this.redrawInterval = setInterval(root.redraw, 100);
   }
@@ -43,9 +44,9 @@ export class GameCtrl implements BoardCtrl {
 
   private onUpdate = () => {
     const setup =
-      this.game.initialFen == "startpos" ? defaultSetup() : parseFen(this.game.initialFen).unwrap();
+      this.game.initialFen == 'startpos' ? defaultSetup() : parseFen(this.game.initialFen).unwrap();
     this.chess = Chess.fromSetup(setup).unwrap();
-    const moves = this.game.state.moves.split(" ").filter((m: string) => m);
+    const moves = this.game.state.moves.split(' ').filter((m: string) => m);
     moves.forEach((uci: string) => this.chess.play(parseUci(uci)!));
     const lastMove = moves[moves.length - 1];
     this.lastMove = lastMove && [lastMove.substr(0, 2) as Key, lastMove.substr(2, 2) as Key];
@@ -59,19 +60,19 @@ export class GameCtrl implements BoardCtrl {
   userMove = async (orig: Key, dest: Key) => {
     this.ground?.set({ turnColor: opposite(this.pov) });
     await this.root.auth.fetchBody(`/api/board/game/${this.game.id}/move/${orig}${dest}`, {
-      method: "post",
+      method: 'post',
     });
   };
 
   resign = async () => {
-    await this.root.auth.fetchBody(`/api/board/game/${this.game.id}/resign`, { method: "post" });
+    await this.root.auth.fetchBody(`/api/board/game/${this.game.id}/resign`, { method: 'post' });
   };
 
-  playing = () => this.game.state.status == "started";
+  playing = () => this.game.state.status == 'started';
 
   chessgroundConfig = () => ({
     real3D: {
-      sceneAssetUrl: "scene.glb",
+      sceneAssetUrl: 'scene.glb',
     },
     orientation: this.pov,
     fen: makeFen(this.chess.toSetup()),
@@ -91,7 +92,7 @@ export class GameCtrl implements BoardCtrl {
   setGround = (cg: CgApi) => (this.ground = cg);
 
   static open = (root: Ctrl, id: string): Promise<GameCtrl> =>
-    new Promise<GameCtrl>(async (resolve) => {
+    new Promise<GameCtrl>(async resolve => {
       let ctrl: GameCtrl;
       let stream: Stream;
       const handler = (msg: any) => {
@@ -108,12 +109,12 @@ export class GameCtrl implements BoardCtrl {
 
   private handle = (msg: any) => {
     switch (msg.type) {
-      case "gameFull":
+      case 'gameFull':
         this.game = msg;
         this.onUpdate();
         this.root.redraw();
         break;
-      case "gameState":
+      case 'gameState':
         this.game.state = msg;
         this.onUpdate();
         this.root.redraw();

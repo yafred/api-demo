@@ -1,6 +1,6 @@
-import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 function createElement$1(tagName, options) {
   return document.createElement(tagName, options);
@@ -129,9 +129,7 @@ function vnode(sel, data, children, text, elm) {
 
 const array = Array.isArray;
 function primitive(s) {
-  return (
-    typeof s === "string" || typeof s === "number" || s instanceof String || s instanceof Number
-  );
+  return typeof s === 'string' || typeof s === 'number' || s instanceof String || s instanceof Number;
 }
 
 function isUndef(s) {
@@ -140,7 +138,7 @@ function isUndef(s) {
 function isDef(s) {
   return s !== undefined;
 }
-const emptyNode = vnode("", {}, [], undefined, undefined);
+const emptyNode = vnode('', {}, [], undefined, undefined);
 function sameVnode(vnode1, vnode2) {
   var _a, _b;
   const isSameKey = vnode1.key === vnode2.key;
@@ -156,7 +154,7 @@ function sameVnode(vnode1, vnode2) {
  * @todo Remove this function when the document fragment is considered stable.
  */
 function documentFragmentIsNotSupported() {
-  throw new Error("The document fragment is not supported on this platform.");
+  throw new Error('The document fragment is not supported on this platform.');
 }
 function isElement$1(api, vnode) {
   return api.isElement(vnode);
@@ -175,7 +173,7 @@ function createKeyToOldIdx(children, beginIdx, endIdx) {
   }
   return map;
 }
-const hooks = ["create", "update", "remove", "destroy", "pre", "post"];
+const hooks = ['create', 'update', 'remove', 'destroy', 'pre', 'post'];
 function init(modules, domApi, options) {
   const cbs = {
     create: [],
@@ -195,11 +193,11 @@ function init(modules, domApi, options) {
     }
   }
   function emptyNodeAt(elm) {
-    const id = elm.id ? "#" + elm.id : "";
+    const id = elm.id ? '#' + elm.id : '';
     // elm.className doesn't return a string when elm is an SVG element inside a shadowRoot.
     // https://stackoverflow.com/questions/29454340/detecting-classname-of-svganimatedstring
-    const classes = elm.getAttribute("class");
-    const c = classes ? "." + classes.split(" ").join(".") : "";
+    const classes = elm.getAttribute('class');
+    const c = classes ? '.' + classes.split(' ').join('.') : '';
     return vnode(api.tagName(elm).toLowerCase() + id + c, {}, [], undefined, elm);
   }
   function emptyDocumentFragmentAt(frag) {
@@ -228,18 +226,18 @@ function init(modules, domApi, options) {
     }
     const children = vnode.children;
     const sel = vnode.sel;
-    if (sel === "!") {
+    if (sel === '!') {
       if (isUndef(vnode.text)) {
-        vnode.text = "";
+        vnode.text = '';
       }
       vnode.elm = api.createComment(vnode.text);
-    } else if (sel === "") {
+    } else if (sel === '') {
       // textNode has no selector
       vnode.elm = api.createTextNode(vnode.text);
     } else if (sel !== undefined) {
       // Parse selector
-      const hashIdx = sel.indexOf("#");
-      const dotIdx = sel.indexOf(".", hashIdx);
+      const hashIdx = sel.indexOf('#');
+      const dotIdx = sel.indexOf('.', hashIdx);
       const hash = hashIdx > 0 ? hashIdx : sel.length;
       const dot = dotIdx > 0 ? dotIdx : sel.length;
       const tag = hashIdx !== -1 || dotIdx !== -1 ? sel.slice(0, Math.min(hash, dot)) : sel;
@@ -247,8 +245,8 @@ function init(modules, domApi, options) {
         isDef(data) && isDef((i = data.ns))
           ? api.createElementNS(i, tag, data)
           : api.createElement(tag, data));
-      if (hash < dot) elm.setAttribute("id", sel.slice(hash + 1, dot));
-      if (dotIdx > 0) elm.setAttribute("class", sel.slice(dot + 1).replace(/\./g, " "));
+      if (hash < dot) elm.setAttribute('id', sel.slice(hash + 1, dot));
+      if (dotIdx > 0) elm.setAttribute('class', sel.slice(dot + 1).replace(/\./g, ' '));
       for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
       if (primitive(vnode.text) && (!array(children) || children.length === 0)) {
         // allow h1 and similar nodes to be created w/ text and empty child list
@@ -269,14 +267,9 @@ function init(modules, domApi, options) {
           insertedVnodeQueue.push(vnode);
         }
       }
-    } else if (
-      ((_c = void 0) === null || _c === void 0 ? void 0 : _c.fragments) &&
-      vnode.children
-    ) {
+    } else if (((_c = void 0) === null || _c === void 0 ? void 0 : _c.fragments) && vnode.children) {
       vnode.elm = (
-        (_d = api.createDocumentFragment) !== null && _d !== void 0
-          ? _d
-          : documentFragmentIsNotSupported
+        (_d = api.createDocumentFragment) !== null && _d !== void 0 ? _d : documentFragmentIsNotSupported
       )();
       for (i = 0; i < cbs.create.length; ++i) cbs.create[i](emptyNode, vnode);
       for (i = 0; i < vnode.children.length; ++i) {
@@ -312,7 +305,7 @@ function init(modules, domApi, options) {
       if (vnode.children !== undefined) {
         for (let j = 0; j < vnode.children.length; ++j) {
           const child = vnode.children[j];
-          if (child != null && typeof child !== "string") {
+          if (child != null && typeof child !== 'string') {
             invokeDestroyHook(child);
           }
         }
@@ -403,11 +396,7 @@ function init(modules, domApi, options) {
         idxInOld = oldKeyToIdx[newStartVnode.key];
         if (isUndef(idxInOld)) {
           // `newStartVnode` is new, create and insert it in beginning
-          api.insertBefore(
-            parentElm,
-            createElm(newStartVnode, insertedVnodeQueue),
-            oldStartVnode.elm,
-          );
+          api.insertBefore(parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm);
           newStartVnode = newCh[++newStartIdx];
         } else if (isUndef(oldKeyToIdx[newEndVnode.key])) {
           // `newEndVnode` is new, create and insert it in the end
@@ -422,11 +411,7 @@ function init(modules, domApi, options) {
           // moving `newStartVnode` into position
           elmToMove = oldCh[idxInOld];
           if (elmToMove.sel !== newStartVnode.sel) {
-            api.insertBefore(
-              parentElm,
-              createElm(newStartVnode, insertedVnodeQueue),
-              oldStartVnode.elm,
-            );
+            api.insertBefore(parentElm, createElm(newStartVnode, insertedVnodeQueue), oldStartVnode.elm);
           } else {
             patchVnode(elmToMove, newStartVnode, insertedVnodeQueue);
             oldCh[idxInOld] = undefined;
@@ -457,8 +442,7 @@ function init(modules, domApi, options) {
       (_d = oldVnode.data) !== null && _d !== void 0 ? _d : (oldVnode.data = {});
       for (let i = 0; i < cbs.update.length; ++i) cbs.update[i](oldVnode, vnode);
       (_g =
-        (_f = (_e = vnode.data) === null || _e === void 0 ? void 0 : _e.hook) === null ||
-        _f === void 0
+        (_f = (_e = vnode.data) === null || _e === void 0 ? void 0 : _e.hook) === null || _f === void 0
           ? void 0
           : _f.update) === null || _g === void 0
         ? void 0
@@ -470,12 +454,12 @@ function init(modules, domApi, options) {
       if (isDef(oldCh) && isDef(ch)) {
         if (oldCh !== ch) updateChildren(elm, oldCh, ch, insertedVnodeQueue);
       } else if (isDef(ch)) {
-        if (isDef(oldVnode.text)) api.setTextContent(elm, "");
+        if (isDef(oldVnode.text)) api.setTextContent(elm, '');
         addVnodes(elm, null, ch, 0, ch.length - 1, insertedVnodeQueue);
       } else if (isDef(oldCh)) {
         removeVnodes(elm, oldCh, 0, oldCh.length - 1);
       } else if (isDef(oldVnode.text)) {
-        api.setTextContent(elm, "");
+        api.setTextContent(elm, '');
       }
     } else if (oldVnode.text !== vnode.text) {
       if (isDef(oldCh)) {
@@ -516,11 +500,11 @@ function init(modules, domApi, options) {
 }
 
 function addNS(data, children, sel) {
-  data.ns = "http://www.w3.org/2000/svg";
-  if (sel !== "foreignObject" && children !== undefined) {
+  data.ns = 'http://www.w3.org/2000/svg';
+  if (sel !== 'foreignObject' && children !== undefined) {
     for (let i = 0; i < children.length; ++i) {
       const child = children[i];
-      if (typeof child === "string") continue;
+      if (typeof child === 'string') continue;
       const childData = child.data;
       if (childData !== undefined) {
         addNS(childData, child.children, child.sel);
@@ -561,15 +545,15 @@ function h(sel, b, c) {
         children[i] = vnode(undefined, undefined, undefined, children[i], undefined);
     }
   }
-  if (sel.startsWith("svg") && (sel.length === 3 || sel[3] === "." || sel[3] === "#")) {
+  if (sel.startsWith('svg') && (sel.length === 3 || sel[3] === '.' || sel[3] === '#')) {
     addNS(data, children, sel);
   }
   return vnode(sel, data, children, text, undefined);
 }
 
-const xlinkNS = "http://www.w3.org/1999/xlink";
-const xmlnsNS = "http://www.w3.org/2000/xmlns/";
-const xmlNS = "http://www.w3.org/XML/1998/namespace";
+const xlinkNS = 'http://www.w3.org/1999/xlink';
+const xmlnsNS = 'http://www.w3.org/2000/xmlns/';
+const xmlNS = 'http://www.w3.org/XML/1998/namespace';
 const colonChar = 58;
 const xChar = 120;
 const mChar = 109;
@@ -588,7 +572,7 @@ function updateAttrs(oldVnode, vnode) {
     const old = oldAttrs[key];
     if (old !== cur) {
       if (cur === true) {
-        elm.setAttribute(key, "");
+        elm.setAttribute(key, '');
       } else if (cur === false) {
         elm.removeAttribute(key);
       } else {
@@ -641,17 +625,17 @@ function updateClass(oldVnode, vnode) {
   for (name in klass) {
     cur = klass[name];
     if (cur !== oldClass[name]) {
-      elm.classList[cur ? "add" : "remove"](name);
+      elm.classList[cur ? 'add' : 'remove'](name);
     }
   }
 }
 const classModule = { create: updateClass, update: updateClass };
 
 function invokeHandler(handler, vnode, event) {
-  if (typeof handler === "function") {
+  if (typeof handler === 'function') {
     // call function handler
     handler.call(vnode, event, vnode);
-  } else if (typeof handler === "object") {
+  } else if (typeof handler === 'object') {
     // call multiple handlers
     for (let i = 0; i < handler.length; i++) {
       invokeHandler(handler[i], vnode, event);
@@ -736,45 +720,45 @@ const eventListenersModule = {
 // To "namespace" all errors.
 class ErrorOAuth2 {
   toString() {
-    return "ErrorOAuth2";
+    return 'ErrorOAuth2';
   }
 }
 // For really unknown errors.
 class ErrorUnknown extends ErrorOAuth2 {
   toString() {
-    return "ErrorUnknown";
+    return 'ErrorUnknown';
   }
 }
 // Some generic, internal errors that can happen.
 class ErrorNoAuthCode extends ErrorOAuth2 {
   toString() {
-    return "ErrorNoAuthCode";
+    return 'ErrorNoAuthCode';
   }
 }
 class ErrorInvalidReturnedStateParam extends ErrorOAuth2 {
   toString() {
-    return "ErrorInvalidReturnedStateParam";
+    return 'ErrorInvalidReturnedStateParam';
   }
 }
 class ErrorInvalidJson extends ErrorOAuth2 {
   toString() {
-    return "ErrorInvalidJson";
+    return 'ErrorInvalidJson';
   }
 }
 // Errors that occur across many endpoints
 class ErrorInvalidScope extends ErrorOAuth2 {
   toString() {
-    return "ErrorInvalidScope";
+    return 'ErrorInvalidScope';
   }
 }
 class ErrorInvalidRequest extends ErrorOAuth2 {
   toString() {
-    return "ErrorInvalidRequest";
+    return 'ErrorInvalidRequest';
   }
 }
 class ErrorInvalidToken extends ErrorOAuth2 {
   toString() {
-    return "ErrorInvalidToken";
+    return 'ErrorInvalidToken';
   }
 }
 /**
@@ -783,32 +767,32 @@ class ErrorInvalidToken extends ErrorOAuth2 {
  */
 class ErrorAuthenticationGrant extends ErrorOAuth2 {
   toString() {
-    return "ErrorAuthenticationGrant";
+    return 'ErrorAuthenticationGrant';
   }
 }
 class ErrorUnauthorizedClient extends ErrorAuthenticationGrant {
   toString() {
-    return "ErrorUnauthorizedClient";
+    return 'ErrorUnauthorizedClient';
   }
 }
 class ErrorAccessDenied extends ErrorAuthenticationGrant {
   toString() {
-    return "ErrorAccessDenied";
+    return 'ErrorAccessDenied';
   }
 }
 class ErrorUnsupportedResponseType extends ErrorAuthenticationGrant {
   toString() {
-    return "ErrorUnsupportedResponseType";
+    return 'ErrorUnsupportedResponseType';
   }
 }
 class ErrorServerError extends ErrorAuthenticationGrant {
   toString() {
-    return "ErrorServerError";
+    return 'ErrorServerError';
   }
 }
 class ErrorTemporarilyUnavailable extends ErrorAuthenticationGrant {
   toString() {
-    return "ErrorTemporarilyUnavailable";
+    return 'ErrorTemporarilyUnavailable';
   }
 }
 /**
@@ -816,22 +800,22 @@ class ErrorTemporarilyUnavailable extends ErrorAuthenticationGrant {
  */
 class ErrorAccessTokenResponse extends ErrorOAuth2 {
   toString() {
-    return "ErrorAccessTokenResponse";
+    return 'ErrorAccessTokenResponse';
   }
 }
 class ErrorInvalidClient extends ErrorAccessTokenResponse {
   toString() {
-    return "ErrorInvalidClient";
+    return 'ErrorInvalidClient';
   }
 }
 class ErrorInvalidGrant extends ErrorAccessTokenResponse {
   toString() {
-    return "ErrorInvalidGrant";
+    return 'ErrorInvalidGrant';
   }
 }
 class ErrorUnsupportedGrantType extends ErrorAccessTokenResponse {
   toString() {
-    return "ErrorUnsupportedGrantType";
+    return 'ErrorUnsupportedGrantType';
   }
 }
 const RawErrorToErrorClassMap = {
@@ -861,11 +845,11 @@ function toErrorClass(rawError) {
  */
 function fromWWWAuthenticateHeaderStringToObject(a) {
   const obj = a
-    .slice("Bearer ".length)
-    .replace(/"/g, "")
-    .split(", ")
-    .map((tokens) => {
-      const [k, v] = tokens.split("=");
+    .slice('Bearer '.length)
+    .replace(/"/g, '')
+    .split(', ')
+    .map(tokens => {
+      const [k, v] = tokens.split('=');
       return { [k]: v };
     })
     .reduce((a, c) => Object.assign(Object.assign({}, a), c), {});
@@ -874,8 +858,8 @@ function fromWWWAuthenticateHeaderStringToObject(a) {
 /**
  * HTTP headers that we need to access.
  */
-const HEADER_AUTHORIZATION = "Authorization";
-const HEADER_WWW_AUTHENTICATE = "WWW-Authenticate";
+const HEADER_AUTHORIZATION = 'Authorization';
+const HEADER_WWW_AUTHENTICATE = 'WWW-Authenticate';
 /**
  * To store the OAuth client's data between websites due to redirection.
  */
@@ -896,7 +880,7 @@ const RECOMMENDED_STATE_LENGTH = 32;
 /**
  * Character set to generate code verifier defined in rfc7636.
  */
-const PKCE_CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+const PKCE_CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
 /**
  * OAuth 2.0 client that ONLY supports authorization code flow, with PKCE.
  *
@@ -934,7 +918,7 @@ class OAuth2AuthCodePKCE {
           configNew.headers[HEADER_AUTHORIZATION] = `Bearer ${token.value}`;
           return fetch(url, configNew, ...rest);
         })
-        .then((res) => {
+        .then(res => {
           if (res.ok) {
             return res;
           }
@@ -942,9 +926,8 @@ class OAuth2AuthCodePKCE {
             return res;
           }
           const error = toErrorClass(
-            fromWWWAuthenticateHeaderStringToObject(
-              res.headers.get(HEADER_WWW_AUTHENTICATE.toLowerCase()),
-            ).error,
+            fromWWWAuthenticateHeaderStringToObject(res.headers.get(HEADER_WWW_AUTHENTICATE.toLowerCase()))
+              .error,
           );
           if (error instanceof ErrorInvalidToken) {
             this.config.onAccessTokenExpiry(() => this.exchangeRefreshTokenForAccessToken());
@@ -959,16 +942,16 @@ class OAuth2AuthCodePKCE {
    * [fetchAuthorizationCode].
    */
   isReturningFromAuthServer() {
-    const error = OAuth2AuthCodePKCE.extractParamFromUrl(location.href, "error");
+    const error = OAuth2AuthCodePKCE.extractParamFromUrl(location.href, 'error');
     if (error) {
       return Promise.reject(toErrorClass(error));
     }
-    const code = OAuth2AuthCodePKCE.extractParamFromUrl(location.href, "code");
+    const code = OAuth2AuthCodePKCE.extractParamFromUrl(location.href, 'code');
     if (!code) {
       return Promise.resolve(false);
     }
-    const state = JSON.parse(localStorage.getItem(LOCALSTORAGE_STATE) || "{}");
-    const stateQueryParam = OAuth2AuthCodePKCE.extractParamFromUrl(location.href, "state");
+    const state = JSON.parse(localStorage.getItem(LOCALSTORAGE_STATE) || '{}');
+    const stateQueryParam = OAuth2AuthCodePKCE.extractParamFromUrl(location.href, 'state');
     if (stateQueryParam !== state.stateQueryParam) {
       console.warn(
         "state query string parameter doesn't match the one sent! Possible malicious activity somewhere.",
@@ -1006,15 +989,12 @@ class OAuth2AuthCodePKCE {
       `?response_type=code&` +
       `client_id=${encodeURIComponent(clientId)}&` +
       `redirect_uri=${encodeURIComponent(redirectUrl)}&` +
-      `scope=${encodeURIComponent(scopes.join(" "))}&` +
+      `scope=${encodeURIComponent(scopes.join(' '))}&` +
       `state=${stateQueryParam}&` +
       `code_challenge=${encodeURIComponent(codeChallenge)}&` +
       `code_challenge_method=S256`;
     if (extraAuthorizationParams || oneTimeParams) {
-      const extraParameters = Object.assign(
-        Object.assign({}, extraAuthorizationParams),
-        oneTimeParams,
-      );
+      const extraParameters = Object.assign(Object.assign({}, extraAuthorizationParams), oneTimeParams);
       url = `${url}&${OAuth2AuthCodePKCE.objectToQueryString(extraParameters)}`;
     }
     location.replace(url);
@@ -1066,7 +1046,7 @@ class OAuth2AuthCodePKCE {
     const { extraRefreshParams, clientId, tokenUrl } = this.config;
     const { refreshToken } = this.state;
     if (!refreshToken) {
-      console.warn("No refresh token is present.");
+      console.warn('No refresh token is present.');
     }
     const url = tokenUrl;
     let body =
@@ -1077,16 +1057,14 @@ class OAuth2AuthCodePKCE {
       body = `${url}&${OAuth2AuthCodePKCE.objectToQueryString(extraRefreshParams)}`;
     }
     return fetch(url, {
-      method: "POST",
+      method: 'POST',
       body,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
     })
-      .then((res) =>
-        res.status >= 400 ? res.json().then((data) => Promise.reject(data)) : res.json(),
-      )
-      .then((json) => {
+      .then(res => (res.status >= 400 ? res.json().then(data => Promise.reject(data)) : res.json()))
+      .then(json => {
         const { access_token, expires_in, refresh_token, scope } = json;
         const { explicitlyExposedTokens } = this.config;
         let scopes = [];
@@ -1105,7 +1083,7 @@ class OAuth2AuthCodePKCE {
         if (explicitlyExposedTokens) {
           tokensToExpose = Object.fromEntries(
             explicitlyExposedTokens
-              .map((tokenName) => [tokenName, json[tokenName]])
+              .map(tokenName => [tokenName, json[tokenName]])
               .filter(([_, tokenValue]) => tokenValue !== undefined),
           );
           this.state.explicitlyExposedTokens = tokensToExpose;
@@ -1113,7 +1091,7 @@ class OAuth2AuthCodePKCE {
         if (scope) {
           // Multiple scopes are passed and delimited by spaces,
           // despite using the singular name "scope".
-          scopes = scope.split(" ");
+          scopes = scope.split(' ');
           this.state.scopes = scopes;
         }
         localStorage.setItem(LOCALSTORAGE_STATE, JSON.stringify(this.state));
@@ -1123,11 +1101,11 @@ class OAuth2AuthCodePKCE {
         }
         return accessContext;
       })
-      .catch((data) => {
+      .catch(data => {
         const { onInvalidGrant } = this.config;
-        const error = data.error || "There was a network error.";
+        const error = data.error || 'There was a network error.';
         switch (error) {
-          case "invalid_grant":
+          case 'invalid_grant':
             onInvalidGrant(() => this.fetchAuthorizationCode());
             break;
         }
@@ -1175,8 +1153,8 @@ class OAuth2AuthCodePKCE {
    */
   assertStateAndConfigArePresent() {
     if (!this.state || !this.config) {
-      console.error("state:", this.state, "config:", this.config);
-      throw new Error("state or config is not set.");
+      console.error('state:', this.state, 'config:', this.config);
+      throw new Error('state or config is not set.');
     }
   }
   /**
@@ -1185,39 +1163,39 @@ class OAuth2AuthCodePKCE {
    */
   exchangeAuthCodeForAccessToken(codeOverride) {
     this.assertStateAndConfigArePresent();
-    const { authorizationCode = codeOverride, codeVerifier = "" } = this.state;
+    const { authorizationCode = codeOverride, codeVerifier = '' } = this.state;
     const { clientId, onInvalidGrant, redirectUrl } = this.config;
     if (!codeVerifier) {
-      console.warn("No code verifier is being sent.");
+      console.warn('No code verifier is being sent.');
     } else if (!authorizationCode) {
-      console.warn("No authorization grant code is being passed.");
+      console.warn('No authorization grant code is being passed.');
     }
     const url = this.config.tokenUrl;
     const body =
       `grant_type=authorization_code&` +
-      `code=${encodeURIComponent(authorizationCode || "")}&` +
+      `code=${encodeURIComponent(authorizationCode || '')}&` +
       `redirect_uri=${encodeURIComponent(redirectUrl)}&` +
       `client_id=${encodeURIComponent(clientId)}&` +
       `code_verifier=${codeVerifier}`;
     return fetch(url, {
-      method: "POST",
+      method: 'POST',
       body,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-    }).then((res) => {
-      const jsonPromise = res.json().catch((_) => ({ error: "invalid_json" }));
+    }).then(res => {
+      const jsonPromise = res.json().catch(_ => ({ error: 'invalid_json' }));
       if (!res.ok) {
         return jsonPromise.then(({ error }) => {
           switch (error) {
-            case "invalid_grant":
+            case 'invalid_grant':
               onInvalidGrant(() => this.fetchAuthorizationCode());
               break;
           }
           return Promise.reject(toErrorClass(error));
         });
       }
-      return jsonPromise.then((json) => {
+      return jsonPromise.then(json => {
         const { access_token, expires_in, refresh_token, scope } = json;
         const { explicitlyExposedTokens } = this.config;
         let scopes = [];
@@ -1238,7 +1216,7 @@ class OAuth2AuthCodePKCE {
         if (explicitlyExposedTokens) {
           tokensToExpose = Object.fromEntries(
             explicitlyExposedTokens
-              .map((tokenName) => [tokenName, json[tokenName]])
+              .map(tokenName => [tokenName, json[tokenName]])
               .filter(([_, tokenValue]) => tokenValue !== undefined),
           );
           this.state.explicitlyExposedTokens = tokensToExpose;
@@ -1246,7 +1224,7 @@ class OAuth2AuthCodePKCE {
         if (scope) {
           // Multiple scopes are passed and delimited by spaces,
           // despite using the singular name "scope".
-          scopes = scope.split(" ");
+          scopes = scope.split(' ');
           this.state.scopes = scopes;
         }
         localStorage.setItem(LOCALSTORAGE_STATE, JSON.stringify(this.state));
@@ -1259,7 +1237,7 @@ class OAuth2AuthCodePKCE {
     });
   }
   recoverState() {
-    this.state = JSON.parse(localStorage.getItem(LOCALSTORAGE_STATE) || "{}");
+    this.state = JSON.parse(localStorage.getItem(LOCALSTORAGE_STATE) || '{}');
     return this;
   }
   setState(state) {
@@ -1273,27 +1251,27 @@ class OAuth2AuthCodePKCE {
    */
   static base64urlEncode(value) {
     let base64 = btoa(value);
-    base64 = base64.replace(/\+/g, "-");
-    base64 = base64.replace(/\//g, "_");
-    base64 = base64.replace(/=/g, "");
+    base64 = base64.replace(/\+/g, '-');
+    base64 = base64.replace(/\//g, '_');
+    base64 = base64.replace(/=/g, '');
     return base64;
   }
   /**
    * Extracts a query string parameter.
    */
   static extractParamFromUrl(url, param) {
-    let queryString = url.split("?");
+    let queryString = url.split('?');
     if (queryString.length < 2) {
-      return "";
+      return '';
     }
     // Account for hash URLs that SPAs usually use.
-    queryString = queryString[1].split("#");
-    const parts = queryString[0].split("&").reduce((a, s) => a.concat(s.split("=")), []);
+    queryString = queryString[1].split('#');
+    const parts = queryString[0].split('&').reduce((a, s) => a.concat(s.split('=')), []);
     if (parts.length < 2) {
-      return "";
+      return '';
     }
     const paramIdx = parts.indexOf(param);
-    return decodeURIComponent(paramIdx >= 0 ? parts[paramIdx + 1] : "");
+    return decodeURIComponent(paramIdx >= 0 ? parts[paramIdx + 1] : '');
   }
   /**
    * Converts the keys and values of an object to a url query string
@@ -1301,7 +1279,7 @@ class OAuth2AuthCodePKCE {
   static objectToQueryString(dict) {
     return Object.entries(dict)
       .map(([key, val]) => `${key}=${encodeURIComponent(val)}`)
-      .join("&");
+      .join('&');
   }
   /**
    * Generates a code_verifier and code_challenge, as specified in rfc7636.
@@ -1311,14 +1289,14 @@ class OAuth2AuthCodePKCE {
     crypto.getRandomValues(output);
     const codeVerifier = OAuth2AuthCodePKCE.base64urlEncode(
       Array.from(output)
-        .map((num) => PKCE_CHARSET[num % PKCE_CHARSET.length])
-        .join(""),
+        .map(num => PKCE_CHARSET[num % PKCE_CHARSET.length])
+        .join(''),
     );
     return crypto.subtle
-      .digest("SHA-256", new TextEncoder().encode(codeVerifier))
-      .then((buffer) => {
+      .digest('SHA-256', new TextEncoder().encode(codeVerifier))
+      .then(buffer => {
         let hash = new Uint8Array(buffer);
-        let binary = "";
+        let binary = '';
         let hashLength = hash.byteLength;
         for (let i = 0; i < hashLength; i++) {
           binary += String.fromCharCode(hash[i]);
@@ -1326,7 +1304,7 @@ class OAuth2AuthCodePKCE {
         return binary;
       })
       .then(OAuth2AuthCodePKCE.base64urlEncode)
-      .then((codeChallenge) => ({ codeChallenge, codeVerifier }));
+      .then(codeChallenge => ({ codeChallenge, codeVerifier }));
   }
   /**
    * Generates random state to be passed for anti-csrf.
@@ -1335,8 +1313,8 @@ class OAuth2AuthCodePKCE {
     const output = new Uint32Array(lengthOfState);
     crypto.getRandomValues(output);
     return Array.from(output)
-      .map((num) => PKCE_CHARSET[num % PKCE_CHARSET.length])
-      .join("");
+      .map(num => PKCE_CHARSET[num % PKCE_CHARSET.length])
+      .join('');
   }
 }
 
@@ -1346,8 +1324,8 @@ const readStream = (name, response, handler) => {
   const stream = response.body.getReader();
   const matcher = /\r?\n/;
   const decoder = new TextDecoder();
-  let buf = "";
-  const process = (json) => {
+  let buf = '';
+  const process = json => {
     const msg = JSON.parse(json);
     console.log(name, msg);
     handler(msg);
@@ -1363,8 +1341,8 @@ const readStream = (name, response, handler) => {
         });
         buf += chunk;
         const parts = buf.split(matcher);
-        buf = parts.pop() || "";
-        for (const i of parts.filter((p) => p)) process(i);
+        buf = parts.pop() || '';
+        for (const i of parts.filter(p => p)) process(i);
         return loop();
       }
     });
@@ -1377,7 +1355,7 @@ const readStream = (name, response, handler) => {
 var isarray =
   Array.isArray ||
   function (arr) {
-    return Object.prototype.toString.call(arr) == "[object Array]";
+    return Object.prototype.toString.call(arr) == '[object Array]';
   };
 
 /**
@@ -1398,16 +1376,16 @@ var PATH_REGEXP = new RegExp(
   [
     // Match escaped characters that would otherwise appear in future matches.
     // This allows the user to escape special characters that won't transform.
-    "(\\\\.)",
+    '(\\\\.)',
     // Match Express-style parameters and un-named parameters with a prefix
     // and optional suffixes. Matches appear as:
     //
     // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?", undefined]
     // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined, undefined]
     // "/*"            => ["/", undefined, undefined, undefined, undefined, "*"]
-    "([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))",
-  ].join("|"),
-  "g",
+    '([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^()])+)\\))?|\\(((?:\\\\.|[^()])+)\\))([+*?])?|(\\*))',
+  ].join('|'),
+  'g',
 );
 
 /**
@@ -1420,7 +1398,7 @@ function parse(str) {
   var tokens = [];
   var key = 0;
   var index = 0;
-  var path = "";
+  var path = '';
   var res;
 
   while ((res = PATH_REGEXP.exec(str)) != null) {
@@ -1439,7 +1417,7 @@ function parse(str) {
     // Push the current path onto the tokens.
     if (path) {
       tokens.push(path);
-      path = "";
+      path = '';
     }
 
     var prefix = res[2];
@@ -1449,14 +1427,14 @@ function parse(str) {
     var suffix = res[6];
     var asterisk = res[7];
 
-    var repeat = suffix === "+" || suffix === "*";
-    var optional = suffix === "?" || suffix === "*";
-    var delimiter = prefix || "/";
-    var pattern = capture || group || (asterisk ? ".*" : "[^" + delimiter + "]+?");
+    var repeat = suffix === '+' || suffix === '*';
+    var optional = suffix === '?' || suffix === '*';
+    var delimiter = prefix || '/';
+    var pattern = capture || group || (asterisk ? '.*' : '[^' + delimiter + ']+?');
 
     tokens.push({
       name: name || key++,
-      prefix: prefix || "",
+      prefix: prefix || '',
       delimiter: delimiter,
       optional: optional,
       repeat: repeat,
@@ -1496,19 +1474,19 @@ function tokensToFunction(tokens) {
 
   // Compile all the patterns before compilation.
   for (var i = 0; i < tokens.length; i++) {
-    if (typeof tokens[i] === "object") {
-      matches[i] = new RegExp("^" + tokens[i].pattern + "$");
+    if (typeof tokens[i] === 'object') {
+      matches[i] = new RegExp('^' + tokens[i].pattern + '$');
     }
   }
 
   return function (obj) {
-    var path = "";
+    var path = '';
     var data = obj || {};
 
     for (var i = 0; i < tokens.length; i++) {
       var token = tokens[i];
 
-      if (typeof token === "string") {
+      if (typeof token === 'string') {
         path += token;
 
         continue;
@@ -1527,9 +1505,7 @@ function tokensToFunction(tokens) {
 
       if (isarray(value)) {
         if (!token.repeat) {
-          throw new TypeError(
-            'Expected "' + token.name + '" to not repeat, but received "' + value + '"',
-          );
+          throw new TypeError('Expected "' + token.name + '" to not repeat, but received "' + value + '"');
         }
 
         if (value.length === 0) {
@@ -1565,13 +1541,7 @@ function tokensToFunction(tokens) {
 
       if (!matches[i].test(segment)) {
         throw new TypeError(
-          'Expected "' +
-            token.name +
-            '" to match "' +
-            token.pattern +
-            '", but received "' +
-            segment +
-            '"',
+          'Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"',
         );
       }
 
@@ -1589,7 +1559,7 @@ function tokensToFunction(tokens) {
  * @return {String}
  */
 function escapeString(str) {
-  return str.replace(/([.+*?=^!:${}()[\]|\/])/g, "\\$1");
+  return str.replace(/([.+*?=^!:${}()[\]|\/])/g, '\\$1');
 }
 
 /**
@@ -1599,7 +1569,7 @@ function escapeString(str) {
  * @return {String}
  */
 function escapeGroup(group) {
-  return group.replace(/([=!:$\/()])/g, "\\$1");
+  return group.replace(/([=!:$\/()])/g, '\\$1');
 }
 
 /**
@@ -1621,7 +1591,7 @@ function attachKeys(re, keys) {
  * @return {String}
  */
 function flags(options) {
-  return options.sensitive ? "" : "i";
+  return options.sensitive ? '' : 'i';
 }
 
 /**
@@ -1666,7 +1636,7 @@ function arrayToRegexp(path, keys, options) {
     parts.push(pathToRegexp(path[i], keys, options).source);
   }
 
-  var regexp = new RegExp("(?:" + parts.join("|") + ")", flags(options));
+  var regexp = new RegExp('(?:' + parts.join('|') + ')', flags(options));
 
   return attachKeys(regexp, keys);
 }
@@ -1685,7 +1655,7 @@ function stringToRegexp(path, keys, options) {
 
   // Attach keys back to the regexp.
   for (var i = 0; i < tokens.length; i++) {
-    if (typeof tokens[i] !== "string") {
+    if (typeof tokens[i] !== 'string') {
       keys.push(tokens[i]);
     }
   }
@@ -1706,32 +1676,32 @@ function tokensToRegExp(tokens, options) {
 
   var strict = options.strict;
   var end = options.end !== false;
-  var route = "";
+  var route = '';
   var lastToken = tokens[tokens.length - 1];
-  var endsWithSlash = typeof lastToken === "string" && /\/$/.test(lastToken);
+  var endsWithSlash = typeof lastToken === 'string' && /\/$/.test(lastToken);
 
   // Iterate over the tokens and create our regexp string.
   for (var i = 0; i < tokens.length; i++) {
     var token = tokens[i];
 
-    if (typeof token === "string") {
+    if (typeof token === 'string') {
       route += escapeString(token);
     } else {
       var prefix = escapeString(token.prefix);
       var capture = token.pattern;
 
       if (token.repeat) {
-        capture += "(?:" + prefix + capture + ")*";
+        capture += '(?:' + prefix + capture + ')*';
       }
 
       if (token.optional) {
         if (prefix) {
-          capture = "(?:" + prefix + "(" + capture + "))?";
+          capture = '(?:' + prefix + '(' + capture + '))?';
         } else {
-          capture = "(" + capture + ")?";
+          capture = '(' + capture + ')?';
         }
       } else {
-        capture = prefix + "(" + capture + ")";
+        capture = prefix + '(' + capture + ')';
       }
 
       route += capture;
@@ -1743,18 +1713,18 @@ function tokensToRegExp(tokens, options) {
   // is valid at the end of a path match, not in the middle. This is important
   // in non-ending mode, where "/test/" shouldn't match "/test//route".
   if (!strict) {
-    route = (endsWithSlash ? route.slice(0, -2) : route) + "(?:\\/(?=$))?";
+    route = (endsWithSlash ? route.slice(0, -2) : route) + '(?:\\/(?=$))?';
   }
 
   if (end) {
-    route += "$";
+    route += '$';
   } else {
     // In non-ending mode, we need the capturing groups to match as much as
     // possible by using a positive lookahead to the end or next path segment.
-    route += strict && endsWithSlash ? "" : "(?=\\/|$)";
+    route += strict && endsWithSlash ? '' : '(?=\\/|$)';
   }
 
-  return new RegExp("^" + route, flags(options));
+  return new RegExp('^' + route, flags(options));
 }
 
 /**
@@ -1803,15 +1773,15 @@ pathToRegexp_1.tokensToRegExp = tokensToRegExp_1;
  * Short-cuts for global-object checks
  */
 
-var hasDocument = "undefined" !== typeof document;
-var hasWindow = "undefined" !== typeof window;
-var hasHistory = "undefined" !== typeof history;
-var hasProcess = typeof process !== "undefined";
+var hasDocument = 'undefined' !== typeof document;
+var hasWindow = 'undefined' !== typeof window;
+var hasHistory = 'undefined' !== typeof history;
+var hasProcess = typeof process !== 'undefined';
 
 /**
  * Detect click event
  */
-var clickEvent = hasDocument && document.ontouchstart ? "touchstart" : "click";
+var clickEvent = hasDocument && document.ontouchstart ? 'touchstart' : 'click';
 
 /**
  * To work properly with the URL
@@ -1828,12 +1798,12 @@ function Page() {
   // public things
   this.callbacks = [];
   this.exits = [];
-  this.current = "";
+  this.current = '';
   this.len = 0;
 
   // private things
   this._decodeURLComponents = true;
-  this._base = "";
+  this._base = '';
   this._strict = false;
   this._running = false;
   this._hashbang = false;
@@ -1861,9 +1831,9 @@ Page.prototype.configure = function (options) {
 
   var _window = this._window;
   if (this._popstate) {
-    _window.addEventListener("popstate", this._onpopstate, false);
+    _window.addEventListener('popstate', this._onpopstate, false);
   } else if (hasWindow) {
-    _window.removeEventListener("popstate", this._onpopstate, false);
+    _window.removeEventListener('popstate', this._onpopstate, false);
   }
 
   if (this._click) {
@@ -1873,9 +1843,9 @@ Page.prototype.configure = function (options) {
   }
 
   if (this._hashbang && hasWindow && !hasHistory) {
-    _window.addEventListener("hashchange", this._onpopstate, false);
+    _window.addEventListener('hashchange', this._onpopstate, false);
   } else if (hasWindow) {
-    _window.removeEventListener("hashchange", this._onpopstate, false);
+    _window.removeEventListener('hashchange', this._onpopstate, false);
   }
 };
 
@@ -1902,7 +1872,7 @@ Page.prototype._getBase = function () {
   if (!!base) return base;
   var loc = hasWindow && this._window && this._window.location;
 
-  if (hasWindow && this._hashbang && loc && loc.protocol === "file:") {
+  if (hasWindow && this._hashbang && loc && loc.protocol === 'file:') {
     base = loc.pathname;
   }
 
@@ -1946,7 +1916,7 @@ Page.prototype.start = function (options) {
     var window = this._window;
     var loc = window.location;
 
-    if (this._hashbang && ~loc.hash.indexOf("#!")) {
+    if (this._hashbang && ~loc.hash.indexOf('#!')) {
       url = loc.hash.substr(2) + loc.search;
     } else if (this._hashbang) {
       url = loc.search + loc.hash;
@@ -1966,14 +1936,14 @@ Page.prototype.start = function (options) {
 
 Page.prototype.stop = function () {
   if (!this._running) return;
-  this.current = "";
+  this.current = '';
   this.len = 0;
   this._running = false;
 
   var window = this._window;
   this._click && window.document.removeEventListener(clickEvent, this.clickHandler, false);
-  hasWindow && window.removeEventListener("popstate", this._onpopstate, false);
-  hasWindow && window.removeEventListener("hashchange", this._onpopstate, false);
+  hasWindow && window.removeEventListener('popstate', this._onpopstate, false);
+  hasWindow && window.removeEventListener('hashchange', this._onpopstate, false);
 };
 
 /**
@@ -2037,7 +2007,7 @@ Page.prototype.redirect = function (from, to) {
   var inst = this;
 
   // Define route from a path to another
-  if ("string" === typeof from && "string" === typeof to) {
+  if ('string' === typeof from && 'string' === typeof to) {
     page.call(this, from, function (e) {
       setTimeout(function () {
         inst.replace(/** @type {!string} */ (to));
@@ -2046,7 +2016,7 @@ Page.prototype.redirect = function (from, to) {
   }
 
   // Wait for the push state and replace it with another
-  if ("string" === typeof from && "undefined" === typeof to) {
+  if ('string' === typeof from && 'undefined' === typeof to) {
     setTimeout(function () {
       inst.replace(from);
     }, 0);
@@ -2118,8 +2088,8 @@ Page.prototype.dispatch = function (ctx, prev) {
  * page is visited.
  */
 Page.prototype.exit = function (path, fn) {
-  if (typeof path === "function") {
-    return this.exit("*", path);
+  if (typeof path === 'function') {
+    return this.exit('*', path);
   }
 
   var route = new Route(path, null, this);
@@ -2148,7 +2118,7 @@ Page.prototype.clickHandler = function (e) {
   if (eventPath) {
     for (var i = 0; i < eventPath.length; i++) {
       if (!eventPath[i].nodeName) continue;
-      if (eventPath[i].nodeName.toUpperCase() !== "A") continue;
+      if (eventPath[i].nodeName.toUpperCase() !== 'A') continue;
       if (!eventPath[i].href) continue;
 
       el = eventPath[i];
@@ -2158,24 +2128,24 @@ Page.prototype.clickHandler = function (e) {
 
   // continue ensure link
   // el.nodeName for svg links are 'a' instead of 'A'
-  while (el && "A" !== el.nodeName.toUpperCase()) el = el.parentNode;
-  if (!el || "A" !== el.nodeName.toUpperCase()) return;
+  while (el && 'A' !== el.nodeName.toUpperCase()) el = el.parentNode;
+  if (!el || 'A' !== el.nodeName.toUpperCase()) return;
 
   // check if link is inside an svg
   // in this case, both href and target are always inside an object
-  var svg = typeof el.href === "object" && el.href.constructor.name === "SVGAnimatedString";
+  var svg = typeof el.href === 'object' && el.href.constructor.name === 'SVGAnimatedString';
 
   // Ignore if tag has
   // 1. "download" attribute
   // 2. rel="external" attribute
-  if (el.hasAttribute("download") || el.getAttribute("rel") === "external") return;
+  if (el.hasAttribute('download') || el.getAttribute('rel') === 'external') return;
 
   // ensure non-hash for the same path
-  var link = el.getAttribute("href");
-  if (!this._hashbang && this._samePath(el) && (el.hash || "#" === link)) return;
+  var link = el.getAttribute('href');
+  if (!this._hashbang && this._samePath(el) && (el.hash || '#' === link)) return;
 
   // Check for mailto: in the href
-  if (link && link.indexOf("mailto:") > -1) return;
+  if (link && link.indexOf('mailto:') > -1) return;
 
   // check target
   // svg target is an object and its desired value is in .baseVal property
@@ -2189,13 +2159,13 @@ Page.prototype.clickHandler = function (e) {
   // rebuild path
   // There aren't .pathname and .search properties in svg links, so we use href
   // Also, svg href is an object and its desired value is in .baseVal property
-  var path = svg ? el.href.baseVal : el.pathname + el.search + (el.hash || "");
+  var path = svg ? el.href.baseVal : el.pathname + el.search + (el.hash || '');
 
-  path = path[0] !== "/" ? "/" + path : path;
+  path = path[0] !== '/' ? '/' + path : path;
 
   // strip leading "/[drive letter]:" on NW.js on Windows
   if (hasProcess && path.match(/^\/[a-zA-Z]:\//)) {
-    path = path.replace(/^\/[a-zA-Z]:\//, "/");
+    path = path.replace(/^\/[a-zA-Z]:\//, '/');
   }
 
   // same page
@@ -2206,9 +2176,9 @@ Page.prototype.clickHandler = function (e) {
     path = path.substr(pageBase.length);
   }
 
-  if (this._hashbang) path = path.replace("#!", "");
+  if (this._hashbang) path = path.replace('#!', '');
 
-  if (pageBase && orig === path && (!isLocation || this._window.location.protocol !== "file:")) {
+  if (pageBase && orig === path && (!isLocation || this._window.location.protocol !== 'file:')) {
     return;
   }
 
@@ -2226,10 +2196,10 @@ Page.prototype._onpopstate = (function () {
   if (!hasWindow) {
     return function () {};
   }
-  if (hasDocument && document.readyState === "complete") {
+  if (hasDocument && document.readyState === 'complete') {
     loaded = true;
   } else {
-    window.addEventListener("load", function () {
+    window.addEventListener('load', function () {
       setTimeout(function () {
         loaded = true;
       }, 0);
@@ -2262,10 +2232,10 @@ Page.prototype._which = function (e) {
  */
 Page.prototype._toURL = function (href) {
   var window = this._window;
-  if (typeof URL === "function" && isLocation) {
+  if (typeof URL === 'function' && isLocation) {
     return new URL(href, window.location.toString());
   } else if (hasDocument) {
-    var anc = window.document.createElement("a");
+    var anc = window.document.createElement('a');
     anc.href = href;
     return anc;
   }
@@ -2295,7 +2265,7 @@ Page.prototype.sameOrigin = function (href) {
   return (
     loc.protocol === url.protocol &&
     loc.hostname === url.hostname &&
-    (loc.port === url.port || (loc.port === "" && (url.port == 80 || url.port == 443)))
+    (loc.port === url.port || (loc.port === '' && (url.port == 80 || url.port == 443)))
   ); // jshint ignore:line
 };
 
@@ -2318,10 +2288,10 @@ Page.prototype._samePath = function (url) {
  * @api private
  */
 Page.prototype._decodeURLEncodedURIComponent = function (val) {
-  if (typeof val !== "string") {
+  if (typeof val !== 'string') {
     return val;
   }
-  return this._decodeURLComponents ? decodeURIComponent(val.replace(/\+/g, " ")) : val;
+  return this._decodeURLComponents ? decodeURIComponent(val.replace(/\+/g, ' ')) : val;
 };
 
 /**
@@ -2353,7 +2323,7 @@ function createPage() {
 
   pageFn.create = createPage;
 
-  Object.defineProperty(pageFn, "len", {
+  Object.defineProperty(pageFn, 'len', {
     get: function () {
       return pageInstance.len;
     },
@@ -2362,7 +2332,7 @@ function createPage() {
     },
   });
 
-  Object.defineProperty(pageFn, "current", {
+  Object.defineProperty(pageFn, 'current', {
     get: function () {
       return pageInstance.current;
     },
@@ -2398,19 +2368,19 @@ function createPage() {
 
 function page(path, fn) {
   // <callback>
-  if ("function" === typeof path) {
-    return page.call(this, "*", path);
+  if ('function' === typeof path) {
+    return page.call(this, '*', path);
   }
 
   // route <path> to <callback ...>
-  if ("function" === typeof fn) {
+  if ('function' === typeof fn) {
     var route = new Route(/** @type {string} */ (path), null, this);
     for (var i = 1; i < arguments.length; ++i) {
       this.callbacks.push(route.middleware(arguments[i]));
     }
     // show <path> with [state]
-  } else if ("string" === typeof path) {
-    this["string" === typeof fn ? "redirect" : "show"](path, fn);
+  } else if ('string' === typeof path) {
+    this['string' === typeof fn ? 'redirect' : 'show'](path, fn);
     // start [options]
   } else {
     this.start(path);
@@ -2432,7 +2402,7 @@ function unhandled(ctx) {
   var window = page._window;
 
   if (page._hashbang) {
-    current = isLocation && this._getBase() + window.location.hash.replace("#!", "");
+    current = isLocation && this._getBase() + window.location.hash.replace('#!', '');
   } else {
     current = isLocation && window.location.pathname + window.location.search;
   }
@@ -2450,7 +2420,7 @@ function unhandled(ctx) {
  * @api private
  */
 function escapeRegExp(s) {
-  return s.replace(/([.+*?=^!:${}()[\]|/\\])/g, "\\$1");
+  return s.replace(/([.+*?=^!:${}()[\]|/\\])/g, '\\$1');
 }
 
 /**
@@ -2469,30 +2439,29 @@ function Context(path, state, pageInstance) {
   var hashbang = _page._hashbang;
 
   var pageBase = _page._getBase();
-  if ("/" === path[0] && 0 !== path.indexOf(pageBase))
-    path = pageBase + (hashbang ? "#!" : "") + path;
-  var i = path.indexOf("?");
+  if ('/' === path[0] && 0 !== path.indexOf(pageBase)) path = pageBase + (hashbang ? '#!' : '') + path;
+  var i = path.indexOf('?');
 
   this.canonicalPath = path;
-  var re = new RegExp("^" + escapeRegExp(pageBase));
-  this.path = path.replace(re, "") || "/";
-  if (hashbang) this.path = this.path.replace("#!", "") || "/";
+  var re = new RegExp('^' + escapeRegExp(pageBase));
+  this.path = path.replace(re, '') || '/';
+  if (hashbang) this.path = this.path.replace('#!', '') || '/';
 
   this.title = hasDocument && window.document.title;
   this.state = state || {};
   this.state.path = path;
-  this.querystring = ~i ? _page._decodeURLEncodedURIComponent(path.slice(i + 1)) : "";
+  this.querystring = ~i ? _page._decodeURLEncodedURIComponent(path.slice(i + 1)) : '';
   this.pathname = _page._decodeURLEncodedURIComponent(~i ? path.slice(0, i) : path);
   this.params = {};
 
   // fragment
-  this.hash = "";
+  this.hash = '';
   if (!hashbang) {
-    if (!~this.path.indexOf("#")) return;
-    var parts = this.path.split("#");
+    if (!~this.path.indexOf('#')) return;
+    var parts = this.path.split('#');
     this.path = this.pathname = parts[0];
-    this.hash = _page._decodeURLEncodedURIComponent(parts[1]) || "";
-    this.querystring = this.querystring.split("#")[0];
+    this.hash = _page._decodeURLEncodedURIComponent(parts[1]) || '';
+    this.querystring = this.querystring.split('#')[0];
   }
 }
 
@@ -2512,7 +2481,7 @@ Context.prototype.pushState = function () {
     window.history.pushState(
       this.state,
       this.title,
-      hashbang && this.path !== "/" ? "#!" + this.path : this.canonicalPath,
+      hashbang && this.path !== '/' ? '#!' + this.path : this.canonicalPath,
     );
   }
 };
@@ -2529,7 +2498,7 @@ Context.prototype.save = function () {
     page._window.history.replaceState(
       this.state,
       this.title,
-      page._hashbang && this.path !== "/" ? "#!" + this.path : this.canonicalPath,
+      page._hashbang && this.path !== '/' ? '#!' + this.path : this.canonicalPath,
     );
   }
 };
@@ -2553,8 +2522,8 @@ function Route(path, options, page) {
   var _page = (this.page = page || globalPage);
   var opts = options || {};
   opts.strict = opts.strict || _page._strict;
-  this.path = path === "*" ? "(.*)" : path;
-  this.method = "GET";
+  this.path = path === '*' ? '(.*)' : path;
+  this.method = 'GET';
   this.regexp = pathToRegexp_1(this.path, (this.keys = []), opts);
 }
 
@@ -2590,7 +2559,7 @@ Route.prototype.middleware = function (fn) {
 
 Route.prototype.match = function (path, params) {
   var keys = this.keys,
-    qsIndex = path.indexOf("?"),
+    qsIndex = path.indexOf('?'),
     pathname = ~qsIndex ? path.slice(0, qsIndex) : path,
     m = this.regexp.exec(decodeURIComponent(pathname));
 
@@ -2621,33 +2590,33 @@ page_js.default = default_1;
 
 function routing(ctrl) {
   page_js.base(BASE_PATH);
-  page_js("/", async (ctx) => {
-    if (ctx.querystring.includes("code=liu_")) history.pushState({}, "", BASE_PATH || "/");
+  page_js('/', async ctx => {
+    if (ctx.querystring.includes('code=liu_')) history.pushState({}, '', BASE_PATH || '/');
     ctrl.openHome();
   });
-  page_js("/login", async (_) => {
-    if (ctrl.auth.me) return page_js("/");
+  page_js('/login', async _ => {
+    if (ctrl.auth.me) return page_js('/');
     await ctrl.auth.login();
   });
-  page_js("/logout", async (_) => {
+  page_js('/logout', async _ => {
     await ctrl.auth.logout();
     location.href = BASE_PATH;
   });
-  page_js("/game/:id", (ctx) => {
+  page_js('/game/:id', ctx => {
     ctrl.openGame(ctx.params.id);
   });
-  page_js("/tv", (ctx) => ctrl.watchTv());
+  page_js('/tv', ctx => ctrl.watchTv());
   page_js({ hashbang: true });
 }
-const BASE_PATH = location.pathname.replace(/\/$/, "");
-const url = (path) => `${BASE_PATH}${path}`;
-const href = (path) => ({ href: url(path) });
+const BASE_PATH = location.pathname.replace(/\/$/, '');
+const url = path => `${BASE_PATH}${path}`;
+const href = path => ({ href: url(path) });
 
-const lichessHost = "https://lichess.org";
+const lichessHost = 'https://lichess.org';
 // export const lichessHost = 'http://l.org';
-const scopes = ["board:play"];
-const clientId = "lichess-api-demo";
-const clientUrl = `${location.protocol}//${location.host}${BASE_PATH || "/"}`;
+const scopes = ['board:play'];
+const clientId = 'lichess-api-demo';
+const clientUrl = `${location.protocol}//${location.host}${BASE_PATH || '/'}`;
 class Auth {
   constructor() {
     this.oauth = new OAuth2AuthCodePKCE({
@@ -2656,7 +2625,7 @@ class Auth {
       clientId,
       scopes,
       redirectUrl: clientUrl,
-      onAccessTokenExpiry: (refreshAccessToken) => refreshAccessToken(),
+      onAccessTokenExpiry: refreshAccessToken => refreshAccessToken(),
       onInvalidGrant: console.warn,
     });
     this.authenticate = async () => {
@@ -2677,9 +2646,10 @@ class Auth {
     };
     this.fetchResponse = async (path, config = {}) => {
       var _a;
-      const res = await (
-        ((_a = this.me) === null || _a === void 0 ? void 0 : _a.httpClient) || window.fetch
-      )(`${lichessHost}${path}`, config);
+      const res = await (((_a = this.me) === null || _a === void 0 ? void 0 : _a.httpClient) || window.fetch)(
+        `${lichessHost}${path}`,
+        config,
+      );
       if (res.error || !res.ok) {
         const err = `${res.error} ${res.status} ${res.statusText}`;
         alert(err);
@@ -2708,26 +2678,26 @@ class Auth {
     await this.oauth.fetchAuthorizationCode();
   }
   async logout() {
-    if (this.me) await this.me.httpClient(`${lichessHost}/api/token`, { method: "DELETE" });
+    if (this.me) await this.me.httpClient(`${lichessHost}/api/token`, { method: 'DELETE' });
     localStorage.clear();
     this.me = undefined;
   }
 }
 
-const FILE_NAMES = ["a", "b", "c", "d", "e", "f", "g", "h"];
-const RANK_NAMES = ["1", "2", "3", "4", "5", "6", "7", "8"];
-const COLORS = ["white", "black"];
-const ROLES = ["pawn", "knight", "bishop", "rook", "queen", "king"];
-const CASTLING_SIDES = ["a", "h"];
+const FILE_NAMES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+const RANK_NAMES = ['1', '2', '3', '4', '5', '6', '7', '8'];
+const COLORS = ['white', 'black'];
+const ROLES = ['pawn', 'knight', 'bishop', 'rook', 'queen', 'king'];
+const CASTLING_SIDES = ['a', 'h'];
 function isDrop(v) {
-  return "role" in v;
+  return 'role' in v;
 }
 
 function defined(v) {
   return v !== undefined;
 }
 function opposite$1(color) {
-  return color === "white" ? "black" : "white";
+  return color === 'white' ? 'black' : 'white';
 }
 function squareRank(square) {
   return square >> 3;
@@ -2737,48 +2707,48 @@ function squareFile(square) {
 }
 function roleToChar(role) {
   switch (role) {
-    case "pawn":
-      return "p";
-    case "knight":
-      return "n";
-    case "bishop":
-      return "b";
-    case "rook":
-      return "r";
-    case "queen":
-      return "q";
-    case "king":
-      return "k";
+    case 'pawn':
+      return 'p';
+    case 'knight':
+      return 'n';
+    case 'bishop':
+      return 'b';
+    case 'rook':
+      return 'r';
+    case 'queen':
+      return 'q';
+    case 'king':
+      return 'k';
   }
 }
 function charToRole(ch) {
   switch (ch) {
-    case "P":
-    case "p":
-      return "pawn";
-    case "N":
-    case "n":
-      return "knight";
-    case "B":
-    case "b":
-      return "bishop";
-    case "R":
-    case "r":
-      return "rook";
-    case "Q":
-    case "q":
-      return "queen";
-    case "K":
-    case "k":
-      return "king";
+    case 'P':
+    case 'p':
+      return 'pawn';
+    case 'N':
+    case 'n':
+      return 'knight';
+    case 'B':
+    case 'b':
+      return 'bishop';
+    case 'R':
+    case 'r':
+      return 'rook';
+    case 'Q':
+    case 'q':
+      return 'queen';
+    case 'K':
+    case 'k':
+      return 'king';
     default:
       return;
   }
 }
 function parseSquare(str) {
   if (str.length !== 2) return;
-  const file = str.charCodeAt(0) - "a".charCodeAt(0);
-  const rank = str.charCodeAt(1) - "1".charCodeAt(0);
+  const file = str.charCodeAt(0) - 'a'.charCodeAt(0);
+  const rank = str.charCodeAt(1) - '1'.charCodeAt(0);
   if (file < 0 || file >= 8 || rank < 0 || rank >= 8) return;
   return file + 8 * rank;
 }
@@ -2786,7 +2756,7 @@ function makeSquare(square) {
   return FILE_NAMES[squareFile(square)] + RANK_NAMES[squareRank(square)];
 }
 function parseUci(str) {
-  if (str[1] === "@" && str.length === 4) {
+  if (str[1] === '@' && str.length === 4) {
     const role = charToRole(str[0]);
     const to = parseSquare(str.slice(2));
     if (role && defined(to)) return { role, to };
@@ -2803,7 +2773,7 @@ function parseUci(str) {
   return;
 }
 function kingCastlesTo(color, side) {
-  return color === "white" ? (side === "a" ? 2 : 6) : side === "a" ? 58 : 62;
+  return color === 'white' ? (side === 'a' ? 2 : 6) : side === 'a' ? 58 : 62;
 }
 
 function popcnt32(n) {
@@ -2853,7 +2823,7 @@ class SquareSet {
     return new SquareSet(0xff, 4278190080);
   }
   static backrank(color) {
-    return color === "white" ? new SquareSet(0xff, 0) : new SquareSet(0, 4278190080);
+    return color === 'white' ? new SquareSet(0xff, 0) : new SquareSet(0, 4278190080);
   }
   static lightSquares() {
     return new SquareSet(1437226410, 1437226410);
@@ -2891,15 +2861,13 @@ class SquareSet {
   shr64(shift) {
     if (shift >= 64) return SquareSet.empty();
     if (shift >= 32) return new SquareSet(this.hi >>> (shift - 32), 0);
-    if (shift > 0)
-      return new SquareSet((this.lo >>> shift) ^ (this.hi << (32 - shift)), this.hi >>> shift);
+    if (shift > 0) return new SquareSet((this.lo >>> shift) ^ (this.hi << (32 - shift)), this.hi >>> shift);
     return this;
   }
   shl64(shift) {
     if (shift >= 64) return SquareSet.empty();
     if (shift >= 32) return new SquareSet(0, this.lo << (shift - 32));
-    if (shift > 0)
-      return new SquareSet(this.lo << shift, (this.hi << shift) ^ (this.lo >>> (32 - shift)));
+    if (shift > 0) return new SquareSet(this.lo << shift, (this.hi << shift) ^ (this.lo >>> (32 - shift)));
     return this;
   }
   bswap64() {
@@ -2962,9 +2930,7 @@ class SquareSet {
   }
   moreThanOne() {
     return (
-      (this.hi !== 0 && this.lo !== 0) ||
-      (this.lo & (this.lo - 1)) !== 0 ||
-      (this.hi & (this.hi - 1)) !== 0
+      (this.hi !== 0 && this.lo !== 0) || (this.lo & (this.lo - 1)) !== 0 || (this.hi & (this.hi - 1)) !== 0
     );
   }
   singleSquare() {
@@ -3031,11 +2997,11 @@ function tabulate(f) {
   for (let square = 0; square < 64; square++) table[square] = f(square);
   return table;
 }
-const KING_ATTACKS = tabulate((sq) => computeRange(sq, [-9, -8, -7, -1, 1, 7, 8, 9]));
-const KNIGHT_ATTACKS = tabulate((sq) => computeRange(sq, [-17, -15, -10, -6, 6, 10, 15, 17]));
+const KING_ATTACKS = tabulate(sq => computeRange(sq, [-9, -8, -7, -1, 1, 7, 8, 9]));
+const KNIGHT_ATTACKS = tabulate(sq => computeRange(sq, [-17, -15, -10, -6, 6, 10, 15, 17]));
 const PAWN_ATTACKS = {
-  white: tabulate((sq) => computeRange(sq, [7, 9])),
-  black: tabulate((sq) => computeRange(sq, [-7, -9])),
+  white: tabulate(sq => computeRange(sq, [7, 9])),
+  black: tabulate(sq => computeRange(sq, [-7, -9])),
 };
 /**
  * Gets squares attacked or defended by a king on `square`.
@@ -3056,14 +3022,14 @@ function knightAttacks(square) {
 function pawnAttacks(color, square) {
   return PAWN_ATTACKS[color][square];
 }
-const FILE_RANGE = tabulate((sq) => SquareSet.fromFile(squareFile(sq)).without(sq));
-const RANK_RANGE = tabulate((sq) => SquareSet.fromRank(squareRank(sq)).without(sq));
-const DIAG_RANGE = tabulate((sq) => {
+const FILE_RANGE = tabulate(sq => SquareSet.fromFile(squareFile(sq)).without(sq));
+const RANK_RANGE = tabulate(sq => SquareSet.fromRank(squareRank(sq)).without(sq));
+const DIAG_RANGE = tabulate(sq => {
   const diag = new SquareSet(134480385, 2151686160);
   const shift = 8 * (squareRank(sq) - squareFile(sq));
   return (shift >= 0 ? diag.shl64(shift) : diag.shr64(-shift)).without(sq);
 });
-const ANTI_DIAG_RANGE = tabulate((sq) => {
+const ANTI_DIAG_RANGE = tabulate(sq => {
   const diag = new SquareSet(270549120, 16909320);
   const shift = 8 * (squareRank(sq) + squareFile(sq) - 7);
   return (shift >= 0 ? diag.shl64(shift) : diag.shr64(-shift)).without(sq);
@@ -3092,9 +3058,7 @@ function rankAttacks(square, occupied) {
  */
 function bishopAttacks(square, occupied) {
   const bit = SquareSet.fromSquare(square);
-  return hyperbola(bit, DIAG_RANGE[square], occupied).xor(
-    hyperbola(bit, ANTI_DIAG_RANGE[square], occupied),
-  );
+  return hyperbola(bit, DIAG_RANGE[square], occupied).xor(hyperbola(bit, ANTI_DIAG_RANGE[square], occupied));
 }
 /**
  * Gets squares attacked or defended by a rook on `square`, given `occupied`
@@ -3116,17 +3080,17 @@ function queenAttacks(square, occupied) {
  */
 function attacks(piece, square, occupied) {
   switch (piece.role) {
-    case "pawn":
+    case 'pawn':
       return pawnAttacks(piece.color, square);
-    case "knight":
+    case 'knight':
       return knightAttacks(square);
-    case "bishop":
+    case 'bishop':
       return bishopAttacks(square, occupied);
-    case "rook":
+    case 'rook':
       return rookAttacks(square, occupied);
-    case "queen":
+    case 'queen':
       return queenAttacks(square, occupied);
-    case "king":
+    case 'king':
       return kingAttacks(square);
   }
 }
@@ -3231,14 +3195,14 @@ class Board {
   }
   equalsIgnorePromoted(other) {
     if (!this.white.equals(other.white)) return false;
-    return ROLES.every((role) => this[role].equals(other[role]));
+    return ROLES.every(role => this[role].equals(other[role]));
   }
   equals(other) {
     return this.equalsIgnorePromoted(other) && this.promoted.equals(other.promoted);
   }
   getColor(square) {
-    if (this.white.has(square)) return "white";
-    if (this.black.has(square)) return "black";
+    if (this.white.has(square)) return 'white';
+    if (this.black.has(square)) return 'black';
     return;
   }
   getRole(square) {
@@ -3322,7 +3286,7 @@ class MaterialSide {
     return m;
   }
   equals(other) {
-    return ROLES.every((role) => this[role] === other[role]);
+    return ROLES.every(role => this[role] === other[role]);
   }
   add(other) {
     const m = new MaterialSide();
@@ -3330,7 +3294,7 @@ class MaterialSide {
     return m;
   }
   nonEmpty() {
-    return ROLES.some((role) => this[role] > 0);
+    return ROLES.some(role => this[role] > 0);
   }
   isEmpty() {
     return !this.nonEmpty();
@@ -3354,10 +3318,7 @@ class Material {
     return new Material(MaterialSide.empty(), MaterialSide.empty());
   }
   static fromBoard(board) {
-    return new Material(
-      MaterialSide.fromBoard(board, "white"),
-      MaterialSide.fromBoard(board, "black"),
-    );
+    return new Material(MaterialSide.fromBoard(board, 'white'), MaterialSide.fromBoard(board, 'black'));
   }
   clone() {
     return new Material(this.white.clone(), this.black.clone());
@@ -3403,7 +3364,7 @@ function defaultSetup() {
   return {
     board: Board.default(),
     pockets: undefined,
-    turn: "white",
+    turn: 'white',
     unmovedRooks: SquareSet.corners(),
     epSquare: undefined,
     remainingChecks: undefined,
@@ -3415,20 +3376,20 @@ function defaultSetup() {
 class r {
   unwrap(r, t) {
     const e = this._chain(
-      (t) => n.ok(r ? r(t) : t),
-      (r) => (t ? n.ok(t(r)) : n.err(r)),
+      t => n.ok(r ? r(t) : t),
+      r => (t ? n.ok(t(r)) : n.err(r)),
     );
     if (e.isErr) throw e.error;
     return e.value;
   }
   map(r, t) {
     return this._chain(
-      (t) => n.ok(r(t)),
-      (r) => n.err(t ? t(r) : r),
+      t => n.ok(r(t)),
+      r => n.err(t ? t(r) : r),
     );
   }
   chain(r, t) {
-    return this._chain(r, t || ((r) => n.err(r)));
+    return this._chain(r, t || (r => n.err(r)));
   }
 }
 class t extends r {
@@ -3478,12 +3439,12 @@ var n;
 
 var IllegalSetup;
 (function (IllegalSetup) {
-  IllegalSetup["Empty"] = "ERR_EMPTY";
-  IllegalSetup["OppositeCheck"] = "ERR_OPPOSITE_CHECK";
-  IllegalSetup["ImpossibleCheck"] = "ERR_IMPOSSIBLE_CHECK";
-  IllegalSetup["PawnsOnBackrank"] = "ERR_PAWNS_ON_BACKRANK";
-  IllegalSetup["Kings"] = "ERR_KINGS";
-  IllegalSetup["Variant"] = "ERR_VARIANT";
+  IllegalSetup['Empty'] = 'ERR_EMPTY';
+  IllegalSetup['OppositeCheck'] = 'ERR_OPPOSITE_CHECK';
+  IllegalSetup['ImpossibleCheck'] = 'ERR_IMPOSSIBLE_CHECK';
+  IllegalSetup['PawnsOnBackrank'] = 'ERR_PAWNS_ON_BACKRANK';
+  IllegalSetup['Kings'] = 'ERR_KINGS';
+  IllegalSetup['Variant'] = 'ERR_VARIANT';
 })(IllegalSetup || (IllegalSetup = {}));
 class PositionError extends Error {}
 function attacksTo(square, attacker, board, occupied) {
@@ -3497,7 +3458,7 @@ function attacksTo(square, attacker, board, occupied) {
   );
 }
 function rookCastlesTo(color, side) {
-  return color === "white" ? (side === "a" ? 3 : 5) : side === "a" ? 59 : 61;
+  return color === 'white' ? (side === 'a' ? 3 : 5) : side === 'a' ? 59 : 61;
 }
 class Castles {
   constructor() {}
@@ -3560,9 +3521,9 @@ class Castles {
       if (!defined(king) || !backrank.has(king)) continue;
       const side = rooks.intersect(setup.board[color]).intersect(backrank);
       const aSide = side.first();
-      if (defined(aSide) && aSide < king) castles.add(color, "a", king, aSide);
+      if (defined(aSide) && aSide < king) castles.add(color, 'a', king, aSide);
       const hSide = side.last();
-      if (defined(hSide) && king < hSide) castles.add(color, "h", king, hSide);
+      if (defined(hSide) && king < hSide) castles.add(color, 'h', king, hSide);
     }
     return castles;
   }
@@ -3594,7 +3555,7 @@ class Position {
   }
   playCaptureAt(square, captured) {
     this.halfmoves = 0;
-    if (captured.role === "rook") this.castles.discardRook(square);
+    if (captured.role === 'rook') this.castles.discardRook(square);
     if (this.pockets) this.pockets[opposite$1(captured.color)][captured.role]++;
   }
   ctx() {
@@ -3635,8 +3596,7 @@ class Position {
     pos.turn = this.turn;
     pos.castles = this.castles.clone();
     pos.epSquare = this.epSquare;
-    pos.remainingChecks =
-      (_b = this.remainingChecks) === null || _b === void 0 ? void 0 : _b.clone();
+    pos.remainingChecks = (_b = this.remainingChecks) === null || _b === void 0 ? void 0 : _b.clone();
     pos.halfmoves = this.halfmoves;
     pos.fullmoves = this.fullmoves;
     return pos;
@@ -3645,9 +3605,7 @@ class Position {
     var _a, _b;
     return (
       this.rules === other.rules &&
-      (this.pockets
-        ? this.board.equals(other.board)
-        : this.board.equalsIgnorePromoted(other.board)) &&
+      (this.pockets ? this.board.equals(other.board) : this.board.equalsIgnorePromoted(other.board)) &&
       ((other.pockets &&
         ((_a = this.pockets) === null || _a === void 0 ? void 0 : _a.equals(other.pockets))) ||
         (!this.pockets && !other.pockets)) &&
@@ -3675,7 +3633,7 @@ class Position {
     };
   }
   isInsufficientMaterial() {
-    return COLORS.every((color) => this.hasInsufficientMaterial(color));
+    return COLORS.every(color => this.hasInsufficientMaterial(color));
   }
   hasDests(ctx) {
     ctx = ctx || this.ctx();
@@ -3687,14 +3645,12 @@ class Position {
   isLegal(move, ctx) {
     if (isDrop(move)) {
       if (!this.pockets || this.pockets[this.turn][move.role] <= 0) return false;
-      if (move.role === "pawn" && SquareSet.backranks().has(move.to)) return false;
+      if (move.role === 'pawn' && SquareSet.backranks().has(move.to)) return false;
       return this.dropDests(ctx).has(move.to);
     } else {
-      if (move.promotion === "pawn") return false;
-      if (move.promotion === "king" && this.rules !== "antichess") return false;
-      if (
-        !!move.promotion !== (this.board.pawn.has(move.from) && SquareSet.backranks().has(move.to))
-      )
+      if (move.promotion === 'pawn') return false;
+      if (move.promotion === 'king' && this.rules !== 'antichess') return false;
+      if (!!move.promotion !== (this.board.pawn.has(move.from) && SquareSet.backranks().has(move.to)))
         return false;
       const dests = this.dests(move.from, ctx);
       return dests.has(move.to) || dests.has(this.normalizeMove(move).to);
@@ -3702,10 +3658,7 @@ class Position {
   }
   isCheck() {
     const king = this.board.kingOf(this.turn);
-    return (
-      defined(king) &&
-      this.kingAttackers(king, opposite$1(this.turn), this.board.occupied).nonEmpty()
-    );
+    return defined(king) && this.kingAttackers(king, opposite$1(this.turn), this.board.occupied).nonEmpty();
   }
   isEnd(ctx) {
     if (ctx ? ctx.variantEnd : this.isVariantEnd()) return true;
@@ -3741,7 +3694,7 @@ class Position {
     const delta = move.to - move.from;
     if (Math.abs(delta) !== 2 && !this.board[this.turn].has(move.to)) return;
     if (!this.board.king.has(move.from)) return;
-    return delta > 0 ? "h" : "a";
+    return delta > 0 ? 'h' : 'a';
   }
   normalizeMove(move) {
     const castlingSide = this.castlingSide(move);
@@ -3758,20 +3711,20 @@ class Position {
     const castlingSide = this.castlingSide(move);
     this.epSquare = undefined;
     this.halfmoves += 1;
-    if (turn === "black") this.fullmoves += 1;
+    if (turn === 'black') this.fullmoves += 1;
     this.turn = opposite$1(turn);
     if (isDrop(move)) {
       this.board.set(move.to, { role: move.role, color: turn });
       if (this.pockets) this.pockets[turn][move.role]--;
-      if (move.role === "pawn") this.halfmoves = 0;
+      if (move.role === 'pawn') this.halfmoves = 0;
     } else {
       const piece = this.board.take(move.from);
       if (!piece) return;
       let epCapture;
-      if (piece.role === "pawn") {
+      if (piece.role === 'pawn') {
         this.halfmoves = 0;
         if (move.to === epSquare) {
-          epCapture = this.board.take(move.to + (turn === "white" ? -8 : 8));
+          epCapture = this.board.take(move.to + (turn === 'white' ? -8 : 8));
         }
         const delta = move.from - move.to;
         if (Math.abs(delta) === 16 && 8 <= move.from && move.from <= 55) {
@@ -3781,9 +3734,9 @@ class Position {
           piece.role = move.promotion;
           piece.promoted = true;
         }
-      } else if (piece.role === "rook") {
+      } else if (piece.role === 'rook') {
         this.castles.discardRook(move.from);
-      } else if (piece.role === "king") {
+      } else if (piece.role === 'king') {
         if (castlingSide) {
           const rookFrom = this.castles.rook[turn][castlingSide];
           if (defined(rookFrom)) {
@@ -3806,7 +3759,7 @@ class Position {
   legalEpSquare(ctx) {
     if (!defined(this.epSquare)) return;
     ctx = ctx || this.ctx();
-    const ourPawns = this.board.pieces(this.turn, "pawn");
+    const ourPawns = this.board.pieces(this.turn, 'pawn');
     const candidates = ourPawns.intersect(pawnAttacks(opposite$1(this.turn), this.epSquare));
     for (const candidate of candidates) {
       if (this.dests(candidate, ctx).has(this.epSquare)) return this.epSquare;
@@ -3816,13 +3769,13 @@ class Position {
 }
 class Chess extends Position {
   constructor(rules) {
-    super(rules || "chess");
+    super(rules || 'chess');
   }
   static default() {
     const pos = new this();
     pos.board = Board.default();
     pos.pockets = undefined;
-    pos.turn = "white";
+    pos.turn = 'white';
     pos.castles = Castles.default();
     pos.epSquare = undefined;
     pos.remainingChecks = undefined;
@@ -3840,7 +3793,7 @@ class Chess extends Position {
     pos.remainingChecks = undefined;
     pos.halfmoves = setup.halfmoves;
     pos.fullmoves = setup.fullmoves;
-    return pos.validate(opts).map((_) => pos);
+    return pos.validate(opts).map(_ => pos);
   }
   clone() {
     return super.clone();
@@ -3893,8 +3846,8 @@ class Chess extends Position {
   }
   validEpSquare(square) {
     if (!defined(square)) return;
-    const epRank = this.turn === "white" ? 5 : 2;
-    const forward = this.turn === "white" ? 8 : -8;
+    const epRank = this.turn === 'white' ? 5 : 2;
+    const forward = this.turn === 'white' ? 8 : -8;
     if (squareRank(square) !== epRank) return;
     if (this.board.occupied.has(square + forward)) return;
     const pawn = square - forward;
@@ -3905,8 +3858,7 @@ class Chess extends Position {
     if (!defined(ctx.king) || ctx.checkers.nonEmpty()) return SquareSet.empty();
     const rook = this.castles.rook[this.turn][side];
     if (!defined(rook)) return SquareSet.empty();
-    if (this.castles.path[this.turn][side].intersects(this.board.occupied))
-      return SquareSet.empty();
+    if (this.castles.path[this.turn][side].intersects(this.board.occupied)) return SquareSet.empty();
     const kingTo = kingCastlesTo(this.turn, side);
     const kingPath = between(ctx.king, kingTo);
     const occ = this.board.occupied.without(ctx.king);
@@ -3915,15 +3867,14 @@ class Chess extends Position {
     }
     const rookTo = rookCastlesTo(this.turn, side);
     const after = this.board.occupied.toggle(ctx.king).toggle(rook).toggle(rookTo);
-    if (this.kingAttackers(kingTo, opposite$1(this.turn), after).nonEmpty())
-      return SquareSet.empty();
+    if (this.kingAttackers(kingTo, opposite$1(this.turn), after).nonEmpty()) return SquareSet.empty();
     return SquareSet.fromSquare(rook);
   }
   canCaptureEp(pawn, ctx) {
     if (!defined(this.epSquare)) return false;
     if (!pawnAttacks(this.turn, pawn).has(this.epSquare)) return false;
     if (!defined(ctx.king)) return true;
-    const captured = this.epSquare + (this.turn === "white" ? -8 : 8);
+    const captured = this.epSquare + (this.turn === 'white' ? -8 : 8);
     const occupied = this.board.occupied.toggle(pawn).toggle(this.epSquare).toggle(captured);
     return !this.kingAttackers(ctx.king, opposite$1(this.turn), occupied).intersects(occupied);
   }
@@ -3932,15 +3883,15 @@ class Chess extends Position {
     const piece = this.board.get(square);
     if (!piece || piece.color !== this.turn) return SquareSet.empty();
     let pseudo = attacks(piece, square, this.board.occupied);
-    if (piece.role === "pawn") {
+    if (piece.role === 'pawn') {
       let captureTargets = this.board[opposite$1(this.turn)];
       if (defined(this.epSquare)) captureTargets = captureTargets.with(this.epSquare);
       pseudo = pseudo.intersect(captureTargets);
-      const delta = this.turn === "white" ? 8 : -8;
+      const delta = this.turn === 'white' ? 8 : -8;
       const step = square + delta;
       if (0 <= step && step < 64 && !this.board.occupied.has(step)) {
         pseudo = pseudo.with(step);
-        const canDoubleStep = this.turn === "white" ? square < 16 : square >= 64 - 16;
+        const canDoubleStep = this.turn === 'white' ? square < 16 : square >= 64 - 16;
         const doubleStep = step + delta;
         if (canDoubleStep && !this.board.occupied.has(doubleStep)) {
           pseudo = pseudo.with(doubleStep);
@@ -3951,7 +3902,7 @@ class Chess extends Position {
       pseudo = pseudo.diff(this.board[this.turn]);
     }
     if (square === ctx.king)
-      return pseudo.union(this.castlingDest("a", ctx)).union(this.castlingDest("h", ctx));
+      return pseudo.union(this.castlingDest('a', ctx)).union(this.castlingDest('h', ctx));
     else return pseudo;
   }
   dests(square, ctx) {
@@ -3960,13 +3911,13 @@ class Chess extends Position {
     const piece = this.board.get(square);
     if (!piece || piece.color !== this.turn) return SquareSet.empty();
     let pseudo, legal;
-    if (piece.role === "pawn") {
+    if (piece.role === 'pawn') {
       pseudo = pawnAttacks(this.turn, square).intersect(this.board[opposite$1(this.turn)]);
-      const delta = this.turn === "white" ? 8 : -8;
+      const delta = this.turn === 'white' ? 8 : -8;
       const step = square + delta;
       if (0 <= step && step < 64 && !this.board.occupied.has(step)) {
         pseudo = pseudo.with(step);
-        const canDoubleStep = this.turn === "white" ? square < 16 : square >= 64 - 16;
+        const canDoubleStep = this.turn === 'white' ? square < 16 : square >= 64 - 16;
         const doubleStep = step + delta;
         if (canDoubleStep && !this.board.occupied.has(doubleStep)) {
           pseudo = pseudo.with(doubleStep);
@@ -3978,20 +3929,19 @@ class Chess extends Position {
           legal = SquareSet.fromSquare(this.epSquare);
         }
       }
-    } else if (piece.role === "bishop") pseudo = bishopAttacks(square, this.board.occupied);
-    else if (piece.role === "knight") pseudo = knightAttacks(square);
-    else if (piece.role === "rook") pseudo = rookAttacks(square, this.board.occupied);
-    else if (piece.role === "queen") pseudo = queenAttacks(square, this.board.occupied);
+    } else if (piece.role === 'bishop') pseudo = bishopAttacks(square, this.board.occupied);
+    else if (piece.role === 'knight') pseudo = knightAttacks(square);
+    else if (piece.role === 'rook') pseudo = rookAttacks(square, this.board.occupied);
+    else if (piece.role === 'queen') pseudo = queenAttacks(square, this.board.occupied);
     else pseudo = kingAttacks(square);
     pseudo = pseudo.diff(this.board[this.turn]);
     if (defined(ctx.king)) {
-      if (piece.role === "king") {
+      if (piece.role === 'king') {
         const occ = this.board.occupied.without(square);
         for (const to of pseudo) {
-          if (this.kingAttackers(to, opposite$1(this.turn), occ).nonEmpty())
-            pseudo = pseudo.without(to);
+          if (this.kingAttackers(to, opposite$1(this.turn), occ).nonEmpty()) pseudo = pseudo.without(to);
         }
-        return pseudo.union(this.castlingDest("a", ctx)).union(this.castlingDest("h", ctx));
+        return pseudo.union(this.castlingDest('a', ctx)).union(this.castlingDest('h', ctx));
       }
       if (ctx.checkers.nonEmpty()) {
         const checker = ctx.checkers.singleSquare();
@@ -4037,10 +3987,10 @@ function chessgroundDests(pos, opts) {
       if (from === ctx.king && squareFile(from) === 4) {
         // Chessground needs both types of castling dests and filters based on
         // a rookCastles setting.
-        if (squares.has(0)) d.push("c1");
-        else if (squares.has(56)) d.push("c8");
-        if (squares.has(7)) d.push("g1");
-        else if (squares.has(63)) d.push("g8");
+        if (squares.has(0)) d.push('c1');
+        else if (squares.has(56)) d.push('c8');
+        if (squares.has(7)) d.push('g1');
+        else if (squares.has(63)) d.push('g8');
       }
       result.set(makeSquare(from), d);
     }
@@ -4050,15 +4000,15 @@ function chessgroundDests(pos, opts) {
 
 var InvalidFen;
 (function (InvalidFen) {
-  InvalidFen["Fen"] = "ERR_FEN";
-  InvalidFen["Board"] = "ERR_BOARD";
-  InvalidFen["Pockets"] = "ERR_POCKETS";
-  InvalidFen["Turn"] = "ERR_TURN";
-  InvalidFen["Castling"] = "ERR_CASTLING";
-  InvalidFen["EpSquare"] = "ERR_EP_SQUARE";
-  InvalidFen["RemainingChecks"] = "ERR_REMAINING_CHECKS";
-  InvalidFen["Halfmoves"] = "ERR_HALFMOVES";
-  InvalidFen["Fullmoves"] = "ERR_FULLMOVES";
+  InvalidFen['Fen'] = 'ERR_FEN';
+  InvalidFen['Board'] = 'ERR_BOARD';
+  InvalidFen['Pockets'] = 'ERR_POCKETS';
+  InvalidFen['Turn'] = 'ERR_TURN';
+  InvalidFen['Castling'] = 'ERR_CASTLING';
+  InvalidFen['EpSquare'] = 'ERR_EP_SQUARE';
+  InvalidFen['RemainingChecks'] = 'ERR_REMAINING_CHECKS';
+  InvalidFen['Halfmoves'] = 'ERR_HALFMOVES';
+  InvalidFen['Fullmoves'] = 'ERR_FULLMOVES';
 })(InvalidFen || (InvalidFen = {}));
 class FenError extends Error {}
 function nthIndexOf(haystack, needle, n) {
@@ -4074,7 +4024,7 @@ function parseSmallUint(str) {
 }
 function charToPiece(ch) {
   const role = charToRole(ch);
-  return role && { role, color: ch.toLowerCase() === ch ? "black" : "white" };
+  return role && { role, color: ch.toLowerCase() === ch ? 'black' : 'white' };
 }
 function parseBoardFen(boardPart) {
   const board = Board.empty();
@@ -4082,7 +4032,7 @@ function parseBoardFen(boardPart) {
   let file = 0;
   for (let i = 0; i < boardPart.length; i++) {
     const c = boardPart[i];
-    if (c === "/" && file === 8) {
+    if (c === '/' && file === 8) {
       file = 0;
       rank--;
     } else {
@@ -4093,7 +4043,7 @@ function parseBoardFen(boardPart) {
         const square = file + rank * 8;
         const piece = charToPiece(c);
         if (!piece) return n.err(new FenError(InvalidFen.Board));
-        if (boardPart[i + 1] === "~") {
+        if (boardPart[i + 1] === '~') {
           piece.promoted = true;
           i++;
         }
@@ -4117,18 +4067,16 @@ function parsePockets(pocketPart) {
 }
 function parseCastlingFen(board, castlingPart) {
   let unmovedRooks = SquareSet.empty();
-  if (castlingPart === "-") return n.ok(unmovedRooks);
+  if (castlingPart === '-') return n.ok(unmovedRooks);
   for (const c of castlingPart) {
     const lower = c.toLowerCase();
-    const color = c === lower ? "black" : "white";
+    const color = c === lower ? 'black' : 'white';
     const backrank = SquareSet.backrank(color).intersect(board[color]);
     let candidates;
-    if (lower === "q") candidates = backrank;
-    else if (lower === "k") candidates = backrank.reversed();
-    else if ("a" <= lower && lower <= "h")
-      candidates = SquareSet.fromSquare(lower.charCodeAt(0) - "a".charCodeAt(0)).intersect(
-        backrank,
-      );
+    if (lower === 'q') candidates = backrank;
+    else if (lower === 'k') candidates = backrank.reversed();
+    else if ('a' <= lower && lower <= 'h')
+      candidates = SquareSet.fromSquare(lower.charCodeAt(0) - 'a'.charCodeAt(0)).intersect(backrank);
     else return n.err(new FenError(InvalidFen.Castling));
     for (const square of candidates) {
       if (board.king.has(square) && !board.promoted.has(square)) break;
@@ -4138,13 +4086,13 @@ function parseCastlingFen(board, castlingPart) {
       }
     }
   }
-  if (COLORS.some((color) => SquareSet.backrank(color).intersect(unmovedRooks).size() > 2))
+  if (COLORS.some(color => SquareSet.backrank(color).intersect(unmovedRooks).size() > 2))
     return n.err(new FenError(InvalidFen.Castling));
   return n.ok(unmovedRooks);
 }
 function parseRemainingChecks(part) {
-  const parts = part.split("+");
-  if (parts.length === 3 && parts[0] === "") {
+  const parts = part.split('+');
+  if (parts.length === 3 && parts[0] === '') {
     const white = parseSmallUint(parts[1]);
     const black = parseSmallUint(parts[2]);
     if (!defined(white) || white > 3 || !defined(black) || black > 3)
@@ -4164,15 +4112,13 @@ function parseFen(fen) {
   // Board and pockets
   let board,
     pockets = n.ok(undefined);
-  if (boardPart.endsWith("]")) {
-    const pocketStart = boardPart.indexOf("[");
+  if (boardPart.endsWith(']')) {
+    const pocketStart = boardPart.indexOf('[');
     if (pocketStart === -1) return n.err(new FenError(InvalidFen.Fen));
     board = parseBoardFen(boardPart.substr(0, pocketStart));
-    pockets = parsePockets(
-      boardPart.substr(pocketStart + 1, boardPart.length - 1 - pocketStart - 1),
-    );
+    pockets = parsePockets(boardPart.substr(pocketStart + 1, boardPart.length - 1 - pocketStart - 1));
   } else {
-    const pocketStart = nthIndexOf(boardPart, "/", 7);
+    const pocketStart = nthIndexOf(boardPart, '/', 7);
     if (pocketStart === -1) board = parseBoardFen(boardPart);
     else {
       board = parseBoardFen(boardPart.substr(0, pocketStart));
@@ -4182,10 +4128,10 @@ function parseFen(fen) {
   // Turn
   let turn;
   const turnPart = parts.shift();
-  if (!defined(turnPart) || turnPart === "w") turn = "white";
-  else if (turnPart === "b") turn = "black";
+  if (!defined(turnPart) || turnPart === 'w') turn = 'white';
+  else if (turnPart === 'b') turn = 'black';
   else return n.err(new FenError(InvalidFen.Turn));
-  return board.chain((board) => {
+  return board.chain(board => {
     // Castling
     const castlingPart = parts.shift();
     const unmovedRooks = defined(castlingPart)
@@ -4194,14 +4140,14 @@ function parseFen(fen) {
     // En passant square
     const epPart = parts.shift();
     let epSquare;
-    if (defined(epPart) && epPart !== "-") {
+    if (defined(epPart) && epPart !== '-') {
       epSquare = parseSquare(epPart);
       if (!defined(epSquare)) return n.err(new FenError(InvalidFen.EpSquare));
     }
     // Halfmoves or remaining checks
     let halfmovePart = parts.shift();
     let earlyRemainingChecks;
-    if (defined(halfmovePart) && halfmovePart.includes("+")) {
+    if (defined(halfmovePart) && halfmovePart.includes('+')) {
       earlyRemainingChecks = parseRemainingChecks(halfmovePart);
       halfmovePart = parts.shift();
     }
@@ -4219,9 +4165,9 @@ function parseFen(fen) {
       remainingChecks = earlyRemainingChecks;
     }
     if (parts.length > 0) return n.err(new FenError(InvalidFen.Fen));
-    return pockets.chain((pockets) =>
-      unmovedRooks.chain((unmovedRooks) =>
-        remainingChecks.map((remainingChecks) => {
+    return pockets.chain(pockets =>
+      unmovedRooks.chain(unmovedRooks =>
+        remainingChecks.map(remainingChecks => {
           return {
             board,
             pockets,
@@ -4239,11 +4185,11 @@ function parseFen(fen) {
 }
 function makePiece$1(piece, opts) {
   let r = roleToChar(piece.role);
-  if (piece.color === "white") r = r.toUpperCase();
+  if (piece.color === 'white') r = r.toUpperCase();
   return r;
 }
 function makeBoardFen(board, opts) {
-  let fen = "";
+  let fen = '';
   let empty = 0;
   for (let rank = 7; rank >= 0; rank--) {
     for (let file = 0; file < 8; file++) {
@@ -4262,50 +4208,50 @@ function makeBoardFen(board, opts) {
           fen += empty;
           empty = 0;
         }
-        if (rank !== 0) fen += "/";
+        if (rank !== 0) fen += '/';
       }
     }
   }
   return fen;
 }
 function makePocket(material) {
-  return ROLES.map((role) => roleToChar(role).repeat(material[role])).join("");
+  return ROLES.map(role => roleToChar(role).repeat(material[role])).join('');
 }
 function makePockets(pocket) {
   return makePocket(pocket.white).toUpperCase() + makePocket(pocket.black);
 }
 function makeCastlingFen(board, unmovedRooks, opts) {
-  let fen = "";
+  let fen = '';
   for (const color of COLORS) {
     const backrank = SquareSet.backrank(color);
     const king = board.kingOf(color);
     if (!defined(king) || !backrank.has(king)) continue;
-    const candidates = board.pieces(color, "rook").intersect(backrank);
+    const candidates = board.pieces(color, 'rook').intersect(backrank);
     for (const rook of unmovedRooks.intersect(candidates).reversed()) {
       if (rook === candidates.first() && rook < king) {
-        fen += color === "white" ? "Q" : "q";
+        fen += color === 'white' ? 'Q' : 'q';
       } else if (rook === candidates.last() && king < rook) {
-        fen += color === "white" ? "K" : "k";
+        fen += color === 'white' ? 'K' : 'k';
       } else {
         const file = FILE_NAMES[squareFile(rook)];
-        fen += color === "white" ? file.toUpperCase() : file;
+        fen += color === 'white' ? file.toUpperCase() : file;
       }
     }
   }
-  return fen || "-";
+  return fen || '-';
 }
 function makeRemainingChecks(checks) {
   return `${checks.white}+${checks.black}`;
 }
 function makeFen(setup, opts) {
   return [
-    makeBoardFen(setup.board) + (setup.pockets ? `[${makePockets(setup.pockets)}]` : ""),
+    makeBoardFen(setup.board) + (setup.pockets ? `[${makePockets(setup.pockets)}]` : ''),
     setup.turn[0],
     makeCastlingFen(setup.board, setup.unmovedRooks),
-    defined(setup.epSquare) ? makeSquare(setup.epSquare) : "-",
+    defined(setup.epSquare) ? makeSquare(setup.epSquare) : '-',
     ...(setup.remainingChecks ? [makeRemainingChecks(setup.remainingChecks)] : []),
     ...[Math.max(0, Math.min(setup.halfmoves, 9999)), Math.max(1, Math.min(setup.fullmoves, 9999))],
-  ].join(" ");
+  ].join(' ');
 }
 
 class GameCtrl {
@@ -4322,12 +4268,10 @@ class GameCtrl {
     this.onUpdate = () => {
       var _b, _c;
       const setup =
-        this.game.initialFen == "startpos"
-          ? defaultSetup()
-          : parseFen(this.game.initialFen).unwrap();
+        this.game.initialFen == 'startpos' ? defaultSetup() : parseFen(this.game.initialFen).unwrap();
       this.chess = Chess.fromSetup(setup).unwrap();
-      const moves = this.game.state.moves.split(" ").filter((m) => m);
-      moves.forEach((uci) => this.chess.play(parseUci(uci)));
+      const moves = this.game.state.moves.split(' ').filter(m => m);
+      moves.forEach(uci => this.chess.play(parseUci(uci)));
       const lastMove = moves[moves.length - 1];
       this.lastMove = lastMove && [lastMove.substr(0, 2), lastMove.substr(2, 2)];
       this.lastUpdateAt = Date.now();
@@ -4335,23 +4279,21 @@ class GameCtrl {
       if (this.chess.turn == this.pov)
         (_c = this.ground) === null || _c === void 0 ? void 0 : _c.playPremove();
     };
-    this.timeOf = (color) => this.game.state[`${color[0]}time`];
+    this.timeOf = color => this.game.state[`${color[0]}time`];
     this.userMove = async (orig, dest) => {
       var _b;
-      (_b = this.ground) === null || _b === void 0
-        ? void 0
-        : _b.set({ turnColor: opposite$1(this.pov) });
+      (_b = this.ground) === null || _b === void 0 ? void 0 : _b.set({ turnColor: opposite$1(this.pov) });
       await this.root.auth.fetchBody(`/api/board/game/${this.game.id}/move/${orig}${dest}`, {
-        method: "post",
+        method: 'post',
       });
     };
     this.resign = async () => {
-      await this.root.auth.fetchBody(`/api/board/game/${this.game.id}/resign`, { method: "post" });
+      await this.root.auth.fetchBody(`/api/board/game/${this.game.id}/resign`, { method: 'post' });
     };
-    this.playing = () => this.game.state.status == "started";
+    this.playing = () => this.game.state.status == 'started';
     this.chessgroundConfig = () => ({
       real3D: {
-        sceneAssetUrl: "scene.glb",
+        sceneAssetUrl: 'scene.glb',
       },
       orientation: this.pov,
       fen: makeFen(this.chess.toSetup()),
@@ -4367,15 +4309,15 @@ class GameCtrl {
         move: this.userMove,
       },
     });
-    this.setGround = (cg) => (this.ground = cg);
-    this.handle = (msg) => {
+    this.setGround = cg => (this.ground = cg);
+    this.handle = msg => {
       switch (msg.type) {
-        case "gameFull":
+        case 'gameFull':
           this.game = msg;
           this.onUpdate();
           this.root.redraw();
           break;
-        case "gameState":
+        case 'gameState':
           this.game.state = msg;
           this.onUpdate();
           this.root.redraw();
@@ -4387,17 +4329,17 @@ class GameCtrl {
     this.game = game;
     this.pov =
       this.game.black.id == ((_b = this.root.auth.me) === null || _b === void 0 ? void 0 : _b.id)
-        ? "black"
-        : "white";
+        ? 'black'
+        : 'white';
     this.onUpdate();
     this.redrawInterval = setInterval(root.redraw, 100);
   }
 }
 GameCtrl.open = (root, id) =>
-  new Promise(async (resolve) => {
+  new Promise(async resolve => {
     let ctrl;
     let stream;
-    const handler = (msg) => {
+    const handler = msg => {
       if (ctrl) ctrl.handle(msg);
       else {
         // Gets the gameFull object from the first message of the stream,
@@ -4409,7 +4351,7 @@ GameCtrl.open = (root, id) =>
     stream = await root.auth.openStream(`/api/board/game/stream/${id}`, {}, handler);
   });
 
-const formData = (data) => {
+const formData = data => {
   const formData = new FormData();
   for (const k of Object.keys(data)) formData.append(k, data[k]);
   return formData;
@@ -4419,7 +4361,7 @@ class OngoingGames {
   constructor() {
     this.games = [];
     this.autoStart = new Set();
-    this.onStart = (game) => {
+    this.onStart = game => {
       this.remove(game);
       if (game.compat.board) {
         this.games.push(game);
@@ -4429,12 +4371,12 @@ class OngoingGames {
         this.autoStart.add(game.id);
       } else console.log(`Skipping game ${game.gameId}, not board compatible`);
     };
-    this.onFinish = (game) => this.remove(game);
+    this.onFinish = game => this.remove(game);
     this.empty = () => {
       this.games = [];
     };
-    this.remove = (game) => {
-      this.games = this.games.filter((g) => g.gameId != game.id);
+    this.remove = game => {
+      this.games = this.games.filter(g => g.gameId != game.id);
     };
   }
 }
@@ -4445,7 +4387,7 @@ class SeekCtrl {
     this.root = root;
     this.awaitClose = async () => {
       await this.stream.closePromise;
-      if (this.root.page == "seek") page_js("/");
+      if (this.root.page == 'seek') page_js('/');
     };
     this.onUnmount = () => this.stream.close();
     this.awaitClose();
@@ -4453,12 +4395,12 @@ class SeekCtrl {
 }
 SeekCtrl.make = async (config, root) => {
   const stream = await root.auth.openStream(
-    "/api/board/seek",
+    '/api/board/seek',
     {
-      method: "post",
+      method: 'post',
       body: formData(config),
     },
-    (_) => {},
+    _ => {},
   );
   return new SeekCtrl(stream, root);
 };
@@ -4469,7 +4411,7 @@ class ChallengeCtrl {
     this.root = root;
     this.awaitClose = async () => {
       await this.stream.closePromise;
-      if (this.root.page == "challenge") page_js("/");
+      if (this.root.page == 'challenge') page_js('/');
     };
     this.onUnmount = () => this.stream.close();
     this.awaitClose();
@@ -4479,10 +4421,10 @@ ChallengeCtrl.make = async (config, root) => {
   const stream = await root.auth.openStream(
     `/api/challenge/${config.username}`,
     {
-      method: "post",
+      method: 'post',
       body: formData(Object.assign(Object.assign({}, config), { keepAliveStream: true })),
     },
-    (_) => {},
+    _ => {},
   );
   return new ChallengeCtrl(stream, root);
 };
@@ -4501,11 +4443,11 @@ class TvCtrl {
       this.stream.close();
       clearInterval(this.redrawInterval);
     };
-    this.player = (color) => this.game.players[this.game.players[0].color == color ? 0 : 1];
+    this.player = color => this.game.players[this.game.players[0].color == color ? 0 : 1];
     this.chessgroundConfig = () => {
       const chess = Chess.fromSetup(parseFen(this.game.fen).unwrap()).unwrap();
       const lm = this.game.lastMove;
-      const lastMove = lm ? (lm[1] === "@" ? [lm.slice(2)] : [lm[0] + lm[1], lm[2] + lm[3]]) : [];
+      const lastMove = lm ? (lm[1] === '@' ? [lm.slice(2)] : [lm[0] + lm[1], lm[2] + lm[3]]) : [];
       return {
         orientation: this.game.orientation,
         fen: this.game.fen,
@@ -4518,24 +4460,24 @@ class TvCtrl {
         coordinates: false,
       };
     };
-    this.setGround = (cg) => (this.ground = cg);
+    this.setGround = cg => (this.ground = cg);
     this.onUpdate = () => {
       this.chess = Chess.fromSetup(parseFen(this.game.fen).unwrap()).unwrap();
       this.lastUpdateAt = Date.now();
     };
-    this.handle = (msg) => {
+    this.handle = msg => {
       var _b;
       switch (msg.t) {
-        case "featured":
+        case 'featured':
           this.game = msg.d;
           this.onUpdate();
           this.root.redraw();
           break;
-        case "fen":
+        case 'fen':
           this.game.fen = msg.d.fen;
           this.game.lastMove = msg.d.lm;
-          this.player("white").seconds = msg.d.wc;
-          this.player("black").seconds = msg.d.bc;
+          this.player('white').seconds = msg.d.wc;
+          this.player('black').seconds = msg.d.bc;
           this.onUpdate();
           (_b = this.ground) === null || _b === void 0 ? void 0 : _b.set(this.chessgroundConfig());
           break;
@@ -4546,11 +4488,11 @@ class TvCtrl {
     this.awaitClose();
   }
 }
-TvCtrl.open = (root) =>
-  new Promise(async (resolve) => {
+TvCtrl.open = root =>
+  new Promise(async resolve => {
     let ctrl;
     let stream;
-    const handler = (msg) => {
+    const handler = msg => {
       if (ctrl) ctrl.handle(msg);
       else {
         // Gets the first game object from the first message of the stream,
@@ -4559,27 +4501,27 @@ TvCtrl.open = (root) =>
         resolve(ctrl);
       }
     };
-    stream = await root.auth.openStream("/api/tv/feed", {}, handler);
+    stream = await root.auth.openStream('/api/tv/feed', {}, handler);
   });
 
 class Ctrl {
   constructor(redraw) {
     this.redraw = redraw;
     this.auth = new Auth();
-    this.page = "home";
+    this.page = 'home';
     this.games = new OngoingGames();
     this.openHome = async () => {
       var _a;
-      this.page = "home";
+      this.page = 'home';
       if (this.auth.me) {
         await ((_a = this.stream) === null || _a === void 0 ? void 0 : _a.close());
         this.games.empty();
-        this.stream = await this.auth.openStream("/api/stream/event", {}, (msg) => {
+        this.stream = await this.auth.openStream('/api/stream/event', {}, msg => {
           switch (msg.type) {
-            case "gameStart":
+            case 'gameStart':
               this.games.onStart(msg.game);
               break;
-            case "gameFinish":
+            case 'gameFinish':
               this.games.onFinish(msg.game);
               break;
             default:
@@ -4590,8 +4532,8 @@ class Ctrl {
       }
       this.redraw();
     };
-    this.openGame = async (id) => {
-      this.page = "game";
+    this.openGame = async id => {
+      this.page = 'game';
       this.game = undefined;
       this.redraw();
       this.game = await GameCtrl.open(this, id);
@@ -4599,14 +4541,14 @@ class Ctrl {
     };
     this.playAi = async () => {
       this.game = undefined;
-      this.page = "game";
+      this.page = 'game';
       this.redraw();
-      await this.auth.fetchBody("/api/challenge/ai", {
-        method: "post",
+      await this.auth.fetchBody('/api/challenge/ai', {
+        method: 'post',
         body: formData({
           level: 1,
-          "clock.limit": 60 * 3,
-          "clock.increment": 2,
+          'clock.limit': 60 * 3,
+          'clock.increment': 2,
         }),
       });
     };
@@ -4619,24 +4561,24 @@ class Ctrl {
         },
         this,
       );
-      this.page = "seek";
+      this.page = 'seek';
       this.redraw();
     };
     this.playMaia = async (minutes, increment) => {
       this.challenge = await ChallengeCtrl.make(
         {
-          username: "maia1",
+          username: 'maia1',
           rated: false,
-          "clock.limit": minutes * 60,
-          "clock.increment": increment,
+          'clock.limit': minutes * 60,
+          'clock.increment': increment,
         },
         this,
       );
-      this.page = "challenge";
+      this.page = 'challenge';
       this.redraw();
     };
     this.watchTv = async () => {
-      this.page = "tv";
+      this.page = 'tv';
       this.redraw();
       this.tv = await TvCtrl.open(this);
       this.redraw();
@@ -4645,75 +4587,75 @@ class Ctrl {
 }
 
 function layout(ctrl, body) {
-  const fullBleed = ctrl.page == "game" || ctrl.page == "tv";
-  return h("body", [
+  const fullBleed = ctrl.page == 'game' || ctrl.page == 'tv';
+  return h('body', [
     renderNavBar(ctrl),
     h(
       `div.app-shell__content.app-shell__content--${ctrl.page}`,
-      fullBleed ? body : [h("div.container", body)],
+      fullBleed ? body : [h('div.container', body)],
     ),
   ]);
 }
-const renderNavBar = (ctrl) =>
-  h("header.navbar.navbar-expand-md.navbar-dark.bg-dark", [
-    h("div.container", [
+const renderNavBar = ctrl =>
+  h('header.navbar.navbar-expand-md.navbar-dark.bg-dark', [
+    h('div.container', [
       h(
-        "a.navbar-brand",
+        'a.navbar-brand',
         {
-          attrs: href("/"),
+          attrs: href('/'),
         },
-        "Lichess 3D",
+        'Lichess 3D',
       ),
       h(
-        "button.navbar-toggler",
+        'button.navbar-toggler',
         {
           attrs: {
-            type: "button",
-            "data-bs-toggle": "collapse",
-            "data-bs-target": "#navbarSupportedContent",
-            "aria-controls": "navbarSupportedContent",
-            "aria-expanded": false,
-            "aria-label": "Toggle navigation",
+            type: 'button',
+            'data-bs-toggle': 'collapse',
+            'data-bs-target': '#navbarSupportedContent',
+            'aria-controls': 'navbarSupportedContent',
+            'aria-expanded': false,
+            'aria-label': 'Toggle navigation',
           },
         },
-        h("span.navbar-toggler-icon"),
+        h('span.navbar-toggler-icon'),
       ),
-      h("div#navbarSupportedContent.collapse.navbar-collapse", [
+      h('div#navbarSupportedContent.collapse.navbar-collapse', [
         h('ul.navbar-nav.me-auto.mb-lg-0"'),
-        h("ul.navbar-nav", [ctrl.auth.me ? userNav(ctrl.auth.me) : anonNav()]),
+        h('ul.navbar-nav', [ctrl.auth.me ? userNav(ctrl.auth.me) : anonNav()]),
       ]),
     ]),
   ]);
-const userNav = (me) =>
-  h("li.nav-item.dropdown", [
+const userNav = me =>
+  h('li.nav-item.dropdown', [
     h(
-      "a#navbarDropdown.nav-link.dropdown-toggle",
+      'a#navbarDropdown.nav-link.dropdown-toggle',
       {
         attrs: {
-          href: "#",
-          role: "button",
-          "data-bs-toggle": "dropdown",
-          "aria-expanded": false,
+          href: '#',
+          role: 'button',
+          'data-bs-toggle': 'dropdown',
+          'aria-expanded': false,
         },
       },
       me.username,
     ),
     h(
-      "ul.dropdown-menu",
+      'ul.dropdown-menu',
       {
         attrs: {
-          "aria-labelledby": "navbarDropdown",
+          'aria-labelledby': 'navbarDropdown',
         },
       },
       [
         h(
-          "li",
+          'li',
           h(
-            "a.dropdown-item",
+            'a.dropdown-item',
             {
-              attrs: href("/logout"),
+              attrs: href('/logout'),
             },
-            "Log out",
+            'Log out',
           ),
         ),
       ],
@@ -4721,47 +4663,46 @@ const userNav = (me) =>
   ]);
 const anonNav = () =>
   h(
-    "li.nav-item",
+    'li.nav-item',
     h(
-      "a.btn.btn-primary.text-nowrap",
+      'a.btn.btn-primary.text-nowrap',
       {
-        attrs: href("/login"),
+        attrs: href('/login'),
       },
-      "Login with Lichess",
+      'Login with Lichess',
     ),
   );
 
-const renderChallenge = (ctrl) => (_) => [
+const renderChallenge = ctrl => _ => [
   h(
-    "div.challenge-page",
+    'div.challenge-page',
     {
       hook: {
         destroy: ctrl.onUnmount,
       },
     },
     [
-      h("div.challenge-page__awaiting", [spinner(), h("span.ms-3", "Awaiting the opponent...")]),
+      h('div.challenge-page__awaiting', [spinner(), h('span.ms-3', 'Awaiting the opponent...')]),
       h(
-        "a.btn.btn-secondary",
+        'a.btn.btn-secondary',
         {
-          attrs: { href: url("/") },
+          attrs: { href: url('/') },
         },
-        "Cancel",
+        'Cancel',
       ),
     ],
   ),
 ];
 
-const colors = ["white", "black"];
-const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
-const ranks = ["1", "2", "3", "4", "5", "6", "7", "8"];
+const colors = ['white', 'black'];
+const files = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+const ranks = ['1', '2', '3', '4', '5', '6', '7', '8'];
 
 const invRanks = [...ranks].reverse();
-const allKeys = files.flatMap((f) => ranks.map((r) => f + r));
-const pos2key = (pos) =>
-  pos.every((x) => x >= 0 && x <= 7) ? allKeys[8 * pos[0] + pos[1]] : undefined;
-const pos2keyUnsafe = (pos) => pos2key(pos);
-const key2pos = (k) => [k.charCodeAt(0) - 97, k.charCodeAt(1) - 49];
+const allKeys = files.flatMap(f => ranks.map(r => f + r));
+const pos2key = pos => (pos.every(x => x >= 0 && x <= 7) ? allKeys[8 * pos[0] + pos[1]] : undefined);
+const pos2keyUnsafe = pos => pos2key(pos);
+const key2pos = k => [k.charCodeAt(0) - 97, k.charCodeAt(1) - 49];
 const allPos = allKeys.map(key2pos);
 const allPosAndKey = allKeys.map((key, i) => ({ key, pos: allPos[i] }));
 function memo(f) {
@@ -4792,11 +4733,11 @@ const timer = () => {
     },
   };
 };
-const opposite = (c) => (c === "white" ? "black" : "white");
+const opposite = c => (c === 'white' ? 'black' : 'white');
 const distanceSq = (pos1, pos2) => (pos1[0] - pos2[0]) ** 2 + (pos1[1] - pos2[1]) ** 2;
 const samePiece = (p1, p2) => p1.role === p2.role && p1.color === p2.color;
 const samePos = (p1, p2) => p1[0] === p2[0] && p1[1] === p2[1];
-const posToTranslate = (bounds) => (pos, asWhite) => [
+const posToTranslate = bounds => (pos, asWhite) => [
   ((asWhite ? pos[0] : 7 - pos[0]) * bounds.width) / 8,
   ((asWhite ? 7 - pos[1] : pos[1]) * bounds.height) / 8,
 ];
@@ -4807,19 +4748,19 @@ const translateAndScale = (el, pos, scale = 1) => {
   el.style.transform = `translate(${pos[0]}px,${pos[1]}px) scale(${scale})`;
 };
 const setVisible = (el, v) => {
-  el.style.display = v ? "" : "none";
+  el.style.display = v ? '' : 'none';
 };
-const eventPosition = (e) => {
+const eventPosition = e => {
   if (e.clientX || e.clientX === 0) return [e.clientX, e.clientY];
   if (e.targetTouches?.[0]) return [e.targetTouches[0].clientX, e.targetTouches[0].clientY];
   return undefined; // touchend has no position!
 };
 const isFireMac = memo(
   () =>
-    !("ontouchstart" in window) &&
-    ["macintosh", "firefox"].every((x) => navigator.userAgent.toLowerCase().includes(x)),
+    !('ontouchstart' in window) &&
+    ['macintosh', 'firefox'].every(x => navigator.userAgent.toLowerCase().includes(x)),
 );
-const isRightButton = (e) => e.button === 2 && !(e.ctrlKey && isFireMac());
+const isRightButton = e => e.button === 2 && !(e.ctrlKey && isFireMac());
 const createEl = (tagName, className) => {
   const el = document.createElement(tagName);
   if (className) el.className = className;
@@ -4869,47 +4810,47 @@ const squaresBetween = (x1, y1, x2, y2) => {
     x += stepX;
     y += stepY;
   }
-  return squares.map(pos2key).filter((k) => k !== undefined);
+  return squares.map(pos2key).filter(k => k !== undefined);
 };
 
 function clockContent(time, decay) {
-  if (!time && time !== 0) return h("span", "-");
-  if (time == 2147483647) return h("span");
+  if (!time && time !== 0) return h('span', '-');
+  if (time == 2147483647) return h('span');
   const millis = time + (decay || 0);
   return millis > 1000 * 60 * 60 * 24 ? correspondence(millis) : realTime(millis);
 }
-const realTime = (millis) => {
+const realTime = millis => {
   const date = new Date(millis);
-  return h("span.clock--realtime.font-monospace", [
-    pad2(date.getUTCMinutes()) + ":" + pad2(date.getUTCSeconds()),
-    h("tenths", "." + Math.floor(date.getUTCMilliseconds() / 100).toString()),
+  return h('span.clock--realtime.font-monospace', [
+    pad2(date.getUTCMinutes()) + ':' + pad2(date.getUTCSeconds()),
+    h('tenths', '.' + Math.floor(date.getUTCMilliseconds() / 100).toString()),
   ]);
 };
-const correspondence = (ms) => {
+const correspondence = ms => {
   const date = new Date(ms),
     minutes = prefixInteger(date.getUTCMinutes(), 2),
     seconds = prefixInteger(date.getSeconds(), 2);
   let hours,
-    str = "";
+    str = '';
   if (ms >= 86400 * 1000) {
     // days : hours
     const days = date.getUTCDate() - 1;
     hours = date.getUTCHours();
-    str += (days === 1 ? "One day" : `${days} days`) + " ";
+    str += (days === 1 ? 'One day' : `${days} days`) + ' ';
     if (hours !== 0) str += `${hours} hours`;
   } else if (ms >= 3600 * 1000) {
     // hours : minutes
     hours = date.getUTCHours();
-    str += bold(prefixInteger(hours, 2)) + ":" + bold(minutes);
+    str += bold(prefixInteger(hours, 2)) + ':' + bold(minutes);
   } else {
     // minutes : seconds
-    str += bold(minutes) + ":" + bold(seconds);
+    str += bold(minutes) + ':' + bold(seconds);
   }
-  return h("span.clock--correspondence", str);
+  return h('span.clock--correspondence', str);
 };
-const pad2 = (num) => (num < 10 ? "0" : "") + num;
+const pad2 = num => (num < 10 ? '0' : '') + num;
 const prefixInteger = (num, length) => (num / Math.pow(10, length)).toFixed(length).slice(2);
-const bold = (x) => `<b>${x}</b>`;
+const bold = x => `<b>${x}</b>`;
 
 const anim = (mutation, state) =>
   state.animation.enabled ? animate(mutation, state) : render$2(mutation, state);
@@ -4951,7 +4892,7 @@ function computePlan(prevPieces, current) {
   for (const newP of news) {
     preP = closer(
       newP,
-      missings.filter((p) => samePiece(newP.piece, p.piece)),
+      missings.filter(p => samePiece(newP.piece, p.piece)),
     );
     if (preP) {
       vector = [preP.pos[0] - newP.pos[0], preP.pos[1] - newP.pos[1]];
@@ -5008,21 +4949,21 @@ function animate(mutation, state) {
   return result;
 }
 // https://gist.github.com/gre/1650294
-const easing = (t) => (t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1);
+const easing = t => (t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1);
 
-const pawn = (ctx) =>
+const pawn = ctx =>
   diff(ctx.orig.pos[0], ctx.dest.pos[0]) <= 1 &&
   (diff(ctx.orig.pos[0], ctx.dest.pos[0]) === 1
-    ? ctx.dest.pos[1] === ctx.orig.pos[1] + (ctx.color === "white" ? 1 : -1)
-    : pawnDirAdvance(...ctx.orig.pos, ...ctx.dest.pos, ctx.color === "white"));
-const knight = (ctx) => knightDir(...ctx.orig.pos, ...ctx.dest.pos);
-const bishop = (ctx) => bishopDir(...ctx.orig.pos, ...ctx.dest.pos);
-const rook = (ctx) => rookDir(...ctx.orig.pos, ...ctx.dest.pos);
-const queen = (ctx) => bishop(ctx) || rook(ctx);
-const king = (ctx) =>
+    ? ctx.dest.pos[1] === ctx.orig.pos[1] + (ctx.color === 'white' ? 1 : -1)
+    : pawnDirAdvance(...ctx.orig.pos, ...ctx.dest.pos, ctx.color === 'white'));
+const knight = ctx => knightDir(...ctx.orig.pos, ...ctx.dest.pos);
+const bishop = ctx => bishopDir(...ctx.orig.pos, ...ctx.dest.pos);
+const rook = ctx => rookDir(...ctx.orig.pos, ...ctx.dest.pos);
+const queen = ctx => bishop(ctx) || rook(ctx);
+const king = ctx =>
   kingDirNonCastling(...ctx.orig.pos, ...ctx.dest.pos) ||
   (ctx.orig.pos[1] === ctx.dest.pos[1] &&
-    ctx.orig.pos[1] === (ctx.color === "white" ? 0 : 7) &&
+    ctx.orig.pos[1] === (ctx.color === 'white' ? 0 : 7) &&
     ((ctx.orig.pos[0] === 4 &&
       ((ctx.dest.pos[0] === 2 && ctx.rookFilesFriendlies.includes(0)) ||
         (ctx.dest.pos[0] === 6 && ctx.rookFilesFriendlies.includes(7)))) ||
@@ -5036,8 +4977,7 @@ function premove(state, key) {
     friendlies = new Map([...pieces].filter(([_, p]) => p.color === color)),
     enemies = new Map([...pieces].filter(([_, p]) => p.color === opposite(color))),
     orig = { key, pos: key2pos(key) },
-    mobility = (ctx) =>
-      mobilityByRole[piece.role](ctx) && state.premovable.additionalPremoveRequirements(ctx),
+    mobility = ctx => mobilityByRole[piece.role](ctx) && state.premovable.additionalPremoveRequirements(ctx),
     partialCtx = {
       orig,
       role: piece.role,
@@ -5047,14 +4987,13 @@ function premove(state, key) {
       color: color,
       rookFilesFriendlies: Array.from(pieces)
         .filter(
-          ([k, p]) =>
-            k[1] === (color === "white" ? "1" : "8") && p.color === color && p.role === "rook",
+          ([k, p]) => k[1] === (color === 'white' ? '1' : '8') && p.color === color && p.role === 'rook',
         )
         .map(([k]) => key2pos(k)[0]),
       lastMove: state.lastMove,
     };
   // todo - remove more properties from MobilityContext that aren't used in this file, and adjust as needed in lila.
-  return allPosAndKey.filter((dest) => mobility({ ...partialCtx, dest })).map((pk) => pk.key);
+  return allPosAndKey.filter(dest => mobility({ ...partialCtx, dest })).map(pk => pk.key);
 }
 
 function callUserFunction(f, ...args) {
@@ -5075,7 +5014,7 @@ function setCheck(state, color) {
   if (color === true) color = state.turnColor;
   if (color)
     for (const [k, p] of state.pieces) {
-      if (p.role === "king" && p.color === color) {
+      if (p.role === 'king' && p.color === color) {
         state.check = k;
       }
     }
@@ -5106,7 +5045,7 @@ function unsetPredrop(state) {
 function tryAutoCastle(state, orig, dest) {
   if (!state.autoCastle) return false;
   const king = state.pieces.get(orig);
-  if (!king || king.role !== "king") return false;
+  if (!king || king.role !== 'king') return false;
   const origPos = key2pos(orig);
   const destPos = key2pos(dest);
   if ((origPos[1] !== 0 && origPos[1] !== 7) || origPos[1] !== destPos[1]) return false;
@@ -5115,7 +5054,7 @@ function tryAutoCastle(state, orig, dest) {
     else if (destPos[0] === 2) dest = pos2keyUnsafe([0, destPos[1]]);
   }
   const rook = state.pieces.get(dest);
-  if (!rook || rook.color !== king.color || rook.role !== "rook") return false;
+  if (!rook || rook.color !== king.color || rook.role !== 'rook') return false;
   state.pieces.delete(orig);
   state.pieces.delete(dest);
   if (origPos[0] < destPos[0]) {
@@ -5246,7 +5185,7 @@ function isMovable(state, orig) {
   const piece = state.pieces.get(orig);
   return (
     !!piece &&
-    (state.movable.color === "both" ||
+    (state.movable.color === 'both' ||
       (state.movable.color === piece.color && state.turnColor === piece.color))
   );
 }
@@ -5259,7 +5198,7 @@ function canDrop(state, orig, dest) {
   return (
     !!piece &&
     (orig === dest || !state.pieces.has(dest)) &&
-    (state.movable.color === "both" ||
+    (state.movable.color === 'both' ||
       (state.movable.color === piece.color && state.turnColor === piece.color))
   );
 }
@@ -5283,7 +5222,7 @@ function canPredrop(state, orig, dest) {
     !!piece &&
     (!destPiece || destPiece.color !== state.movable.color) &&
     state.predroppable.enabled &&
-    (piece.role !== "pawn" || (dest[1] !== "1" && dest[1] !== "8")) &&
+    (piece.role !== 'pawn' || (dest[1] !== '1' && dest[1] !== '8')) &&
     state.movable.color === piece.color &&
     state.turnColor !== piece.color
   );
@@ -5293,9 +5232,8 @@ function isDraggable(state, orig) {
   return (
     !!piece &&
     state.draggable.enabled &&
-    (state.movable.color === "both" ||
-      (state.movable.color === piece.color &&
-        (state.turnColor === piece.color || state.premovable.enabled)))
+    (state.movable.color === 'both' ||
+      (state.movable.color === piece.color && (state.turnColor === piece.color || state.premovable.enabled)))
   );
 }
 function playPremove(state) {
@@ -5355,56 +5293,56 @@ function getKeyAtDomPos(pos, asWhite, bounds) {
 function getSnappedKeyAtDomPos(orig, pos, asWhite, bounds) {
   const origPos = key2pos(orig);
   const validSnapPos = allPos.filter(
-    (pos2) =>
+    pos2 =>
       samePos(origPos, pos2) ||
       queenDir(origPos[0], origPos[1], pos2[0], pos2[1]) ||
       knightDir(origPos[0], origPos[1], pos2[0], pos2[1]),
   );
-  const validSnapCenters = validSnapPos.map((pos2) =>
+  const validSnapCenters = validSnapPos.map(pos2 =>
     computeSquareCenter(pos2keyUnsafe(pos2), asWhite, bounds),
   );
-  const validSnapDistances = validSnapCenters.map((pos2) => distanceSq(pos, pos2));
+  const validSnapDistances = validSnapCenters.map(pos2 => distanceSq(pos, pos2));
   const [, closestSnapIndex] = validSnapDistances.reduce(
     (a, b, index) => (a[0] < b ? a : [b, index]),
     [validSnapDistances[0], 0],
   );
   return pos2key(validSnapPos[closestSnapIndex]);
 }
-const whitePov = (s) => s.orientation === "white";
+const whitePov = s => s.orientation === 'white';
 
-const initial = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+const initial = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
 const roles = {
-  p: "pawn",
-  r: "rook",
-  n: "knight",
-  b: "bishop",
-  q: "queen",
-  k: "king",
+  p: 'pawn',
+  r: 'rook',
+  n: 'knight',
+  b: 'bishop',
+  q: 'queen',
+  k: 'king',
 };
 const letters = {
-  pawn: "p",
-  rook: "r",
-  knight: "n",
-  bishop: "b",
-  queen: "q",
-  king: "k",
+  pawn: 'p',
+  rook: 'r',
+  knight: 'n',
+  bishop: 'b',
+  queen: 'q',
+  king: 'k',
 };
 function read$1(fen) {
-  if (fen === "start") fen = initial;
+  if (fen === 'start') fen = initial;
   const pieces = new Map();
   let row = 7,
     col = 0;
   for (const c of fen) {
     switch (c) {
-      case " ":
-      case "[":
+      case ' ':
+      case '[':
         return pieces;
-      case "/":
+      case '/':
         --row;
         if (row < 0) return pieces;
         col = 0;
         break;
-      case "~": {
+      case '~': {
         const k = pos2key([col - 1, row]);
         const piece = k && pieces.get(k);
         if (piece) piece.promoted = true;
@@ -5419,7 +5357,7 @@ function read$1(fen) {
           if (key)
             pieces.set(key, {
               role: roles[role],
-              color: c === role ? "black" : "white",
+              color: c === role ? 'black' : 'white',
             });
           ++col;
         }
@@ -5430,21 +5368,21 @@ function read$1(fen) {
 }
 function write$1(pieces) {
   return invRanks
-    .map((y) =>
+    .map(y =>
       files
-        .map((x) => {
+        .map(x => {
           const piece = pieces.get(x + y);
           if (piece) {
             let p = letters[piece.role];
-            if (piece.color === "white") p = p.toUpperCase();
-            if (piece.promoted) p += "~";
+            if (piece.color === 'white') p = p.toUpperCase();
+            if (piece.promoted) p += '~';
             return p;
-          } else return "1";
+          } else return '1';
         })
-        .join(""),
+        .join(''),
     )
-    .join("/")
-    .replace(/1{2,}/g, (s) => s.length.toString());
+    .join('/')
+    .replace(/1{2,}/g, s => s.length.toString());
 }
 
 function applyAnimation(state, config) {
@@ -5465,8 +5403,8 @@ function configure(state, config) {
     state.drawable.shapes = config.drawable?.shapes || [];
   }
   // apply config values that could be undefined yet meaningful
-  if ("check" in config) setCheck(state, config.check || false);
-  if ("lastMove" in config && !config.lastMove) state.lastMove = undefined;
+  if ('check' in config) setCheck(state, config.check || false);
+  if ('lastMove' in config && !config.lastMove) state.lastMove = undefined;
   // in case of ZH drop last move, there's a single square.
   // if the previous last move had two squares,
   // the merge algorithm will incorrectly keep the second square.
@@ -5475,28 +5413,24 @@ function configure(state, config) {
   if (state.selected) setSelected(state, state.selected);
   applyAnimation(state, config);
   if (!state.movable.rookCastle && state.movable.dests) {
-    const rank = state.movable.color === "white" ? "1" : "8",
-      kingStartPos = "e" + rank,
+    const rank = state.movable.color === 'white' ? '1' : '8',
+      kingStartPos = 'e' + rank,
       dests = state.movable.dests.get(kingStartPos),
       king = state.pieces.get(kingStartPos);
-    if (!dests || !king || king.role !== "king") return;
+    if (!dests || !king || king.role !== 'king') return;
     state.movable.dests.set(
       kingStartPos,
       dests.filter(
-        (d) =>
-          !(d === "a" + rank && dests.includes("c" + rank)) &&
-          !(d === "h" + rank && dests.includes("g" + rank)),
+        d =>
+          !(d === 'a' + rank && dests.includes('c' + rank)) &&
+          !(d === 'h' + rank && dests.includes('g' + rank)),
       ),
     );
   }
 }
 function deepMerge(base, extend) {
   for (const key in extend) {
-    if (
-      key === "__proto__" ||
-      key === "constructor" ||
-      !Object.prototype.hasOwnProperty.call(extend, key)
-    )
+    if (key === '__proto__' || key === 'constructor' || !Object.prototype.hasOwnProperty.call(extend, key))
       continue;
     if (
       Object.prototype.hasOwnProperty.call(base, key) &&
@@ -5508,12 +5442,12 @@ function deepMerge(base, extend) {
   }
 }
 function isPlainObject(o) {
-  if (typeof o !== "object" || o === null) return false;
+  if (typeof o !== 'object' || o === null) return false;
   const proto = Object.getPrototypeOf(o);
   return proto === Object.prototype || proto === null;
 }
 
-const brushes = ["green", "red", "blue", "yellow"];
+const brushes = ['green', 'red', 'blue', 'yellow'];
 function start$3(state, e) {
   // support one finger touch only
   if (e.touches && e.touches.length > 1) return;
@@ -5582,12 +5516,12 @@ const sameEndpoints = (s1, s2) => s1.orig === s2.orig && s1.dest === s2.dest;
 const sameColor = (s1, s2) => s1.brush === s2.brush;
 function eventBrush(e) {
   const modA = (e.shiftKey || e.ctrlKey) && isRightButton(e);
-  const modB = e.altKey || e.metaKey || e.getModifierState?.("AltGraph");
+  const modB = e.altKey || e.metaKey || e.getModifierState?.('AltGraph');
   return brushes[(modA ? 1 : 0) + (modB ? 2 : 0)];
 }
 function addShape(drawable, cur) {
-  const similar = drawable.shapes.find((s) => sameEndpoints(s, cur));
-  if (similar) drawable.shapes = drawable.shapes.filter((s) => !sameEndpoints(s, cur));
+  const similar = drawable.shapes.find(s => sameEndpoints(s, cur));
+  if (similar) drawable.shapes = drawable.shapes.filter(s => !sameEndpoints(s, cur));
   if (!similar || !sameColor(similar, cur))
     drawable.shapes.push({
       orig: cur.orig,
@@ -5628,7 +5562,7 @@ function start$2(s, e) {
   const hadPredrop = !!s.predroppable.current;
   s.stats.ctrlKey = e.ctrlKey;
   if (s.selected && canMove(s, s.selected, orig)) {
-    anim((state) => selectSquare(state, orig), s);
+    anim(state => selectSquare(state, orig), s);
   } else {
     selectSquare(s, orig);
   }
@@ -5647,7 +5581,7 @@ function start$2(s, e) {
       keyHasChanged: false,
     };
     element.cgDragging = true;
-    element.classList.add("dragging");
+    element.classList.add('dragging');
     // place ghost
     const ghost = s.dom.elements.ghost;
     if (ghost) {
@@ -5673,7 +5607,7 @@ function pieceCloseTo(s, pos) {
   return false;
 }
 function dragNewPiece(s, piece, e, force) {
-  const key = "a0";
+  const key = 'a0';
   s.pieces.set(key, piece);
   s.dom.redraw();
   const position = eventPosition(e);
@@ -5705,11 +5639,11 @@ function processDrag(s) {
         cur.started = true;
       if (cur.started) {
         // support lazy elements
-        if (typeof cur.element === "function") {
+        if (typeof cur.element === 'function') {
           const found = cur.element();
           if (!found) return;
           found.cgDragging = true;
-          found.classList.add("dragging");
+          found.classList.add('dragging');
           cur.element = found;
         }
         const bounds = s.dom.bounds();
@@ -5732,15 +5666,14 @@ function handleJsHover(s, cur) {
     cur.keyHasChanged = true;
     if (hoveredKey) {
       const isValidMove =
-        s.movable.dests?.get(cur.orig)?.includes(hoveredKey) ??
-        s.premovable.dests?.includes(hoveredKey);
+        s.movable.dests?.get(cur.orig)?.includes(hoveredKey) ?? s.premovable.dests?.includes(hoveredKey);
       if (isValidMove) {
         const hoveredValidDestSquare = s.dom.elements.board.querySelector(
           `.move-dest[data-key="${hoveredKey}"], .premove-dest[data-key="${hoveredKey}"]`,
         );
-        if (hoveredValidDestSquare && !hoveredValidDestSquare.classList.contains("hover")) {
+        if (hoveredValidDestSquare && !hoveredValidDestSquare.classList.contains('hover')) {
           resetHoverState(s);
-          hoveredValidDestSquare.classList.add("hover");
+          hoveredValidDestSquare.classList.add('hover');
         }
       } else {
         resetHoverState(s);
@@ -5753,7 +5686,7 @@ function handleJsHover(s, cur) {
 function resetHoverState(s) {
   const squares = s.dom.elements.board.querySelectorAll(`.move-dest, .premove-dest`);
   if (squares.length > 0) {
-    squares.forEach((sq) => sq.classList.remove("hover"));
+    squares.forEach(sq => sq.classList.remove('hover'));
   }
 }
 function move(s, e) {
@@ -5766,10 +5699,10 @@ function end$1(s, e) {
   const cur = s.draggable.current;
   if (!cur) return;
   // create no corresponding mouse event
-  if (e.type === "touchend" && e.cancelable !== false) e.preventDefault();
+  if (e.type === 'touchend' && e.cancelable !== false) e.preventDefault();
   // comparing with the origin target is an easy way to test that the end event
   // has the same touch origin
-  if (e.type === "touchend" && cur.originTarget !== e.target && !cur.newPiece) {
+  if (e.type === 'touchend' && cur.originTarget !== e.target && !cur.newPiece) {
     s.draggable.current = undefined;
     return;
   }
@@ -5790,8 +5723,7 @@ function end$1(s, e) {
     s.pieces.delete(cur.orig);
     callUserFunction(s.events.change);
   }
-  if ((cur.orig === cur.previouslySelected || cur.keyHasChanged) && (cur.orig === dest || !dest))
-    unselect(s);
+  if ((cur.orig === cur.previouslySelected || cur.keyHasChanged) && (cur.orig === dest || !dest)) unselect(s);
   else if (!s.selectable.enabled) unselect(s);
   removeDragElements(s);
   s.draggable.current = undefined;
@@ -5814,7 +5746,7 @@ function removeDragElements(s) {
 function pieceElementByKey(s, key) {
   let el = s.dom.elements.board.firstChild;
   while (el) {
-    if (el.cgKey === key && el.tagName === "PIECE") return el;
+    if (el.cgKey === key && el.tagName === 'PIECE') return el;
     el = el.nextSibling;
   }
   return undefined;
@@ -5846,26 +5778,26 @@ function start$1(state, redrawAll) {
     set(config) {
       if (config.orientation && config.orientation !== state.orientation) toggleOrientation$1();
       applyAnimation(state, config);
-      (config.fen ? anim : render$2)((state) => configure(state, config), state);
+      (config.fen ? anim : render$2)(state => configure(state, config), state);
     },
     state,
     getFen: () => write$1(state.pieces),
     toggleOrientation: toggleOrientation$1,
     setPieces(pieces) {
-      anim((state) => setPieces(state, pieces), state);
+      anim(state => setPieces(state, pieces), state);
     },
     selectSquare(key, force) {
-      if (key) anim((state) => selectSquare(state, key, force), state);
+      if (key) anim(state => selectSquare(state, key, force), state);
       else if (state.selected) {
         unselect(state);
         state.dom.redraw();
       }
     },
     move(orig, dest) {
-      anim((state) => baseMove(state, orig, dest), state);
+      anim(state => baseMove(state, orig, dest), state);
     },
     newPiece(piece, key) {
-      anim((state) => baseNewPiece(state, piece, key), state);
+      anim(state => baseNewPiece(state, piece, key), state);
     },
     playPremove() {
       if (state.premovable.current) {
@@ -5890,13 +5822,13 @@ function start$1(state, redrawAll) {
       render$2(unsetPredrop, state);
     },
     cancelMove() {
-      render$2((state) => {
+      render$2(state => {
         cancelMove(state);
         cancel(state);
       }, state);
     },
     stop() {
-      render$2((state) => {
+      render$2(state => {
         stop(state);
         cancel(state);
       }, state);
@@ -5905,10 +5837,10 @@ function start$1(state, redrawAll) {
       explosion(state, keys);
     },
     setAutoShapes(shapes) {
-      render$2((state) => (state.drawable.autoShapes = shapes), state);
+      render$2(state => (state.drawable.autoShapes = shapes), state);
     },
     setShapes(shapes) {
-      render$2((state) => (state.drawable.shapes = shapes.slice()), state);
+      render$2(state => (state.drawable.shapes = shapes.slice()), state);
     },
     getKeyAtDomPos(pos) {
       return getKeyAtDomPos(pos, whitePov(state), state.dom.bounds());
@@ -5933,7 +5865,7 @@ function syncShapes$1(shapes, root, renderShape) {
   let el = root.firstElementChild,
     elHash;
   while (el) {
-    elHash = el.getAttribute("cgHash");
+    elHash = el.getAttribute('cgHash');
     // found a shape element that's here to stay
     if (hashesInDom.has(elHash)) hashesInDom.set(elHash, true);
     // or remove it
@@ -5949,8 +5881,8 @@ function syncShapes$1(shapes, root, renderShape) {
 }
 
 function render$1(state, autoPieceEl) {
-  const autoPieces = state.drawable.autoShapes.filter((autoShape) => autoShape.piece);
-  const autoPieceShapes = autoPieces.map((s) => {
+  const autoPieces = state.drawable.autoShapes.filter(autoShape => autoShape.piece);
+  const autoPieceShapes = autoPieces.map(s => {
     return {
       shape: s,
       hash: hash$2(s),
@@ -5958,9 +5890,7 @@ function render$1(state, autoPieceEl) {
       pendingErase: false,
     };
   });
-  syncShapes$1(autoPieceShapes, autoPieceEl, (shape) =>
-    renderShape$1(state, shape, state.dom.bounds()),
-  );
+  syncShapes$1(autoPieceShapes, autoPieceEl, shape => renderShape$1(state, shape, state.dom.bounds()));
 }
 function renderResized$1(state) {
   const asWhite = whitePov(state),
@@ -5976,15 +5906,15 @@ function renderShape$1(state, { shape, hash }, bounds) {
   const role = shape.piece?.role;
   const color = shape.piece?.color;
   const scale = shape.piece?.scale;
-  const pieceEl = createEl("piece", `${role} ${color}`);
-  pieceEl.setAttribute("cgHash", hash);
+  const pieceEl = createEl('piece', `${role} ${color}`);
+  pieceEl.setAttribute('cgHash', hash);
   pieceEl.cgKey = orig;
   pieceEl.cgScale = scale;
   translateAndScale(pieceEl, posToTranslate(bounds)(key2pos(orig), whitePov(state)), scale);
   return pieceEl;
 }
-const hash$2 = (autoPiece) =>
-  [autoPiece.orig, autoPiece.piece?.role, autoPiece.piece?.color, autoPiece.piece?.scale].join(",");
+const hash$2 = autoPiece =>
+  [autoPiece.orig, autoPiece.piece?.role, autoPiece.piece?.color, autoPiece.piece?.scale].join(',');
 
 function drop(s, e) {
   if (!s.dropmode.active) return;
@@ -5992,28 +5922,28 @@ function drop(s, e) {
   unsetPredrop(s);
   const piece = s.dropmode.piece;
   if (piece) {
-    s.pieces.set("a0", piece);
+    s.pieces.set('a0', piece);
     const position = eventPosition(e);
     const dest = position && getKeyAtDomPos(position, whitePov(s), s.dom.bounds());
-    if (dest) dropNewPiece(s, "a0", dest);
+    if (dest) dropNewPiece(s, 'a0', dest);
   }
   s.dom.redraw();
 }
 
 function bindBoard(s, onResize) {
   const boardEl = s.dom.elements.board;
-  if ("ResizeObserver" in window) new ResizeObserver(onResize).observe(s.dom.elements.wrap);
+  if ('ResizeObserver' in window) new ResizeObserver(onResize).observe(s.dom.elements.wrap);
   if (s.disableContextMenu || s.drawable.enabled) {
-    boardEl.addEventListener("contextmenu", (e) => e.preventDefault());
+    boardEl.addEventListener('contextmenu', e => e.preventDefault());
   }
   if (s.viewOnly) return;
   // Cannot be passive, because we prevent touch scrolling and dragging of
   // selected elements.
   const onStart = startDragOrDraw(s);
-  boardEl.addEventListener("touchstart", onStart, {
+  boardEl.addEventListener('touchstart', onStart, {
     passive: false,
   });
-  boardEl.addEventListener("mousedown", onStart, {
+  boardEl.addEventListener('mousedown', onStart, {
     passive: false,
   });
 }
@@ -6022,24 +5952,23 @@ function bindDocument(s, onResize) {
   const unbinds = [];
   // Old versions of Edge and Safari do not support ResizeObserver. Send
   // chessground.resize if a user action has changed the bounds of the board.
-  if (!("ResizeObserver" in window))
-    unbinds.push(unbindable(document.body, "chessground.resize", onResize));
+  if (!('ResizeObserver' in window)) unbinds.push(unbindable(document.body, 'chessground.resize', onResize));
   if (!s.viewOnly) {
     const onmove = dragOrDraw(s, move, move$1);
     const onend = dragOrDraw(s, end$1, end$2);
-    for (const ev of ["touchmove", "mousemove"]) unbinds.push(unbindable(document, ev, onmove));
-    for (const ev of ["touchend", "mouseup"]) unbinds.push(unbindable(document, ev, onend));
+    for (const ev of ['touchmove', 'mousemove']) unbinds.push(unbindable(document, ev, onmove));
+    for (const ev of ['touchend', 'mouseup']) unbinds.push(unbindable(document, ev, onend));
     const onScroll = () => s.dom.bounds.clear();
-    unbinds.push(unbindable(document, "scroll", onScroll, { capture: true, passive: true }));
-    unbinds.push(unbindable(window, "resize", onScroll, { passive: true }));
+    unbinds.push(unbindable(document, 'scroll', onScroll, { capture: true, passive: true }));
+    unbinds.push(unbindable(window, 'resize', onScroll, { passive: true }));
   }
-  return () => unbinds.forEach((f) => f());
+  return () => unbinds.forEach(f => f());
 }
 function unbindable(el, eventName, callback, options) {
   el.addEventListener(eventName, callback, options);
   return () => el.removeEventListener(eventName, callback, options);
 }
-const startDragOrDraw = (s) => (e) => {
+const startDragOrDraw = s => e => {
   if (s.draggable.current) cancel(s);
   else if (s.drawable.current) cancel$1(s);
   else if (e.shiftKey || isRightButton(e)) {
@@ -6049,19 +5978,19 @@ const startDragOrDraw = (s) => (e) => {
     else start$2(s, e);
   }
 };
-const dragOrDraw = (s, withDrag, withDraw) => (e) => {
+const dragOrDraw = (s, withDrag, withDraw) => e => {
   if (s.drawable.current) {
     if (s.drawable.enabled) withDraw(s, e);
   } else if (!s.viewOnly) withDrag(s, e);
 };
 
 const pieceMap = {
-  P: "Pawn",
-  N: "Knight",
-  B: "Bishop",
-  R: "Rook",
-  Q: "Queen",
-  K: "King",
+  P: 'Pawn',
+  N: 'Knight',
+  B: 'Bishop',
+  R: 'Rook',
+  Q: 'Queen',
+  K: 'King',
 };
 function fenToScene(fen, scene, pieces, materials) {
   // Remove clones previously created.
@@ -6072,11 +6001,11 @@ function fenToScene(fen, scene, pieces, materials) {
     }
   }
   // Parse FEN and add pieces to the scene (creating clones of the original meshes)
-  const rows = fen.split(" ")[0].split("/");
+  const rows = fen.split(' ')[0].split('/');
   for (let r = 0; r < 8; r++) {
     let c = 0;
     for (const char of rows[r]) {
-      if (char >= "1" && char <= "8") {
+      if (char >= '1' && char <= '8') {
         c += Number.parseInt(char, 10);
       } else {
         const pieceMesh = pieces.get(pieceMap[char.toUpperCase()]);
@@ -6086,12 +6015,12 @@ function fenToScene(fen, scene, pieces, materials) {
           clone.position.set(c - 3.5, 0, r - 3.5);
           clone.name = `${char}`; // Name the piece for later reference (e.g., "P" for white pawn, "p" for black pawn)
           // Reminder: X: horizontal positive to the right, Y: vertical positive up, Z: horizontal positive towards the camera
-          const materialName = char === char.toUpperCase() ? "white piece" : "black piece";
+          const materialName = char === char.toUpperCase() ? 'white piece' : 'black piece';
           const material = materials.get(materialName);
           if (material) {
             clone.material = material.clone();
           } else if (Array.isArray(clone.material)) {
-            clone.material = clone.material.map((m) => m.clone());
+            clone.material = clone.material.map(m => m.clone());
           } else {
             clone.material = clone.material.clone();
           }
@@ -6104,7 +6033,7 @@ function fenToScene(fen, scene, pieces, materials) {
   }
 }
 
-const pieceCodes$1 = new Set(["K", "Q", "R", "B", "N", "P", "k", "q", "r", "b", "n", "p"]);
+const pieceCodes$1 = new Set(['K', 'Q', 'R', 'B', 'N', 'P', 'k', 'q', 'r', 'b', 'n', 'p']);
 const hoverHighlightColor = new THREE.Color(9425919);
 const pinnedHighlightColor = new THREE.Color(3108863);
 function getColorMaterial(mesh) {
@@ -6127,7 +6056,7 @@ function getPieceMeshFromObject(object) {
 }
 function getPieceAtSquare(scene, x, z) {
   let pieceAtSquare = null;
-  scene.traverse((obj) => {
+  scene.traverse(obj => {
     if (pieceAtSquare || !(obj instanceof THREE.Mesh) || !pieceCodes$1.has(obj.name)) {
       return;
     }
@@ -6188,17 +6117,14 @@ function createPieceHoverController(scene, camera, domElement) {
     hovered = piece;
     hoveredMode = mode;
     hovered.userData.originalColor = material.color.clone();
-    const highlightColor = mode === "pinned" ? pinnedHighlightColor : hoverHighlightColor;
+    const highlightColor = mode === 'pinned' ? pinnedHighlightColor : hoverHighlightColor;
     material.color.copy(highlightColor);
   }
   return {
     setEnabled(nextEnabled) {
       enabled = nextEnabled;
       if (!enabled) {
-        if (
-          (pinnedPiece && hovered === pinnedPiece) ||
-          (draggedPiece && hovered === draggedPiece)
-        ) {
+        if ((pinnedPiece && hovered === pinnedPiece) || (draggedPiece && hovered === draggedPiece)) {
           squareHighlight.visible = false;
         } else {
           clearHoveredState();
@@ -6208,11 +6134,11 @@ function createPieceHoverController(scene, camera, domElement) {
     setDraggedPiece(piece) {
       draggedPiece = piece;
       if (draggedPiece) {
-        highlightPiece(draggedPiece, "drag");
+        highlightPiece(draggedPiece, 'drag');
         return;
       }
       if (pinnedPiece) {
-        highlightPiece(pinnedPiece, "pinned");
+        highlightPiece(pinnedPiece, 'pinned');
         return;
       }
       clearHoveredState();
@@ -6221,13 +6147,13 @@ function createPieceHoverController(scene, camera, domElement) {
       pinnedPiece = piece;
       if (!pinnedPiece) {
         if (draggedPiece) {
-          highlightPiece(draggedPiece, "drag");
+          highlightPiece(draggedPiece, 'drag');
           return;
         }
         clearHoveredState();
         return;
       }
-      highlightPiece(pinnedPiece, "pinned");
+      highlightPiece(pinnedPiece, 'pinned');
     },
     setIgnoredPiece(piece) {
       ignoredPiece = piece;
@@ -6303,11 +6229,11 @@ function createPieceHoverController(scene, camera, domElement) {
         }
       }
       if (draggedPiece) {
-        highlightPiece(draggedPiece, "drag");
+        highlightPiece(draggedPiece, 'drag');
         return;
       }
       if (pinnedPiece) {
-        highlightPiece(pinnedPiece, "pinned");
+        highlightPiece(pinnedPiece, 'pinned');
         return;
       }
       if (hovered && hovered !== targetPiece) {
@@ -6316,12 +6242,12 @@ function createPieceHoverController(scene, camera, domElement) {
       if (!hasHighlightedSquare || !targetPiece || hovered === targetPiece) {
         return;
       }
-      highlightPiece(targetPiece, "hover");
+      highlightPiece(targetPiece, 'hover');
     },
   };
 }
 
-const pieceCodes = new Set(["K", "Q", "R", "B", "N", "P", "k", "q", "r", "b", "n", "p"]);
+const pieceCodes = new Set(['K', 'Q', 'R', 'B', 'N', 'P', 'k', 'q', 'r', 'b', 'n', 'p']);
 function setupPieceInteraction({
   scene,
   camera,
@@ -6396,13 +6322,8 @@ function setupPieceInteraction({
   }
   function getPieceAtSquare(x, z, ignorePiece) {
     let pieceAtSquare = null;
-    scene.traverse((obj) => {
-      if (
-        pieceAtSquare ||
-        !(obj instanceof THREE.Mesh) ||
-        !pieceCodes.has(obj.name) ||
-        obj === ignorePiece
-      ) {
+    scene.traverse(obj => {
+      if (pieceAtSquare || !(obj instanceof THREE.Mesh) || !pieceCodes.has(obj.name) || obj === ignorePiece) {
         return;
       }
       if (Math.abs(obj.position.x - x) < 0.001 && Math.abs(obj.position.z - z) < 0.001) {
@@ -6426,7 +6347,7 @@ function setupPieceInteraction({
     if (!/^[a-h][1-8]$/.test(normalized)) {
       return null;
     }
-    const fileIndex = normalized.charCodeAt(0) - "a".charCodeAt(0);
+    const fileIndex = normalized.charCodeAt(0) - 'a'.charCodeAt(0);
     const rank = Number.parseInt(normalized[1], 10);
     return {
       x: fileIndex - 3.5,
@@ -6438,7 +6359,7 @@ function setupPieceInteraction({
     const coordToSquare = (x, z) => {
       const fileIndex = Math.round(x + 3.5);
       const rank = Math.round(4.5 - z);
-      return String.fromCharCode("a".charCodeAt(0) + fileIndex) + rank;
+      return String.fromCharCode('a'.charCodeAt(0) + fileIndex) + rank;
     };
     return coordToSquare(fromX, fromZ) + coordToSquare(toX, toZ);
   }
@@ -6607,8 +6528,7 @@ function setupPieceInteraction({
       selectPiece(targetPiece);
       return true;
     }
-    const hasBoardIntersection =
-      pointerRaycaster.ray.intersectPlane(boardPlane, boardPoint) !== null;
+    const hasBoardIntersection = pointerRaycaster.ray.intersectPlane(boardPlane, boardPoint) !== null;
     if (!hasBoardIntersection || !isWithinBoard(boardPoint.x, boardPoint.z)) {
       return false;
     }
@@ -6625,8 +6545,7 @@ function setupPieceInteraction({
     }
     updatePointerNdc(event);
     pointerRaycaster.setFromCamera(pointerNdc, camera);
-    const hasBoardIntersection =
-      pointerRaycaster.ray.intersectPlane(boardPlane, boardPoint) !== null;
+    const hasBoardIntersection = pointerRaycaster.ray.intersectPlane(boardPlane, boardPoint) !== null;
     if (!hasBoardIntersection || !isWithinBoard(boardPoint.x, boardPoint.z)) {
       return;
     }
@@ -6659,8 +6578,7 @@ function setupPieceInteraction({
     }
     updatePointerNdc(event);
     pointerRaycaster.setFromCamera(pointerNdc, camera);
-    const hasBoardIntersection =
-      pointerRaycaster.ray.intersectPlane(boardPlane, boardPoint) !== null;
+    const hasBoardIntersection = pointerRaycaster.ray.intersectPlane(boardPlane, boardPoint) !== null;
     let dropApplied = false;
     if (hasBoardIntersection && isWithinBoard(boardPoint.x, boardPoint.z)) {
       const targetX = getSquareCoordinate(boardPoint.x);
@@ -6682,8 +6600,8 @@ function setupPieceInteraction({
     }
   }
   renderer.domElement.addEventListener(
-    "pointerdown",
-    (event) => {
+    'pointerdown',
+    event => {
       if (event.button !== 0) {
         return;
       }
@@ -6731,7 +6649,7 @@ function setupPieceInteraction({
     },
     { capture: true },
   );
-  renderer.domElement.addEventListener("pointermove", (event) => {
+  renderer.domElement.addEventListener('pointermove', event => {
     if (!dragState || event.pointerId !== dragState.pointerId) {
       return;
     }
@@ -6751,32 +6669,32 @@ function setupPieceInteraction({
     }
     dragPieceToPointer(event);
   });
-  renderer.domElement.addEventListener("pointerup", (event) => {
+  renderer.domElement.addEventListener('pointerup', event => {
     if (dragState && event.pointerId === dragState.pointerId) {
       finishDrag(event);
       return;
     }
     handleSelectedPieceClickTarget(event);
   });
-  renderer.domElement.addEventListener("pointercancel", (event) => {
+  renderer.domElement.addEventListener('pointercancel', event => {
     finishDrag(event);
   });
-  renderer.domElement.addEventListener("pointerdown", (event) => {
-    activeMouseButton = event.pointerType === "mouse" ? event.button : null;
+  renderer.domElement.addEventListener('pointerdown', event => {
+    activeMouseButton = event.pointerType === 'mouse' ? event.button : null;
   });
-  renderer.domElement.addEventListener("pointerup", () => {
+  renderer.domElement.addEventListener('pointerup', () => {
     activeMouseButton = null;
   });
-  renderer.domElement.addEventListener("pointercancel", () => {
+  renderer.domElement.addEventListener('pointercancel', () => {
     activeMouseButton = null;
   });
-  controls.addEventListener("start", () => {
+  controls.addEventListener('start', () => {
     if (activeMouseButton === 0) {
       hoverController.setEnabled(false);
       hoverDisabledForOrbit = true;
     }
   });
-  controls.addEventListener("end", () => {
+  controls.addEventListener('end', () => {
     activeMouseButton = null;
     if (hoverDisabledForOrbit) {
       hoverController.setEnabled(true);
@@ -6802,7 +6720,7 @@ function start3D(sceneRoot, config) {
   const materials = new Map();
   const pieces = new Map();
   const sceneAssetUrl = config.real3D.sceneAssetUrl; // config.real3D is the reason we are here.
-  const defaultFen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+  const defaultFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
   let currentOrientation = config.orientation;
   // Camera
   const { width: initialWidth, height: initialHeight } = getSceneRootSize();
@@ -6831,7 +6749,7 @@ function start3D(sceneRoot, config) {
   scene.add(light2);
   function setOrientation(orientation) {
     currentOrientation = orientation;
-    const side = orientation === "black" ? -1 : 1;
+    const side = orientation === 'black' ? -1 : 1;
     camera.position.set(0, 15, 8 * side);
     controls.target.set(0, 0, 0);
     camera.updateProjectionMatrix();
@@ -6839,7 +6757,7 @@ function start3D(sceneRoot, config) {
   }
   setOrientation(config.orientation);
   // Resize event
-  window.addEventListener("resize", () => {
+  window.addEventListener('resize', () => {
     const { width, height } = getSceneRootSize();
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
@@ -6847,7 +6765,7 @@ function start3D(sceneRoot, config) {
   });
   // Set up piece hover and interaction
   const hoverController = createPieceHoverController(scene, camera, renderer.domElement);
-  sceneRoot.addEventListener("pointermove", hoverController.updateFromPointerEvent);
+  sceneRoot.addEventListener('pointermove', hoverController.updateFromPointerEvent);
   // Set up interactions
   const interactionController = setupPieceInteraction({
     scene,
@@ -6858,7 +6776,7 @@ function start3D(sceneRoot, config) {
   });
   let allowedMoveDests = config.movable?.dests;
   if (config?.events?.move) {
-    interactionController.setMoveAttemptCallback((uci) => {
+    interactionController.setMoveAttemptCallback(uci => {
       const from = uci.slice(0, 2);
       const to = uci.slice(2, 4);
       if (allowedMoveDests && !allowedMoveDests.get(from)?.includes(to)) return false;
@@ -6867,13 +6785,13 @@ function start3D(sceneRoot, config) {
     });
   }
   function setAllowInteractionForColors(config) {
-    console.log("Setting allow interaction for colors based on config:", config);
+    console.log('Setting allow interaction for colors based on config:', config);
     if (config?.turnColor) {
-      const isWhiteTurn = config.turnColor === "white";
+      const isWhiteTurn = config.turnColor === 'white';
       const isMyTurn =
-        (isWhiteTurn && config.movable?.color === "white") ||
-        (!isWhiteTurn && config.movable?.color === "black") ||
-        config.movable?.color === "both";
+        (isWhiteTurn && config.movable?.color === 'white') ||
+        (!isWhiteTurn && config.movable?.color === 'black') ||
+        config.movable?.color === 'both';
       interactionController.setAllowWhiteInteraction(isWhiteTurn && isMyTurn);
       interactionController.setAllowBlackInteraction(!isWhiteTurn && isMyTurn);
       console.log(
@@ -6883,20 +6801,20 @@ function start3D(sceneRoot, config) {
   }
   setAllowInteractionForColors(config);
   // Load the scene and pieces
-  loader.load(sceneAssetUrl, (gltf) => {
+  loader.load(sceneAssetUrl, gltf => {
     scene.add(gltf.scene);
     gltf.scene.scale.set(1, 1, 1);
-    scene.traverse((obj) => {
+    scene.traverse(obj => {
       if (
         obj instanceof THREE.Mesh &&
-        ["King", "Queen", "Rook", "Bishop", "Knight", "Pawn"].includes(obj.name)
+        ['King', 'Queen', 'Rook', 'Bishop', 'Knight', 'Pawn'].includes(obj.name)
       ) {
         obj.visible = false;
         pieces.set(obj.name, obj);
         if (
           obj.material &&
           !Array.isArray(obj.material) &&
-          ["white piece", "black piece"].includes(obj.material.name)
+          ['white piece', 'black piece'].includes(obj.material.name)
         ) {
           materials.set(obj.material.name, obj.material);
         }
@@ -6925,90 +6843,86 @@ function start3D(sceneRoot, config) {
   return {
     state: {}, // No internal state needed for now
     set(config) {
-      if ("lastMove" in config) {
+      if ('lastMove' in config) {
         interactionController.setLastMoveSquares(config.lastMove);
       }
       if (config.fen) {
         fenToScene(config.fen, scene, pieces, materials);
       }
-      if ("movable" in config) {
+      if ('movable' in config) {
         allowedMoveDests = config.movable?.dests;
       }
-      if (
-        "orientation" in config &&
-        config.orientation &&
-        config.orientation !== currentOrientation
-      ) {
+      if ('orientation' in config && config.orientation && config.orientation !== currentOrientation) {
         setOrientation(config.orientation);
       }
       setAllowInteractionForColors(config);
     },
     getFen() {
-      console.warn("Getting FEN from the 3D scene is not implemented.");
-      return "";
+      console.warn('Getting FEN from the 3D scene is not implemented.');
+      return '';
     },
     toggleOrientation() {
-      console.warn("Toggling orientation is not implemented in this 3D scene.");
+      console.warn('Toggling orientation is not implemented in this 3D scene.');
     },
     move(_orig, _dest) {
       console.warn(
-        "Moving pieces programmatically is not implemented in this 3D scene. Please update the FEN instead.",
+        'Moving pieces programmatically is not implemented in this 3D scene. Please update the FEN instead.',
       );
     },
     setPieces(_piecesDiff) {
       console.warn(
-        "Setting pieces programmatically is not implemented in this 3D scene. Please update the FEN instead.",
+        'Setting pieces programmatically is not implemented in this 3D scene. Please update the FEN instead.',
       );
     },
     selectSquare(_key, _force) {
-      console.warn("Selecting squares programmatically is not implemented in this 3D scene.");
+      console.warn('Selecting squares programmatically is not implemented in this 3D scene.');
     },
     newPiece(_piece, _key) {
       console.warn(
-        "Adding new pieces programmatically is not implemented in this 3D scene. Please update the FEN instead.",
+        'Adding new pieces programmatically is not implemented in this 3D scene. Please update the FEN instead.',
       );
     },
     playPremove() {
-      console.warn("Premoves are not supported in this 3D scene implementation.");
+      console.warn('Premoves are not supported in this 3D scene implementation.');
       return false;
     },
     cancelPremove() {
-      console.warn("Premoves are not supported in this 3D scene implementation.");
+      console.warn('Premoves are not supported in this 3D scene implementation.');
     },
     playPredrop(_validate) {
-      console.warn("Predrops are not supported in this 3D scene implementation.");
+      console.warn('Predrops are not supported in this 3D scene implementation.');
       return false;
     },
     cancelPredrop() {
-      console.warn("Predrops are not supported in this 3D scene implementation.");
+      console.warn('Predrops are not supported in this 3D scene implementation.');
     },
     cancelMove() {
-      console.warn("Cancelling moves is not supported in this 3D scene implementation.");
+      console.warn('Cancelling moves is not supported in this 3D scene implementation.');
     },
     stop() {
       console.warn(
-        "Stopping the 3D scene is not implemented. You may want to remove the canvas from the DOM instead.",
+        'Stopping the 3D scene is not implemented. You may want to remove the canvas from the DOM instead.',
       );
     },
     explode(_keys) {
-      console.warn("Exploding squares is not implemented in this 3D scene.");
+      console.warn('Exploding squares is not implemented in this 3D scene.');
     },
     setShapes(_shapes) {
-      console.warn("Drawing shapes is not implemented in this 3D scene.");
+      console.warn('Drawing shapes is not implemented in this 3D scene.');
     },
     setAutoShapes(_shapes) {
-      console.warn("Auto-shapes are not implemented in this 3D scene.");
+      console.warn('Auto-shapes are not implemented in this 3D scene.');
     },
     getKeyAtDomPos(_pos) {
-      console.warn("Getting key at DOM position is not implemented in this 3D scene.");
+      console.warn('Getting key at DOM position is not implemented in this 3D scene.');
       return undefined;
     },
     dragNewPiece(_piece, _event, _force) {
-      console.warn("Dragging new pieces is not implemented in this 3D scene.");
+      console.warn('Dragging new pieces is not implemented in this 3D scene.');
     },
     destroy() {
       console.warn(
-        "Destroying the 3D scene is not implemented. You may want to remove the canvas from the DOM instead.",
+        'Destroying the 3D scene is not implemented. You may want to remove the canvas from the DOM instead.',
       );
     },
     redrawAll() {
@@ -7044,14 +6958,14 @@ function render(s) {
       elPieceName = el.cgPiece;
       // if piece not being dragged anymore, remove dragging style
       if (el.cgDragging && (!curDrag || curDrag.orig !== k)) {
-        el.classList.remove("dragging");
+        el.classList.remove('dragging');
         translate(el, posToTranslate$1(key2pos(k), asWhite));
         el.cgDragging = false;
       }
       // remove fading class if it still remains
       if (!fading && el.cgFading) {
         el.cgFading = false;
-        el.classList.remove("fading");
+        el.classList.remove('fading');
       }
       // there is now a piece at this dom key
       if (pieceAtKey) {
@@ -7061,11 +6975,11 @@ function render(s) {
           const pos = key2pos(k);
           pos[0] += anim[2];
           pos[1] += anim[3];
-          el.classList.add("anim");
+          el.classList.add('anim');
           translate(el, posToTranslate$1(pos, asWhite));
         } else if (el.cgAnimating) {
           el.cgAnimating = false;
-          el.classList.remove("anim");
+          el.classList.remove('anim');
           translate(el, posToTranslate$1(key2pos(k), asWhite));
           if (s.addPieceZIndex) el.style.zIndex = posZIndex(key2pos(k), asWhite);
         }
@@ -7073,7 +6987,7 @@ function render(s) {
         if (elPieceName === pieceNameOf(pieceAtKey) && (!fading || !el.cgFading)) samePieces.add(k);
         // different piece: flag as moved unless it is a fading piece
         else if (fading && elPieceName === pieceNameOf(fading)) {
-          el.classList.add("fading");
+          el.classList.add('fading');
           el.cgFading = true;
         } else appendValue(movedPieces, elPieceName, el);
       }
@@ -7096,13 +7010,13 @@ function render(s) {
     if (sAvail) {
       // repurpose an available square
       sAvail.cgKey = sk;
-      if (s.jsHover) sAvail.dataset["key"] = sk;
+      if (s.jsHover) sAvail.dataset['key'] = sk;
       translate(sAvail, translation);
       setVisible(sAvail, true);
     } else {
-      const squareNode = createEl("square", className);
+      const squareNode = createEl('square', className);
       squareNode.cgKey = sk;
-      if (s.jsHover) squareNode.dataset["key"] = sk;
+      if (s.jsHover) squareNode.dataset['key'] = sk;
       translate(squareNode, translation);
       boardEl.insertBefore(squareNode, boardEl.firstChild);
     }
@@ -7123,14 +7037,14 @@ function render(s) {
         // apply dom changes
         pMvd.cgKey = k;
         if (pMvd.cgFading) {
-          pMvd.classList.remove("fading");
+          pMvd.classList.remove('fading');
           pMvd.cgFading = false;
         }
         const pos = key2pos(k);
         if (s.addPieceZIndex) pMvd.style.zIndex = posZIndex(pos, asWhite);
         if (anim) {
           pMvd.cgAnimating = true;
-          pMvd.classList.add("anim");
+          pMvd.classList.add('anim');
           pos[0] += anim[2];
           pos[1] += anim[3];
         }
@@ -7140,7 +7054,7 @@ function render(s) {
       // assumes the new piece is not being dragged
       else {
         const pieceName = pieceNameOf(p),
-          pieceNode = createEl("piece", pieceName),
+          pieceNode = createEl('piece', pieceName),
           pos = key2pos(k);
         pieceNode.cgPiece = pieceName;
         pieceNode.cgKey = k;
@@ -7173,17 +7087,16 @@ function updateBounds(s) {
   const bounds = s.dom.elements.wrap.getBoundingClientRect();
   const container = s.dom.elements.container;
   const ratio = bounds.height / bounds.width;
-  const width =
-    (Math.floor((bounds.width * window.devicePixelRatio) / 8) * 8) / window.devicePixelRatio;
+  const width = (Math.floor((bounds.width * window.devicePixelRatio) / 8) * 8) / window.devicePixelRatio;
   const height = width * ratio;
-  container.style.width = width + "px";
-  container.style.height = height + "px";
+  container.style.width = width + 'px';
+  container.style.height = height + 'px';
   s.dom.bounds.clear();
-  s.addDimensionsCssVarsTo?.style.setProperty("---cg-width", width + "px");
-  s.addDimensionsCssVarsTo?.style.setProperty("---cg-height", height + "px");
+  s.addDimensionsCssVarsTo?.style.setProperty('---cg-width', width + 'px');
+  s.addDimensionsCssVarsTo?.style.setProperty('---cg-height', height + 'px');
 }
-const isPieceNode = (el) => el.tagName === "PIECE";
-const isSquareNode = (el) => el.tagName === "SQUARE";
+const isPieceNode = el => el.tagName === 'PIECE';
+const isSquareNode = el => el.tagName === 'SQUARE';
 function removeNodes(s, nodes) {
   for (const node of nodes) s.dom.elements.board.removeChild(node);
 }
@@ -7193,39 +7106,36 @@ function posZIndex(pos, asWhite) {
   const z = asWhite ? minZ + 7 - rank : minZ + rank;
   return `${z}`;
 }
-const pieceNameOf = (piece) => `${piece.color} ${piece.role}`;
+const pieceNameOf = piece => `${piece.color} ${piece.role}`;
 const normalizeLastMoveStandardRookCastle = (s, k) =>
   !!s.lastMove?.[1] &&
   !s.pieces.has(s.lastMove[1]) &&
-  s.lastMove[0][0] === "e" &&
-  ["h", "a"].includes(s.lastMove[1][0]) &&
+  s.lastMove[0][0] === 'e' &&
+  ['h', 'a'].includes(s.lastMove[1][0]) &&
   s.lastMove[0][1] === s.lastMove[1][1] &&
-  squaresBetween(...key2pos(s.lastMove[0]), ...key2pos(s.lastMove[1])).some((sq) =>
-    s.pieces.has(sq),
-  )
-    ? (k > s.lastMove[0] ? "g" : "c") + k[1]
+  squaresBetween(...key2pos(s.lastMove[0]), ...key2pos(s.lastMove[1])).some(sq => s.pieces.has(sq))
+    ? (k > s.lastMove[0] ? 'g' : 'c') + k[1]
     : k;
 function computeSquareClasses(s) {
   const squares = new Map();
   if (s.lastMove && s.highlight.lastMove)
     for (const [i, k] of s.lastMove.entries())
-      addSquare(squares, i === 1 ? normalizeLastMoveStandardRookCastle(s, k) : k, "last-move");
-  if (s.check && s.highlight.check) addSquare(squares, s.check, "check");
+      addSquare(squares, i === 1 ? normalizeLastMoveStandardRookCastle(s, k) : k, 'last-move');
+  if (s.check && s.highlight.check) addSquare(squares, s.check, 'check');
   if (s.selected) {
-    addSquare(squares, s.selected, "selected");
+    addSquare(squares, s.selected, 'selected');
     if (s.movable.showDests) {
       for (const k of s.movable.dests?.get(s.selected) ?? [])
-        addSquare(squares, k, "move-dest" + (s.pieces.has(k) ? " oc" : ""));
+        addSquare(squares, k, 'move-dest' + (s.pieces.has(k) ? ' oc' : ''));
       for (const k of s.premovable.customDests?.get(s.selected) ?? s.premovable.dests ?? [])
-        addSquare(squares, k, "premove-dest" + (s.pieces.has(k) ? " oc" : ""));
+        addSquare(squares, k, 'premove-dest' + (s.pieces.has(k) ? ' oc' : ''));
     }
   }
   const premove = s.premovable.current;
-  if (premove) for (const k of premove) addSquare(squares, k, "current-premove");
-  else if (s.predroppable.current)
-    addSquare(squares, s.predroppable.current.key, "current-premove");
+  if (premove) for (const k of premove) addSquare(squares, k, 'current-premove');
+  else if (s.predroppable.current) addSquare(squares, s.predroppable.current.key, 'current-premove');
   const o = s.exploding;
-  if (o) for (const k of o.keys) addSquare(squares, k, "exploding" + o.stage);
+  if (o) for (const k of o.keys) addSquare(squares, k, 'exploding' + o.stage);
   if (s.highlight.custom) {
     s.highlight.custom.forEach((v, k) => {
       addSquare(squares, k, v);
@@ -7247,11 +7157,11 @@ function appendValue(map, key, value) {
 function defaults() {
   return {
     pieces: read$1(initial),
-    orientation: "white",
-    turnColor: "white",
+    orientation: 'white',
+    turnColor: 'white',
     coordinates: true,
     coordinatesOnSquares: false,
-    ranksPosition: "right",
+    ranksPosition: 'right',
     autoCastle: true,
     viewOnly: false,
     disableContextMenu: false,
@@ -7271,7 +7181,7 @@ function defaults() {
     },
     movable: {
       free: true,
-      color: "both",
+      color: 'both',
       showDests: true,
       events: {},
       rookCastle: true,
@@ -7280,7 +7190,7 @@ function defaults() {
       enabled: true,
       showDests: true,
       castle: true,
-      additionalPremoveRequirements: (_) => true,
+      additionalPremoveRequirements: _ => true,
       events: {},
     },
     predroppable: {
@@ -7303,7 +7213,7 @@ function defaults() {
     stats: {
       // on touchscreen, default to "tap-tap" moves
       // instead of drag
-      dragged: !("ontouchstart" in window),
+      dragged: !('ontouchstart' in window),
     },
     events: {},
     drawable: {
@@ -7314,34 +7224,34 @@ function defaults() {
       shapes: [],
       autoShapes: [],
       brushes: {
-        green: { key: "g", color: "#15781B", opacity: 1, lineWidth: 10 },
-        red: { key: "r", color: "#882020", opacity: 1, lineWidth: 10 },
-        blue: { key: "b", color: "#003088", opacity: 1, lineWidth: 10 },
-        yellow: { key: "y", color: "#e68f00", opacity: 1, lineWidth: 10 },
-        paleBlue: { key: "pb", color: "#003088", opacity: 0.4, lineWidth: 15 },
-        paleGreen: { key: "pg", color: "#15781B", opacity: 0.4, lineWidth: 15 },
-        paleRed: { key: "pr", color: "#882020", opacity: 0.4, lineWidth: 15 },
+        green: { key: 'g', color: '#15781B', opacity: 1, lineWidth: 10 },
+        red: { key: 'r', color: '#882020', opacity: 1, lineWidth: 10 },
+        blue: { key: 'b', color: '#003088', opacity: 1, lineWidth: 10 },
+        yellow: { key: 'y', color: '#e68f00', opacity: 1, lineWidth: 10 },
+        paleBlue: { key: 'pb', color: '#003088', opacity: 0.4, lineWidth: 15 },
+        paleGreen: { key: 'pg', color: '#15781B', opacity: 0.4, lineWidth: 15 },
+        paleRed: { key: 'pr', color: '#882020', opacity: 0.4, lineWidth: 15 },
         paleGrey: {
-          key: "pgr",
-          color: "#4a4a4a",
+          key: 'pgr',
+          color: '#4a4a4a',
           opacity: 0.35,
           lineWidth: 15,
         },
-        purple: { key: "purple", color: "#68217a", opacity: 0.65, lineWidth: 10 },
-        pink: { key: "pink", color: "#ee2080", opacity: 0.5, lineWidth: 10 },
-        white: { key: "white", color: "white", opacity: 1, lineWidth: 10 },
-        paleWhite: { key: "pwhite", color: "white", opacity: 0.6, lineWidth: 10 },
+        purple: { key: 'purple', color: '#68217a', opacity: 0.65, lineWidth: 10 },
+        pink: { key: 'pink', color: '#ee2080', opacity: 0.5, lineWidth: 10 },
+        white: { key: 'white', color: 'white', opacity: 1, lineWidth: 10 },
+        paleWhite: { key: 'pwhite', color: 'white', opacity: 0.6, lineWidth: 10 },
       },
-      prevSvgHash: "",
+      prevSvgHash: '',
     },
     hold: timer(),
   };
 }
 
 function createDefs() {
-  const defs = createElement("defs");
-  const filter = setAttributes(createElement("filter"), { id: "cg-filter-blur" });
-  filter.appendChild(setAttributes(createElement("feGaussianBlur"), { stdDeviation: "0.013" }));
+  const defs = createElement('defs');
+  const filter = setAttributes(createElement('filter'), { id: 'cg-filter-blur' });
+  filter.appendChild(setAttributes(createElement('feGaussianBlur'), { stdDeviation: '0.013' }));
   defs.appendChild(filter);
   return defs;
 }
@@ -7351,7 +7261,7 @@ function renderSvg(state, els) {
     cur = curD && curD.mouseSq ? curD : undefined,
     dests = new Map(),
     bounds = state.dom.bounds(),
-    nonPieceAutoShapes = d.autoShapes.filter((autoShape) => !autoShape.piece);
+    nonPieceAutoShapes = d.autoShapes.filter(autoShape => !autoShape.piece);
   for (const s of d.shapes.concat(nonPieceAutoShapes).concat(cur ? [cur] : [])) {
     if (!s.dest) continue;
     const sources = dests.get(s.dest) ?? new Set(),
@@ -7361,52 +7271,36 @@ function renderSvg(state, els) {
     dests.set(s.dest, sources);
   }
   const shapes = [];
-  const pendingEraseIdx = cur
-    ? d.shapes.findIndex((s) => sameEndpoints(s, cur) && sameColor(s, cur))
-    : -1;
+  const pendingEraseIdx = cur ? d.shapes.findIndex(s => sameEndpoints(s, cur) && sameColor(s, cur)) : -1;
   for (const [idx, s] of d.shapes.concat(nonPieceAutoShapes).entries()) {
     const isPendingErase = pendingEraseIdx !== -1 && pendingEraseIdx === idx;
     shapes.push({
       shape: s,
       current: false,
       pendingErase: isPendingErase,
-      hash: shapeHash(
-        s,
-        isShort(s.dest, dests),
-        false,
-        bounds,
-        isPendingErase,
-        angleCount(s.dest, dests),
-      ),
+      hash: shapeHash(s, isShort(s.dest, dests), false, bounds, isPendingErase, angleCount(s.dest, dests)),
     });
   }
   if (cur && pendingEraseIdx === -1)
     shapes.push({
       shape: cur,
       current: true,
-      hash: shapeHash(
-        cur,
-        isShort(cur.dest, dests),
-        true,
-        bounds,
-        false,
-        angleCount(cur.dest, dests),
-      ),
+      hash: shapeHash(cur, isShort(cur.dest, dests), true, bounds, false, angleCount(cur.dest, dests)),
       pendingErase: false,
     });
-  const fullHash = shapes.map((sc) => sc.hash).join(";");
+  const fullHash = shapes.map(sc => sc.hash).join(';');
   if (fullHash === state.drawable.prevSvgHash) return;
   state.drawable.prevSvgHash = fullHash;
   syncDefs(d, shapes, els);
-  syncShapes(shapes, els, (s) => renderShape(state, s, d.brushes, dests, bounds));
+  syncShapes(shapes, els, s => renderShape(state, s, d.brushes, dests, bounds));
 }
 // append only. Don't try to update/remove.
 function syncDefs(d, shapes, els) {
   for (const shapesEl of [els.shapes, els.shapesBelow]) {
-    const defsEl = shapesEl.querySelector("defs");
-    const thisPlane = shapes.filter((s) => (shapesEl === els.shapesBelow) === !!s.shape.below);
+    const defsEl = shapesEl.querySelector('defs');
+    const thisPlane = shapes.filter(s => (shapesEl === els.shapesBelow) === !!s.shape.below);
     const brushes = new Map();
-    for (const s of thisPlane.filter((s) => s.shape.dest && s.shape.brush)) {
+    for (const s of thisPlane.filter(s => s.shape.dest && s.shape.brush)) {
       const brush = makeCustomBrush(d.brushes[s.shape.brush], s.shape.modifiers);
       const { key, color } = hiliteOf(s.shape);
       if (key && color) brushes.set(key, { key, color, opacity: 1, lineWidth: 1 });
@@ -7415,7 +7309,7 @@ function syncDefs(d, shapes, els) {
     const keysInDom = new Set();
     let el = defsEl.firstElementChild;
     while (el) {
-      keysInDom.add(el.getAttribute("cgKey"));
+      keysInDom.add(el.getAttribute('cgKey'));
       el = el.nextElementSibling;
     }
     for (const [key, brush] of brushes.entries()) {
@@ -7428,8 +7322,8 @@ function syncShapes(shapes, els, renderShape) {
     [els.shapes, els.custom],
     [els.shapesBelow, els.customBelow],
   ]) {
-    const [shapesG, customG] = [shapesEl, customEl].map((el) => el.querySelector("g"));
-    const thisPlane = shapes.filter((s) => (shapesEl === els.shapesBelow) === !!s.shape.below);
+    const [shapesG, customG] = [shapesEl, customEl].map(el => el.querySelector('g'));
+    const thisPlane = shapes.filter(s => (shapesEl === els.shapesBelow) === !!s.shape.below);
     const hashesInDom = new Map();
     for (const sc of thisPlane) hashesInDom.set(sc.hash, false);
     for (const root of [shapesG, customG]) {
@@ -7437,7 +7331,7 @@ function syncShapes(shapes, els, renderShape) {
       let el = root.firstElementChild,
         elHash;
       while (el) {
-        elHash = el.getAttribute("cgHash");
+        elHash = el.getAttribute('cgHash');
         if (hashesInDom.has(elHash)) hashesInDom.set(elHash, true);
         else toRemove.push(el);
         el = el.nextElementSibling;
@@ -7445,7 +7339,7 @@ function syncShapes(shapes, els, renderShape) {
       for (const el of toRemove) root.removeChild(el);
     }
     // insert shapes that are not yet in dom
-    for (const sc of thisPlane.filter((s) => !hashesInDom.get(s.hash))) {
+    for (const sc of thisPlane.filter(s => !hashesInDom.get(s.hash))) {
       for (const svg of renderShape(sc)) {
         if (svg.isCustom) customG.appendChild(svg.el);
         else shapesG.appendChild(svg.el);
@@ -7466,23 +7360,23 @@ function shapeHash(
     bounds.width,
     bounds.height,
     current,
-    pendingErase && "pendingErase",
+    pendingErase && 'pendingErase',
     angleCountOfDest,
     orig,
     dest,
     brush,
-    shorten && "-",
+    shorten && '-',
     piece && pieceHash(piece),
     modifiers && modifiersHash(modifiers),
-    customSvg && `custom-${textHash(customSvg.html)},${customSvg.center?.[0] ?? "o"}`,
+    customSvg && `custom-${textHash(customSvg.html)},${customSvg.center?.[0] ?? 'o'}`,
     label && `label-${textHash(label.text)}`,
-    below && "below",
+    below && 'below',
   ]
     .filter(Boolean)
-    .join(",");
+    .join(',');
 }
-const pieceHash = (piece) => [piece.color, piece.role, piece.scale].filter(Boolean).join(",");
-const modifiersHash = (m) => [m.lineWidth, m.hilite].filter(Boolean).join(",");
+const pieceHash = piece => [piece.color, piece.role, piece.scale].filter(Boolean).join(',');
+const modifiersHash = m => [m.lineWidth, m.hilite].filter(Boolean).join(',');
 function textHash(s) {
   // Rolling hash with base 31 (cf. https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript)
   let h = 0;
@@ -7498,25 +7392,23 @@ function renderShape(state, { shape, current, pendingErase, hash }, brushes, des
     slots = dests.get(shape.dest),
     svgs = [];
   if (brush) {
-    const el = setAttributes(createElement("g"), { cgHash: hash });
+    const el = setAttributes(createElement('g'), { cgHash: hash });
     svgs.push({ el });
     if (from[0] !== to[0] || from[1] !== to[1])
-      el.appendChild(
-        renderArrow(shape, brush, from, to, current, isShort(shape.dest, dests), pendingErase),
-      );
+      el.appendChild(renderArrow(shape, brush, from, to, current, isShort(shape.dest, dests), pendingErase));
     else el.appendChild(renderCircle(brushes[shape.brush], from, current, bounds, pendingErase));
   }
   if (shape.label) {
     const label = shape.label;
     label.fill ?? (label.fill = shape.brush && brushes[shape.brush].color);
-    const corner = shape.brush ? undefined : "tr";
+    const corner = shape.brush ? undefined : 'tr';
     svgs.push({ el: renderLabel(label, hash, from, to, slots, corner), isCustom: true });
   }
   if (shape.customSvg) {
-    const on = shape.customSvg.center ?? "orig";
+    const on = shape.customSvg.center ?? 'orig';
     const [x, y] =
-      on === "label" ? labelCoords(from, to, slots).map((c) => c - 0.5) : on === "dest" ? to : from;
-    const el = setAttributes(createElement("g"), {
+      on === 'label' ? labelCoords(from, to, slots).map(c => c - 0.5) : on === 'dest' ? to : from;
+    const el = setAttributes(createElement('g'), {
       transform: `translate(${x},${y})`,
       cgHash: hash,
     });
@@ -7528,10 +7420,10 @@ function renderShape(state, { shape, current, pendingErase, hash }, brushes, des
 function renderCircle(brush, at, current, bounds, pendingErase) {
   const widths = circleWidth(),
     radius = (bounds.width + bounds.height) / (4 * Math.max(bounds.width, bounds.height));
-  return setAttributes(createElement("circle"), {
+  return setAttributes(createElement('circle'), {
     stroke: brush.color,
-    "stroke-width": widths[current ? 0 : 1],
-    fill: "none",
+    'stroke-width': widths[current ? 0 : 1],
+    fill: 'none',
     opacity: opacity(brush, current, pendingErase),
     cx: at[0],
     cy: at[1],
@@ -7547,11 +7439,11 @@ function renderArrow(s, brush, from, to, current, shorten, pendingErase) {
       xo = Math.cos(angle) * m,
       yo = Math.sin(angle) * m;
     const hilite = hiliteOf(s);
-    return setAttributes(createElement("line"), {
+    return setAttributes(createElement('line'), {
       stroke: isHilite ? hilite.color : brush.color,
-      "stroke-width": lineWidth(brush, current) * (isHilite ? 1.14 : 1),
-      "stroke-linecap": "round",
-      "marker-end": `url(#arrowhead-${isHilite ? hilite.key : brush.key})`,
+      'stroke-width': lineWidth(brush, current) * (isHilite ? 1.14 : 1),
+      'stroke-linecap': 'round',
+      'marker-end': `url(#arrowhead-${isHilite ? hilite.key : brush.key})`,
       opacity: s.modifiers?.hilite && !pendingErase ? 1 : opacity(brush, current, pendingErase),
       x1: from[0],
       y1: from[1],
@@ -7560,8 +7452,8 @@ function renderArrow(s, brush, from, to, current, shorten, pendingErase) {
     });
   }
   if (!s.modifiers?.hilite) return renderLine(false);
-  const g = setAttributes(createElement("g"), { opacity: brush.opacity });
-  const blurred = setAttributes(createElement("g"), { filter: "url(#cg-filter-blur)" });
+  const g = setAttributes(createElement('g'), { opacity: brush.opacity });
+  const blurred = setAttributes(createElement('g'), { filter: 'url(#cg-filter-blur)' });
   blurred.appendChild(filterBox(from, to));
   blurred.appendChild(renderLine(true));
   g.appendChild(blurred);
@@ -7569,62 +7461,61 @@ function renderArrow(s, brush, from, to, current, shorten, pendingErase) {
   return g;
 }
 function renderMarker(brush) {
-  const marker = setAttributes(createElement("marker"), {
-    id: "arrowhead-" + brush.key,
-    orient: "auto",
-    overflow: "visible",
+  const marker = setAttributes(createElement('marker'), {
+    id: 'arrowhead-' + brush.key,
+    orient: 'auto',
+    overflow: 'visible',
     markerWidth: 4,
     markerHeight: 4,
-    refX: brush.key.startsWith("hilite") ? 1.86 : 2.05,
+    refX: brush.key.startsWith('hilite') ? 1.86 : 2.05,
     refY: 2,
   });
   marker.appendChild(
-    setAttributes(createElement("path"), {
-      d: "M0,0 V4 L3,2 Z",
+    setAttributes(createElement('path'), {
+      d: 'M0,0 V4 L3,2 Z',
       fill: brush.color,
     }),
   );
-  marker.setAttribute("cgKey", brush.key);
+  marker.setAttribute('cgKey', brush.key);
   return marker;
 }
 function renderLabel(label, hash, from, to, slots, corner) {
   const labelSize = 0.4,
     fontSize = labelSize * 0.75 ** label.text.length,
     at = labelCoords(from, to, slots),
-    cornerOff = corner === "tr" ? 0.4 : 0,
-    g = setAttributes(createElement("g"), {
+    cornerOff = corner === 'tr' ? 0.4 : 0,
+    g = setAttributes(createElement('g'), {
       transform: `translate(${at[0] + cornerOff},${at[1] - cornerOff})`,
       cgHash: hash,
     });
   g.appendChild(
-    setAttributes(createElement("circle"), {
+    setAttributes(createElement('circle'), {
       r: labelSize / 2,
-      "fill-opacity": corner ? 1.0 : 0.8,
-      "stroke-opacity": corner ? 1.0 : 0.7,
-      "stroke-width": 0.03,
-      fill: label.fill ?? "#666",
-      stroke: "white",
+      'fill-opacity': corner ? 1.0 : 0.8,
+      'stroke-opacity': corner ? 1.0 : 0.7,
+      'stroke-width': 0.03,
+      fill: label.fill ?? '#666',
+      stroke: 'white',
     }),
   );
-  const labelEl = setAttributes(createElement("text"), {
-    "font-size": fontSize,
-    "font-family": "Noto Sans",
-    "text-anchor": "middle",
-    fill: "white",
+  const labelEl = setAttributes(createElement('text'), {
+    'font-size': fontSize,
+    'font-family': 'Noto Sans',
+    'text-anchor': 'middle',
+    fill: 'white',
     y: 0.13 * 0.75 ** label.text.length,
   });
   labelEl.innerHTML = label.text;
   g.appendChild(labelEl);
   return g;
 }
-const orient = (pos, color) => (color === "white" ? pos : [7 - pos[0], 7 - pos[1]]);
+const orient = (pos, color) => (color === 'white' ? pos : [7 - pos[0], 7 - pos[1]]);
 const mod = (n, m) => ((n % m) + m) % m;
 const rotateAngleSlot = (slot, steps) => mod(slot + steps, 16);
-const anyTwoCloserThan90Degrees = (slots) =>
-  [...slots].some((slot) => [-3, -2, -1, 1, 2, 3].some((i) => slots.has(rotateAngleSlot(slot, i))));
-const isShort = (dest, dests) =>
-  !!dest && dests.has(dest) && anyTwoCloserThan90Degrees(dests.get(dest));
-const createElement = (tagName) => document.createElementNS("http://www.w3.org/2000/svg", tagName);
+const anyTwoCloserThan90Degrees = slots =>
+  [...slots].some(slot => [-3, -2, -1, 1, 2, 3].some(i => slots.has(rotateAngleSlot(slot, i))));
+const isShort = (dest, dests) => !!dest && dests.has(dest) && anyTwoCloserThan90Degrees(dests.get(dest));
+const createElement = tagName => document.createElementNS('http://www.w3.org/2000/svg', tagName);
 const angleCount = (dest, dests) => (dest && dests.has(dest) ? dests.get(dest).size : 0);
 function setAttributes(el, attrs) {
   for (const key in attrs) {
@@ -7639,17 +7530,17 @@ const makeCustomBrush = (base, modifiers) =>
         color: base.color,
         opacity: Math.round(base.opacity * 10) / 10,
         lineWidth: Math.round(modifiers.lineWidth || base.lineWidth),
-        key: [base.key, modifiers.lineWidth].filter(Boolean).join(""),
+        key: [base.key, modifiers.lineWidth].filter(Boolean).join(''),
       };
 const circleWidth = () => [3 / 64, 4 / 64];
 const lineWidth = (brush, current) => ((brush.lineWidth || 10) * (current ? 0.85 : 1)) / 64;
 function hiliteOf(shape) {
   const hilite = shape.modifiers?.hilite;
-  return { key: hilite && `hilite-${hilite.replace("#", "")}`, color: hilite };
+  return { key: hilite && `hilite-${hilite.replace('#', '')}`, color: hilite };
 }
 const opacity = (brush, current, pendingErase) =>
   (brush.opacity || 1) * (pendingErase ? 0.6 : current ? 0.9 : 1);
-const arrowMargin = (shorten) => (shorten ? 20 : 10) / 64;
+const arrowMargin = shorten => (shorten ? 20 : 10) / 64;
 function pos2user(pos, bounds) {
   const xScale = Math.min(1, bounds.width / bounds.height);
   const yScale = Math.min(1, bounds.height / bounds.width);
@@ -7662,19 +7553,18 @@ function filterBox(from, to) {
     from: [Math.floor(Math.min(from[0], to[0])), Math.floor(Math.min(from[1], to[1]))],
     to: [Math.ceil(Math.max(from[0], to[0])), Math.ceil(Math.max(from[1], to[1]))],
   };
-  return setAttributes(createElement("rect"), {
+  return setAttributes(createElement('rect'), {
     x: box.from[0],
     y: box.from[1],
     width: box.to[0] - box.from[0],
     height: box.to[1] - box.from[1],
-    fill: "none",
-    stroke: "none",
+    fill: 'none',
+    stroke: 'none',
   });
 }
-const angleToSlot = (angle) => mod(Math.round((angle * 8) / Math.PI), 16);
+const angleToSlot = angle => mod(Math.round((angle * 8) / Math.PI), 16);
 const moveAngle = (from, to) => Math.atan2(to[1] - from[1], to[0] - from[0]) + Math.PI;
-const dist = (from, to) =>
-  Math.sqrt([from[0] - to[0], from[1] - to[1]].reduce((acc, x) => acc + x * x, 0));
+const dist = (from, to) => Math.sqrt([from[0] - to[0], from[1] - to[1]].reduce((acc, x) => acc + x * x, 0));
 /*
  try to place label at the junction of the destination shaft and arrowhead. if there's more than
  1 arrow pointing to a square, the arrow shortens by 10 / 64 units so the label must move as well.
@@ -7693,10 +7583,10 @@ function labelCoords(from, to, slots) {
       mag -= 10 / 64; // reduce by shortening factor
       const slot = angleToSlot(angle);
       // reduce by label size for the knight if another arrow is within pi / 8:
-      if (slot & 1 && [-1, 1].some((s) => slots.has(rotateAngleSlot(slot, s)))) mag -= 0.4;
+      if (slot & 1 && [-1, 1].some(s => slots.has(rotateAngleSlot(slot, s)))) mag -= 0.4;
     }
   }
-  return [from[0] - Math.cos(angle) * mag, from[1] - Math.sin(angle) * mag].map((c) => c + 0.5);
+  return [from[0] - Math.cos(angle) * mag, from[1] - Math.sin(angle) * mag].map(c => c + 0.5);
 }
 
 function renderWrap(element, s) {
@@ -7712,17 +7602,17 @@ function renderWrap(element, s) {
   //     coords.ranks
   //     coords.files
   //     piece.ghost
-  element.innerHTML = "";
+  element.innerHTML = '';
   // ensure the cg-wrap class is set
   // so bounds calculation can use the CSS width/height values
   // add that class yourself to the element before calling chessground
   // for a slight performance improvement! (avoids recomputing style)
-  element.classList.add("cg-wrap");
-  for (const c of colors) element.classList.toggle("orientation-" + c, s.orientation === c);
-  element.classList.toggle("manipulable", !s.viewOnly);
-  const container = createEl("cg-container");
+  element.classList.add('cg-wrap');
+  for (const c of colors) element.classList.toggle('orientation-' + c, s.orientation === c);
+  element.classList.toggle('manipulable', !s.viewOnly);
+  const container = createEl('cg-container');
   element.appendChild(container);
-  const board = createEl("cg-board");
+  const board = createEl('cg-board');
   container.appendChild(board);
   let shapesBelow;
   let shapes;
@@ -7730,11 +7620,9 @@ function renderWrap(element, s) {
   let custom;
   let autoPieces;
   if (s.drawable.visible) {
-    [shapesBelow, shapes] = ["cg-shapes-below", "cg-shapes"].map((cls) => svgContainer(cls, true));
-    [customBelow, custom] = ["cg-custom-below", "cg-custom-svgs"].map((cls) =>
-      svgContainer(cls, false),
-    );
-    autoPieces = createEl("cg-auto-pieces");
+    [shapesBelow, shapes] = ['cg-shapes-below', 'cg-shapes'].map(cls => svgContainer(cls, true));
+    [customBelow, custom] = ['cg-custom-below', 'cg-custom-svgs'].map(cls => svgContainer(cls, false));
+    autoPieces = createEl('cg-auto-pieces');
     container.appendChild(shapesBelow);
     container.appendChild(customBelow);
     container.appendChild(shapes);
@@ -7742,16 +7630,16 @@ function renderWrap(element, s) {
     container.appendChild(autoPieces);
   }
   if (s.coordinates) {
-    const orientClass = s.orientation === "black" ? " black" : "";
-    const ranksPositionClass = s.ranksPosition === "left" ? " left" : "";
+    const orientClass = s.orientation === 'black' ? ' black' : '';
+    const ranksPositionClass = s.ranksPosition === 'left' ? ' left' : '';
     if (s.coordinatesOnSquares) {
-      const rankN = s.orientation === "white" ? (i) => i + 1 : (i) => 8 - i;
+      const rankN = s.orientation === 'white' ? i => i + 1 : i => 8 - i;
       files.forEach((f, i) =>
         container.appendChild(
           renderCoords(
-            ranks.map((r) => f + r),
-            "squares rank" + rankN(i) + orientClass + ranksPositionClass,
-            i % 2 === 0 ? "black" : "white",
+            ranks.map(r => f + r),
+            'squares rank' + rankN(i) + orientClass + ranksPositionClass,
+            i % 2 === 0 ? 'black' : 'white',
           ),
         ),
       );
@@ -7759,16 +7647,16 @@ function renderWrap(element, s) {
       container.appendChild(
         renderCoords(
           ranks,
-          "ranks" + orientClass + ranksPositionClass,
-          (s.ranksPosition === "right") === (s.orientation === "white") ? "white" : "black",
+          'ranks' + orientClass + ranksPositionClass,
+          (s.ranksPosition === 'right') === (s.orientation === 'white') ? 'white' : 'black',
         ),
       );
-      container.appendChild(renderCoords(files, "files" + orientClass, opposite(s.orientation)));
+      container.appendChild(renderCoords(files, 'files' + orientClass, opposite(s.orientation)));
     }
   }
   let ghost;
   if (!s.viewOnly && s.draggable.enabled && s.draggable.showGhost) {
-    ghost = createEl("piece", "ghost");
+    ghost = createEl('piece', 'ghost');
     setVisible(ghost, false);
     container.appendChild(ghost);
   }
@@ -7785,21 +7673,21 @@ function renderWrap(element, s) {
   };
 }
 function svgContainer(cls, isShapes) {
-  const svg = setAttributes(createElement("svg"), {
+  const svg = setAttributes(createElement('svg'), {
     class: cls,
-    viewBox: isShapes ? "-4 -4 8 8" : "-3.5 -3.5 8 8",
-    preserveAspectRatio: "xMidYMid slice",
+    viewBox: isShapes ? '-4 -4 8 8' : '-3.5 -3.5 8 8',
+    preserveAspectRatio: 'xMidYMid slice',
   });
   if (isShapes) svg.appendChild(createDefs());
-  svg.appendChild(createElement("g"));
+  svg.appendChild(createElement('g'));
   return svg;
 }
 function renderCoords(elems, className, firstColor) {
-  const el = createEl("coords", className);
+  const el = createEl('coords', className);
   let f;
   elems.forEach((elem, i) => {
-    const light = i % 2 === (firstColor === "white" ? 0 : 1);
-    f = createEl("coord", `coord-${light ? "light" : "dark"}`);
+    const light = i % 2 === (firstColor === 'white' ? 0 : 1);
+    f = createEl('coord', `coord-${light ? 'light' : 'dark'}`);
     f.textContent = elem;
     el.appendChild(f);
   });
@@ -7810,12 +7698,12 @@ function Chessground(element, config) {
   const maybeState = defaults();
   configure(maybeState, config || {});
   function redrawAll() {
-    const prevUnbind = "dom" in maybeState ? maybeState.dom.unbind : undefined;
+    const prevUnbind = 'dom' in maybeState ? maybeState.dom.unbind : undefined;
     // compute bounds from existing board element if possible
     // this allows non-square boards from CSS to be handled (for 3D)
     const elements = renderWrap(element, maybeState),
       bounds = memo(() => elements.board.getBoundingClientRect()),
-      redrawNow = (skipSvg) => {
+      redrawNow = skipSvg => {
         render(state);
         if (elements.autoPieces) render$1(state, elements.autoPieces);
         if (!skipSvg && elements.shapes) renderSvg(state, elements);
@@ -7833,7 +7721,7 @@ function Chessground(element, config) {
       redrawNow,
       unbind: prevUnbind,
     };
-    state.drawable.prevSvgHash = "";
+    state.drawable.prevSvgHash = '';
     updateBounds(state);
     redrawNow(false);
     bindBoard(state, onResize);
@@ -7859,10 +7747,10 @@ function debounceRedraw(redrawNow) {
   };
 }
 
-const renderBoard = (ctrl) =>
+const renderBoard = ctrl =>
   h(
-    "div.game-page__board",
-    h("div.cg-wrap", {
+    'div.game-page__board',
+    h('div.cg-wrap', {
       hook: {
         insert(vnode) {
           ctrl.setGround(Chessground(vnode.elm, ctrl.chessgroundConfig()));
@@ -7872,27 +7760,27 @@ const renderBoard = (ctrl) =>
   );
 const renderPlayer = (ctrl, color, clock, name, title, rating, aiLevel) => {
   return h(
-    "div.game-page__player",
+    'div.game-page__player',
     {
       class: {
         turn: ctrl.chess.turn == color,
       },
     },
     [
-      h("div.game-page__player__user", [
-        title && h("span.game-page__player__user__title.display-5", title),
+      h('div.game-page__player__user', [
+        title && h('span.game-page__player__user__title.display-5', title),
         h(
-          "span.game-page__player__user__name.display-5",
-          aiLevel ? `Stockfish level ${aiLevel}` : name || "Anon",
+          'span.game-page__player__user__name.display-5',
+          aiLevel ? `Stockfish level ${aiLevel}` : name || 'Anon',
         ),
-        h("span.game-page__player__user__rating", rating || ""),
+        h('span.game-page__player__user__rating', rating || ''),
       ]),
-      h("div.game-page__player__clock.display-6", clock),
+      h('div.game-page__player__clock.display-6', clock),
     ],
   );
 };
 
-const renderGame = (ctrl) => (_) => [
+const renderGame = ctrl => _ => [
   h(
     `div.game-page.game-page--${ctrl.game.id}`,
     {
@@ -7901,7 +7789,7 @@ const renderGame = (ctrl) => (_) => [
       },
     },
     [
-      h("aside.game-page__left-float", [
+      h('aside.game-page__left-float', [
         renderGamePlayer(ctrl, opposite(ctrl.pov)),
         renderGamePlayer(ctrl, ctrl.pov),
         ctrl.playing() ? renderButtons(ctrl) : renderState(ctrl),
@@ -7910,22 +7798,22 @@ const renderGame = (ctrl) => (_) => [
     ],
   ),
 ];
-const renderButtons = (ctrl) =>
-  h("div.btn-group.mt-4", [
+const renderButtons = ctrl =>
+  h('div.btn-group.mt-4', [
     h(
-      "button.btn.btn-secondary",
+      'button.btn.btn-secondary',
       {
-        attrs: { type: "button", disabled: !ctrl.playing() },
+        attrs: { type: 'button', disabled: !ctrl.playing() },
         on: {
           click() {
-            if (confirm("Confirm?")) ctrl.resign();
+            if (confirm('Confirm?')) ctrl.resign();
           },
         },
       },
-      ctrl.chess.fullmoves > 1 ? "Resign" : "Abort",
+      ctrl.chess.fullmoves > 1 ? 'Resign' : 'Abort',
     ),
   ]);
-const renderState = (ctrl) => h("div.game-page__state", ctrl.game.state.status);
+const renderState = ctrl => h('div.game-page__state', ctrl.game.state.status);
 const renderGamePlayer = (ctrl, color) => {
   const p = ctrl.game[color];
   const clock = clockContent(
@@ -7937,50 +7825,48 @@ const renderGamePlayer = (ctrl, color) => {
   return renderPlayer(ctrl, color, clock, p.name, p.title, p.rating, p.aiLevel);
 };
 
-const renderHome = (ctrl) => (ctrl.auth.me ? userHome(ctrl) : anonHome());
-const userHome = (ctrl) => [
-  h("div", [
-    h("div.btn-group.mt-5", [
+const renderHome = ctrl => (ctrl.auth.me ? userHome(ctrl) : anonHome());
+const userHome = ctrl => [
+  h('div', [
+    h('div.btn-group.mt-5', [
       h(
-        "button.btn.btn-outline-primary.btn-lg",
+        'button.btn.btn-outline-primary.btn-lg',
         {
-          attrs: { type: "button" },
+          attrs: { type: 'button' },
           on: { click: ctrl.playAi },
         },
-        "Play the Lichess AI",
+        'Play the Lichess AI',
       ),
       h(
-        "button.btn.btn-outline-primary.btn-lg",
+        'button.btn.btn-outline-primary.btn-lg',
         {
-          attrs: { type: "button" },
+          attrs: { type: 'button' },
           on: { click: () => ctrl.playMaia(10, 0) },
         },
-        "Play a casual 10+0 game with the maia1 BOT",
+        'Play a casual 10+0 game with the maia1 BOT',
       ),
     ]),
-    h("h2.mt-5", "Games in progress"),
-    h("div.games", renderGames(ctrl.games)),
-    h("h2.mt-5.mb-3", "About"),
+    h('h2.mt-5', 'Games in progress'),
+    h('div.games', renderGames(ctrl.games)),
+    h('h2.mt-5.mb-3', 'About'),
     renderAbout(),
   ]),
 ];
-const renderGames = (ongoing) =>
-  ongoing.games.length
-    ? ongoing.games.map(renderGameWidget)
-    : [h("p", "No ongoing games at the moment")];
-const renderGameWidget = (game) =>
+const renderGames = ongoing =>
+  ongoing.games.length ? ongoing.games.map(renderGameWidget) : [h('p', 'No ongoing games at the moment')];
+const renderGameWidget = game =>
   h(
     `a.game-widget.text-decoration-none.game-widget--${game.id}`,
     {
       attrs: href(`/game/${game.gameId}`),
     },
     [
-      h("span.game-widget__opponent", [
-        h("span.game-widget__opponent__name", game.opponent.username || "Anon"),
-        game.opponent.rating && h("span.game-widget__opponent__rating", game.opponent.rating),
+      h('span.game-widget__opponent', [
+        h('span.game-widget__opponent__name', game.opponent.username || 'Anon'),
+        game.opponent.rating && h('span.game-widget__opponent__rating', game.opponent.rating),
       ]),
       h(
-        "span.game-widget__board.cg-wrap",
+        'span.game-widget__board.cg-wrap',
         {
           hook: {
             insert(vnode) {
@@ -7997,90 +7883,90 @@ const renderGameWidget = (game) =>
             },
           },
         },
-        "board",
+        'board',
       ),
     ],
   );
 const anonHome = () => [
-  h("div.login.text-center", [
+  h('div.login.text-center', [
     renderAbout(),
-    h("div.big", [h("p", "Please log in to continue.")]),
+    h('div.big', [h('p', 'Please log in to continue.')]),
     h(
-      "a.btn.btn-primary.btn-lg.mt-5",
+      'a.btn.btn-primary.btn-lg.mt-5',
       {
-        attrs: href("/login"),
+        attrs: href('/login'),
       },
-      "Login with Lichess",
+      'Login with Lichess',
     ),
   ]),
 ];
 const renderAbout = () =>
-  h("div.about", [
-    h("p", "Play games on Lichess using a 3D board and Lichess public API."),
-    h("p", "WORK IN PROGRESS ..."),
-    h("ul", [
+  h('div.about', [
+    h('p', 'Play games on Lichess using a 3D board and Lichess public API.'),
+    h('p', 'WORK IN PROGRESS ...'),
+    h('ul', [
       h(
-        "li",
+        'li',
         h(
-          "a",
+          'a',
           {
-            attrs: { href: "https://github.com/yafred/Lichess3D" },
+            attrs: { href: 'https://github.com/yafred/Lichess3D' },
           },
-          "Source code",
+          'Source code',
         ),
       ),
       h(
-        "li",
+        'li',
         h(
-          "a",
+          'a',
           {
-            attrs: { href: "https://lichess-org.github.io/api-demo/" },
+            attrs: { href: 'https://lichess-org.github.io/api-demo/' },
           },
-          "Lichess API demo",
+          'Lichess API demo',
         ),
       ),
       h(
-        "li",
+        'li',
         h(
-          "a",
+          'a',
           {
-            attrs: { href: "https://lichess.org/api" },
+            attrs: { href: 'https://lichess.org/api' },
           },
-          "Lichess.org API documentation",
+          'Lichess.org API documentation',
         ),
       ),
     ]),
-    h("p", [
-      "Press ",
-      h("code", "<Ctrl+Shift+j>"),
-      " to open your browser console and view incoming events.",
-      h("br"),
-      "Check out the network tab as well to view API calls.",
+    h('p', [
+      'Press ',
+      h('code', '<Ctrl+Shift+j>'),
+      ' to open your browser console and view incoming events.',
+      h('br'),
+      'Check out the network tab as well to view API calls.',
     ]),
   ]);
 
-const renderSeek = (ctrl) => (_) => [
+const renderSeek = ctrl => _ => [
   h(
-    "div.seek-page",
+    'div.seek-page',
     {
       hook: {
         destroy: ctrl.onUnmount,
       },
     },
     [
-      h("div.seek-page__awaiting", [spinner(), h("span.ms-3", "Awaiting a game...")]),
+      h('div.seek-page__awaiting', [spinner(), h('span.ms-3', 'Awaiting a game...')]),
       h(
-        "a.btn.btn-secondary",
+        'a.btn.btn-secondary',
         {
-          attrs: { href: url("/") },
+          attrs: { href: url('/') },
         },
-        "Cancel",
+        'Cancel',
       ),
     ],
   ),
 ];
 
-const renderTv = (ctrl) => (_) => [
+const renderTv = ctrl => _ => [
   h(
     `div.game-page.game-page--${ctrl.game.id}`,
     {
@@ -8107,28 +7993,28 @@ const renderTvPlayer = (ctrl, color) => {
 function view(ctrl) {
   return layout(ctrl, selectRenderer(ctrl)(ctrl));
 }
-const selectRenderer = (ctrl) => {
-  if (ctrl.page == "game") return ctrl.game ? renderGame(ctrl.game) : renderLoading;
-  if (ctrl.page == "home") return renderHome;
-  if (ctrl.page == "seek" && ctrl.seek) return renderSeek(ctrl.seek);
-  if (ctrl.page == "challenge" && ctrl.challenge) return renderChallenge(ctrl.challenge);
-  if (ctrl.page == "tv") return ctrl.tv ? renderTv(ctrl.tv) : renderLoading;
+const selectRenderer = ctrl => {
+  if (ctrl.page == 'game') return ctrl.game ? renderGame(ctrl.game) : renderLoading;
+  if (ctrl.page == 'home') return renderHome;
+  if (ctrl.page == 'seek' && ctrl.seek) return renderSeek(ctrl.seek);
+  if (ctrl.page == 'challenge' && ctrl.challenge) return renderChallenge(ctrl.challenge);
+  if (ctrl.page == 'tv') return ctrl.tv ? renderTv(ctrl.tv) : renderLoading;
   return renderNotFound;
 };
-const renderLoading = (_) => [loadingBody()];
-const renderNotFound = (_) => [h("h1", "Not found")];
-const loadingBody = () => h("div.loading", spinner());
+const renderLoading = _ => [loadingBody()];
+const renderNotFound = _ => [h('h1', 'Not found')];
+const loadingBody = () => h('div.loading', spinner());
 const spinner = () =>
   h(
-    "div.spinner-border.text-primary",
-    { attrs: { role: "status" } },
-    h("span.visually-hidden", "Loading..."),
+    'div.spinner-border.text-primary',
+    { attrs: { role: 'status' } },
+    h('span.visually-hidden', 'Loading...'),
   );
 
 function getAugmentedNamespace(n) {
-  if (Object.prototype.hasOwnProperty.call(n, "__esModule")) return n;
+  if (Object.prototype.hasOwnProperty.call(n, '__esModule')) return n;
   var f = n.default;
-  if (typeof f == "function") {
+  if (typeof f == 'function') {
     var a = function a() {
       var isInstance = false;
       try {
@@ -8141,7 +8027,7 @@ function getAugmentedNamespace(n) {
     };
     a.prototype = f.prototype;
   } else a = {};
-  Object.defineProperty(a, "__esModule", { value: true });
+  Object.defineProperty(a, '__esModule', { value: true });
   Object.keys(n).forEach(function (k) {
     var d = Object.getOwnPropertyDescriptor(n, k);
     Object.defineProperty(
@@ -8162,36 +8048,36 @@ function getAugmentedNamespace(n) {
 
 var dropdown$1 = { exports: {} };
 
-var top = "top";
-var bottom = "bottom";
-var right = "right";
-var left = "left";
-var auto = "auto";
+var top = 'top';
+var bottom = 'bottom';
+var right = 'right';
+var left = 'left';
+var auto = 'auto';
 var basePlacements = [top, bottom, right, left];
-var start = "start";
-var end = "end";
-var clippingParents = "clippingParents";
-var viewport = "viewport";
-var popper = "popper";
-var reference = "reference";
+var start = 'start';
+var end = 'end';
+var clippingParents = 'clippingParents';
+var viewport = 'viewport';
+var popper = 'popper';
+var reference = 'reference';
 var variationPlacements = /*#__PURE__*/ basePlacements.reduce(function (acc, placement) {
-  return acc.concat([placement + "-" + start, placement + "-" + end]);
+  return acc.concat([placement + '-' + start, placement + '-' + end]);
 }, []);
 var placements = /*#__PURE__*/ [].concat(basePlacements, [auto]).reduce(function (acc, placement) {
-  return acc.concat([placement, placement + "-" + start, placement + "-" + end]);
+  return acc.concat([placement, placement + '-' + start, placement + '-' + end]);
 }, []); // modifiers that need to read the DOM
 
-var beforeRead = "beforeRead";
-var read = "read";
-var afterRead = "afterRead"; // pure-logic modifiers
+var beforeRead = 'beforeRead';
+var read = 'read';
+var afterRead = 'afterRead'; // pure-logic modifiers
 
-var beforeMain = "beforeMain";
-var main$1 = "main";
-var afterMain = "afterMain"; // modifier with the purpose to write to the DOM (or write into a framework state)
+var beforeMain = 'beforeMain';
+var main$1 = 'main';
+var afterMain = 'afterMain'; // modifier with the purpose to write to the DOM (or write into a framework state)
 
-var beforeWrite = "beforeWrite";
-var write = "write";
-var afterWrite = "afterWrite";
+var beforeWrite = 'beforeWrite';
+var write = 'write';
+var afterWrite = 'afterWrite';
 var modifierPhases = [
   beforeRead,
   read,
@@ -8205,7 +8091,7 @@ var modifierPhases = [
 ];
 
 function getNodeName(element) {
-  return element ? (element.nodeName || "").toLowerCase() : null;
+  return element ? (element.nodeName || '').toLowerCase() : null;
 }
 
 function getWindow(node) {
@@ -8213,7 +8099,7 @@ function getWindow(node) {
     return window;
   }
 
-  if (node.toString() !== "[object Window]") {
+  if (node.toString() !== '[object Window]') {
     var ownerDocument = node.ownerDocument;
     return ownerDocument ? ownerDocument.defaultView || window : window;
   }
@@ -8233,7 +8119,7 @@ function isHTMLElement(node) {
 
 function isShadowRoot(node) {
   // IE 11 has no ShadowRoot
-  if (typeof ShadowRoot === "undefined") {
+  if (typeof ShadowRoot === 'undefined') {
     return false;
   }
 
@@ -8263,7 +8149,7 @@ function applyStyles(_ref) {
       if (value === false) {
         element.removeAttribute(name);
       } else {
-        element.setAttribute(name, value === true ? "" : value);
+        element.setAttribute(name, value === true ? '' : value);
       }
     });
   });
@@ -8274,12 +8160,12 @@ function effect$2(_ref2) {
   var initialStyles = {
     popper: {
       position: state.options.strategy,
-      left: "0",
-      top: "0",
-      margin: "0",
+      left: '0',
+      top: '0',
+      margin: '0',
     },
     arrow: {
-      position: "absolute",
+      position: 'absolute',
     },
     reference: {},
   };
@@ -8299,7 +8185,7 @@ function effect$2(_ref2) {
       ); // Set all values to an empty string to unset them
 
       var style = styleProperties.reduce(function (style, property) {
-        style[property] = "";
+        style[property] = '';
         return style;
       }, {}); // arrow is optional + virtual elements
 
@@ -8316,16 +8202,16 @@ function effect$2(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 var applyStyles$1 = {
-  name: "applyStyles",
+  name: 'applyStyles',
   enabled: true,
-  phase: "write",
+  phase: 'write',
   fn: applyStyles,
   effect: effect$2,
-  requires: ["computeStyles"],
+  requires: ['computeStyles'],
 };
 
 function getBasePlacement(placement) {
-  return placement.split("-")[0];
+  return placement.split('-')[0];
 }
 
 var max = Math.max;
@@ -8338,9 +8224,9 @@ function getUAString() {
   if (uaData != null && uaData.brands && Array.isArray(uaData.brands)) {
     return uaData.brands
       .map(function (item) {
-        return item.brand + "/" + item.version;
+        return item.brand + '/' + item.version;
       })
-      .join(" ");
+      .join(' ');
   }
 
   return navigator.userAgent;
@@ -8372,11 +8258,8 @@ function getBoundingClientRect(element, includeScale, isFixedStrategy) {
     visualViewport = _ref.visualViewport;
 
   var addVisualOffsets = !isLayoutViewport() && isFixedStrategy;
-  var x =
-    (clientRect.left + (addVisualOffsets && visualViewport ? visualViewport.offsetLeft : 0)) /
-    scaleX;
-  var y =
-    (clientRect.top + (addVisualOffsets && visualViewport ? visualViewport.offsetTop : 0)) / scaleY;
+  var x = (clientRect.left + (addVisualOffsets && visualViewport ? visualViewport.offsetLeft : 0)) / scaleX;
+  var y = (clientRect.top + (addVisualOffsets && visualViewport ? visualViewport.offsetTop : 0)) / scaleY;
   var width = clientRect.width / scaleX;
   var height = clientRect.height / scaleY;
   return {
@@ -8442,7 +8325,7 @@ function getComputedStyle$1(element) {
 }
 
 function isTableElement(element) {
-  return ["table", "td", "th"].indexOf(getNodeName(element)) >= 0;
+  return ['table', 'td', 'th'].indexOf(getNodeName(element)) >= 0;
 }
 
 function getDocumentElement(element) {
@@ -8455,7 +8338,7 @@ function getDocumentElement(element) {
 }
 
 function getParentNode(element) {
-  if (getNodeName(element) === "html") {
+  if (getNodeName(element) === 'html') {
     return element;
   }
 
@@ -8474,7 +8357,7 @@ function getParentNode(element) {
 function getTrueOffsetParent(element) {
   if (
     !isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
-    getComputedStyle$1(element).position === "fixed"
+    getComputedStyle$1(element).position === 'fixed'
   ) {
     return null;
   }
@@ -8491,7 +8374,7 @@ function getContainingBlock(element) {
     // In IE 9, 10 and 11 fixed elements containing block is always established by the viewport
     var elementCss = getComputedStyle$1(element);
 
-    if (elementCss.position === "fixed") {
+    if (elementCss.position === 'fixed') {
       return null;
     }
   }
@@ -8502,18 +8385,18 @@ function getContainingBlock(element) {
     currentNode = currentNode.host;
   }
 
-  while (isHTMLElement(currentNode) && ["html", "body"].indexOf(getNodeName(currentNode)) < 0) {
+  while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
     var css = getComputedStyle$1(currentNode); // This is non-exhaustive but covers the most common CSS properties that
     // create a containing block.
     // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
 
     if (
-      css.transform !== "none" ||
-      css.perspective !== "none" ||
-      css.contain === "paint" ||
-      ["transform", "perspective"].indexOf(css.willChange) !== -1 ||
-      (isFirefox && css.willChange === "filter") ||
-      (isFirefox && css.filter && css.filter !== "none")
+      css.transform !== 'none' ||
+      css.perspective !== 'none' ||
+      css.contain === 'paint' ||
+      ['transform', 'perspective'].indexOf(css.willChange) !== -1 ||
+      (isFirefox && css.willChange === 'filter') ||
+      (isFirefox && css.filter && css.filter !== 'none')
     ) {
       return currentNode;
     } else {
@@ -8532,16 +8415,15 @@ function getOffsetParent(element) {
   while (
     offsetParent &&
     isTableElement(offsetParent) &&
-    getComputedStyle$1(offsetParent).position === "static"
+    getComputedStyle$1(offsetParent).position === 'static'
   ) {
     offsetParent = getTrueOffsetParent(offsetParent);
   }
 
   if (
     offsetParent &&
-    (getNodeName(offsetParent) === "html" ||
-      (getNodeName(offsetParent) === "body" &&
-        getComputedStyle$1(offsetParent).position === "static"))
+    (getNodeName(offsetParent) === 'html' ||
+      (getNodeName(offsetParent) === 'body' && getComputedStyle$1(offsetParent).position === 'static'))
   ) {
     return window;
   }
@@ -8550,7 +8432,7 @@ function getOffsetParent(element) {
 }
 
 function getMainAxisFromPlacement(placement) {
-  return ["top", "bottom"].indexOf(placement) >= 0 ? "x" : "y";
+  return ['top', 'bottom'].indexOf(placement) >= 0 ? 'x' : 'y';
 }
 
 function within(min$1, value, max$1) {
@@ -8583,16 +8465,14 @@ function expandToHashMap(value, keys) {
 
 var toPaddingObject = function toPaddingObject(padding, state) {
   padding =
-    typeof padding === "function"
+    typeof padding === 'function'
       ? padding(
           Object.assign({}, state.rects, {
             placement: state.placement,
           }),
         )
       : padding;
-  return mergePaddingObject(
-    typeof padding !== "number" ? padding : expandToHashMap(padding, basePlacements),
-  );
+  return mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
 };
 
 function arrow(_ref) {
@@ -8606,7 +8486,7 @@ function arrow(_ref) {
   var basePlacement = getBasePlacement(state.placement);
   var axis = getMainAxisFromPlacement(basePlacement);
   var isVertical = [left, right].indexOf(basePlacement) >= 0;
-  var len = isVertical ? "height" : "width";
+  var len = isVertical ? 'height' : 'width';
 
   if (!arrowElement || !popperOffsets) {
     return;
@@ -8614,17 +8494,14 @@ function arrow(_ref) {
 
   var paddingObject = toPaddingObject(options.padding, state);
   var arrowRect = getLayoutRect(arrowElement);
-  var minProp = axis === "y" ? top : left;
-  var maxProp = axis === "y" ? bottom : right;
+  var minProp = axis === 'y' ? top : left;
+  var maxProp = axis === 'y' ? bottom : right;
   var endDiff =
-    state.rects.reference[len] +
-    state.rects.reference[axis] -
-    popperOffsets[axis] -
-    state.rects.popper[len];
+    state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
   var startDiff = popperOffsets[axis] - state.rects.reference[axis];
   var arrowOffsetParent = getOffsetParent(arrowElement);
   var clientSize = arrowOffsetParent
-    ? axis === "y"
+    ? axis === 'y'
       ? arrowOffsetParent.clientHeight || 0
       : arrowOffsetParent.clientWidth || 0
     : 0;
@@ -8648,13 +8525,13 @@ function effect$1(_ref2) {
   var state = _ref2.state,
     options = _ref2.options;
   var _options$element = options.element,
-    arrowElement = _options$element === void 0 ? "[data-popper-arrow]" : _options$element;
+    arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
 
   if (arrowElement == null) {
     return;
   } // CSS selector
 
-  if (typeof arrowElement === "string") {
+  if (typeof arrowElement === 'string') {
     arrowElement = state.elements.popper.querySelector(arrowElement);
 
     if (!arrowElement) {
@@ -8670,24 +8547,24 @@ function effect$1(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 var arrow$1 = {
-  name: "arrow",
+  name: 'arrow',
   enabled: true,
-  phase: "main",
+  phase: 'main',
   fn: arrow,
   effect: effect$1,
-  requires: ["popperOffsets"],
-  requiresIfExists: ["preventOverflow"],
+  requires: ['popperOffsets'],
+  requiresIfExists: ['preventOverflow'],
 };
 
 function getVariation(placement) {
-  return placement.split("-")[1];
+  return placement.split('-')[1];
 }
 
 var unsetSides = {
-  top: "auto",
-  right: "auto",
-  bottom: "auto",
-  left: "auto",
+  top: 'auto',
+  right: 'auto',
+  bottom: 'auto',
+  left: 'auto',
 }; // Round the offsets to the nearest suitable subpixel based on the DPR.
 // Zooming can change the DPR, but it seems to report a value that will
 // cleanly divide the values into the appropriate subpixels.
@@ -8721,7 +8598,7 @@ function mapToStyles(_ref2) {
     y = _offsets$y === void 0 ? 0 : _offsets$y;
 
   var _ref3 =
-    typeof roundOffsets === "function"
+    typeof roundOffsets === 'function'
       ? roundOffsets({
           x: x,
           y: y,
@@ -8733,23 +8610,23 @@ function mapToStyles(_ref2) {
 
   x = _ref3.x;
   y = _ref3.y;
-  var hasX = offsets.hasOwnProperty("x");
-  var hasY = offsets.hasOwnProperty("y");
+  var hasX = offsets.hasOwnProperty('x');
+  var hasY = offsets.hasOwnProperty('y');
   var sideX = left;
   var sideY = top;
   var win = window;
 
   if (adaptive) {
     var offsetParent = getOffsetParent(popper);
-    var heightProp = "clientHeight";
-    var widthProp = "clientWidth";
+    var heightProp = 'clientHeight';
+    var widthProp = 'clientWidth';
 
     if (offsetParent === getWindow(popper)) {
       offsetParent = getDocumentElement(popper);
 
-      if (getComputedStyle$1(offsetParent).position !== "static" && position === "absolute") {
-        heightProp = "scrollHeight";
-        widthProp = "scrollWidth";
+      if (getComputedStyle$1(offsetParent).position !== 'static' && position === 'absolute') {
+        heightProp = 'scrollHeight';
+        widthProp = 'scrollWidth';
       }
     } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
 
@@ -8807,12 +8684,12 @@ function mapToStyles(_ref2) {
       {},
       commonStyles,
       ((_Object$assign = {}),
-      (_Object$assign[sideY] = hasY ? "0" : ""),
-      (_Object$assign[sideX] = hasX ? "0" : ""),
+      (_Object$assign[sideY] = hasY ? '0' : ''),
+      (_Object$assign[sideX] = hasX ? '0' : ''),
       (_Object$assign.transform =
         (win.devicePixelRatio || 1) <= 1
-          ? "translate(" + x + "px, " + y + "px)"
-          : "translate3d(" + x + "px, " + y + "px, 0)"),
+          ? 'translate(' + x + 'px, ' + y + 'px)'
+          : 'translate3d(' + x + 'px, ' + y + 'px, 0)'),
       _Object$assign),
     );
   }
@@ -8821,9 +8698,9 @@ function mapToStyles(_ref2) {
     {},
     commonStyles,
     ((_Object$assign2 = {}),
-    (_Object$assign2[sideY] = hasY ? y + "px" : ""),
-    (_Object$assign2[sideX] = hasX ? x + "px" : ""),
-    (_Object$assign2.transform = ""),
+    (_Object$assign2[sideY] = hasY ? y + 'px' : ''),
+    (_Object$assign2[sideX] = hasX ? x + 'px' : ''),
+    (_Object$assign2.transform = ''),
     _Object$assign2),
   );
 }
@@ -8843,7 +8720,7 @@ function computeStyles(_ref5) {
     popper: state.elements.popper,
     popperRect: state.rects.popper,
     gpuAcceleration: gpuAcceleration,
-    isFixed: state.options.strategy === "fixed",
+    isFixed: state.options.strategy === 'fixed',
   };
 
   if (state.modifiersData.popperOffsets != null) {
@@ -8868,7 +8745,7 @@ function computeStyles(_ref5) {
       mapToStyles(
         Object.assign({}, commonStyles, {
           offsets: state.modifiersData.arrow,
-          position: "absolute",
+          position: 'absolute',
           adaptive: false,
           roundOffsets: roundOffsets,
         }),
@@ -8877,14 +8754,14 @@ function computeStyles(_ref5) {
   }
 
   state.attributes.popper = Object.assign({}, state.attributes.popper, {
-    "data-popper-placement": state.placement,
+    'data-popper-placement': state.placement,
   });
 } // eslint-disable-next-line import/no-unused-modules
 
 var computeStyles$1 = {
-  name: "computeStyles",
+  name: 'computeStyles',
   enabled: true,
-  phase: "beforeWrite",
+  phase: 'beforeWrite',
   fn: computeStyles,
   data: {},
 };
@@ -8906,41 +8783,41 @@ function effect(_ref) {
 
   if (scroll) {
     scrollParents.forEach(function (scrollParent) {
-      scrollParent.addEventListener("scroll", instance.update, passive);
+      scrollParent.addEventListener('scroll', instance.update, passive);
     });
   }
 
   if (resize) {
-    window.addEventListener("resize", instance.update, passive);
+    window.addEventListener('resize', instance.update, passive);
   }
 
   return function () {
     if (scroll) {
       scrollParents.forEach(function (scrollParent) {
-        scrollParent.removeEventListener("scroll", instance.update, passive);
+        scrollParent.removeEventListener('scroll', instance.update, passive);
       });
     }
 
     if (resize) {
-      window.removeEventListener("resize", instance.update, passive);
+      window.removeEventListener('resize', instance.update, passive);
     }
   };
 } // eslint-disable-next-line import/no-unused-modules
 
 var eventListeners = {
-  name: "eventListeners",
+  name: 'eventListeners',
   enabled: true,
-  phase: "write",
+  phase: 'write',
   fn: function fn() {},
   effect: effect,
   data: {},
 };
 
 var hash$1 = {
-  left: "right",
-  right: "left",
-  bottom: "top",
-  top: "bottom",
+  left: 'right',
+  right: 'left',
+  bottom: 'top',
+  top: 'bottom',
 };
 function getOppositePlacement(placement) {
   return placement.replace(/left|right|bottom|top/g, function (matched) {
@@ -8949,8 +8826,8 @@ function getOppositePlacement(placement) {
 }
 
 var hash = {
-  start: "end",
-  end: "start",
+  start: 'end',
+  end: 'start',
 };
 function getOppositeVariationPlacement(placement) {
   return placement.replace(/start|end/g, function (matched) {
@@ -8976,9 +8853,7 @@ function getWindowScrollBarX(element) {
   // anyway.
   // Browsers where the left scrollbar doesn't cause an issue report `0` for
   // this (e.g. Edge 2019, IE11, Safari)
-  return (
-    getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft
-  );
+  return getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft;
 }
 
 function getViewportRect(element, strategy) {
@@ -8995,7 +8870,7 @@ function getViewportRect(element, strategy) {
     height = visualViewport.height;
     var layoutViewport = isLayoutViewport();
 
-    if (layoutViewport || (!layoutViewport && strategy === "fixed")) {
+    if (layoutViewport || (!layoutViewport && strategy === 'fixed')) {
       x = visualViewport.offsetLeft;
       y = visualViewport.offsetTop;
     }
@@ -9016,8 +8891,7 @@ function getDocumentRect(element) {
 
   var html = getDocumentElement(element);
   var winScroll = getWindowScroll(element);
-  var body =
-    (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
+  var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
   var width = max(
     html.scrollWidth,
     html.clientWidth,
@@ -9033,7 +8907,7 @@ function getDocumentRect(element) {
   var x = -winScroll.scrollLeft + getWindowScrollBarX(element);
   var y = -winScroll.scrollTop;
 
-  if (getComputedStyle$1(body || html).direction === "rtl") {
+  if (getComputedStyle$1(body || html).direction === 'rtl') {
     x += max(html.clientWidth, body ? body.clientWidth : 0) - width;
   }
 
@@ -9056,7 +8930,7 @@ function isScrollParent(element) {
 }
 
 function getScrollParent(node) {
-  if (["html", "body", "#document"].indexOf(getNodeName(node)) >= 0) {
+  if (['html', 'body', '#document'].indexOf(getNodeName(node)) >= 0) {
     // $FlowFixMe[incompatible-return]: assume body is always available
     return node.ownerDocument.body;
   }
@@ -9106,7 +8980,7 @@ function rectToClientRect(rect) {
 }
 
 function getInnerBoundingClientRect(element, strategy) {
-  var rect = getBoundingClientRect(element, false, strategy === "fixed");
+  var rect = getBoundingClientRect(element, false, strategy === 'fixed');
   rect.top = rect.top + element.clientTop;
   rect.left = rect.left + element.clientLeft;
   rect.bottom = rect.top + element.clientHeight;
@@ -9130,9 +9004,8 @@ function getClientRectFromMixedType(element, clippingParent, strategy) {
 
 function getClippingParents(element) {
   var clippingParents = listScrollParents(getParentNode(element));
-  var canEscapeClipping = ["absolute", "fixed"].indexOf(getComputedStyle$1(element).position) >= 0;
-  var clipperElement =
-    canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
+  var canEscapeClipping = ['absolute', 'fixed'].indexOf(getComputedStyle$1(element).position) >= 0;
+  var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
 
   if (!isElement(clipperElement)) {
     return [];
@@ -9142,7 +9015,7 @@ function getClippingParents(element) {
     return (
       isElement(clippingParent) &&
       contains(clippingParent, clipperElement) &&
-      getNodeName(clippingParent) !== "body"
+      getNodeName(clippingParent) !== 'body'
     );
   });
 } // Gets the maximum area that the element is visible in due to any number of
@@ -9150,7 +9023,7 @@ function getClippingParents(element) {
 
 function getClippingRect(element, boundary, rootBoundary, strategy) {
   var mainClippingParents =
-    boundary === "clippingParents" ? getClippingParents(element) : [].concat(boundary);
+    boundary === 'clippingParents' ? getClippingParents(element) : [].concat(boundary);
   var clippingParents = [].concat(mainClippingParents, [rootBoundary]);
   var firstClippingParent = clippingParents[0];
   var clippingRect = clippingParents.reduce(
@@ -9220,7 +9093,7 @@ function computeOffsets(_ref) {
   var mainAxis = basePlacement ? getMainAxisFromPlacement(basePlacement) : null;
 
   if (mainAxis != null) {
-    var len = mainAxis === "y" ? "height" : "width";
+    var len = mainAxis === 'y' ? 'height' : 'width';
 
     switch (variation) {
       case start:
@@ -9257,15 +9130,13 @@ function detectOverflow(state, options) {
     _options$padding = _options.padding,
     padding = _options$padding === void 0 ? 0 : _options$padding;
   var paddingObject = mergePaddingObject(
-    typeof padding !== "number" ? padding : expandToHashMap(padding, basePlacements),
+    typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements),
   );
   var altContext = elementContext === popper ? reference : popper;
   var popperRect = state.rects.popper;
   var element = state.elements[altBoundary ? altContext : elementContext];
   var clippingClientRect = getClippingRect(
-    isElement(element)
-      ? element
-      : element.contextElement || getDocumentElement(state.elements.popper),
+    isElement(element) ? element : element.contextElement || getDocumentElement(state.elements.popper),
     boundary,
     rootBoundary,
     strategy,
@@ -9292,7 +9163,7 @@ function detectOverflow(state, options) {
     var offset = offsetData[placement];
     Object.keys(overflowOffsets).forEach(function (key) {
       var multiply = [right, bottom].indexOf(key) >= 0 ? 1 : -1;
-      var axis = [top, bottom].indexOf(key) >= 0 ? "y" : "x";
+      var axis = [top, bottom].indexOf(key) >= 0 ? 'y' : 'x';
       overflowOffsets[key] += offset[axis] * multiply;
     });
   }
@@ -9385,10 +9256,7 @@ function flip(_ref) {
     (isBasePlacement || !flipVariations
       ? [getOppositePlacement(preferredPlacement)]
       : getExpandedFallbackPlacements(preferredPlacement));
-  var placements = [preferredPlacement].concat(fallbackPlacements).reduce(function (
-    acc,
-    placement,
-  ) {
+  var placements = [preferredPlacement].concat(fallbackPlacements).reduce(function (acc, placement) {
     return acc.concat(
       getBasePlacement(placement) === auto
         ? computeAutoPlacement(state, {
@@ -9415,7 +9283,7 @@ function flip(_ref) {
 
     var isStartVariation = getVariation(placement) === start;
     var isVertical = [top, bottom].indexOf(_basePlacement) >= 0;
-    var len = isVertical ? "width" : "height";
+    var len = isVertical ? 'width' : 'height';
     var overflow = detectOverflow(state, {
       placement: placement,
       boundary: boundary,
@@ -9423,13 +9291,7 @@ function flip(_ref) {
       altBoundary: altBoundary,
       padding: padding,
     });
-    var mainVariationSide = isVertical
-      ? isStartVariation
-        ? right
-        : left
-      : isStartVariation
-        ? bottom
-        : top;
+    var mainVariationSide = isVertical ? (isStartVariation ? right : left) : isStartVariation ? bottom : top;
 
     if (referenceRect[len] > popperRect[len]) {
       mainVariationSide = getOppositePlacement(mainVariationSide);
@@ -9476,14 +9338,14 @@ function flip(_ref) {
 
       if (fittingPlacement) {
         firstFittingPlacement = fittingPlacement;
-        return "break";
+        return 'break';
       }
     };
 
     for (var _i = numberOfChecks; _i > 0; _i--) {
       var _ret = _loop(_i);
 
-      if (_ret === "break") break;
+      if (_ret === 'break') break;
     }
   }
 
@@ -9495,11 +9357,11 @@ function flip(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 var flip$1 = {
-  name: "flip",
+  name: 'flip',
   enabled: true,
-  phase: "main",
+  phase: 'main',
   fn: flip,
-  requiresIfExists: ["offset"],
+  requiresIfExists: ['offset'],
   data: {
     _skip: false,
   },
@@ -9534,7 +9396,7 @@ function hide(_ref) {
   var popperRect = state.rects.popper;
   var preventedOffsets = state.modifiersData.preventOverflow;
   var referenceOverflow = detectOverflow(state, {
-    elementContext: "reference",
+    elementContext: 'reference',
   });
   var popperAltOverflow = detectOverflow(state, {
     altBoundary: true,
@@ -9550,16 +9412,16 @@ function hide(_ref) {
     hasPopperEscaped: hasPopperEscaped,
   };
   state.attributes.popper = Object.assign({}, state.attributes.popper, {
-    "data-popper-reference-hidden": isReferenceHidden,
-    "data-popper-escaped": hasPopperEscaped,
+    'data-popper-reference-hidden': isReferenceHidden,
+    'data-popper-escaped': hasPopperEscaped,
   });
 } // eslint-disable-next-line import/no-unused-modules
 
 var hide$1 = {
-  name: "hide",
+  name: 'hide',
   enabled: true,
-  phase: "main",
-  requiresIfExists: ["preventOverflow"],
+  phase: 'main',
+  requiresIfExists: ['preventOverflow'],
   fn: hide,
 };
 
@@ -9568,7 +9430,7 @@ function distanceAndSkiddingToXY(placement, rects, offset) {
   var invertDistance = [left, top].indexOf(basePlacement) >= 0 ? -1 : 1;
 
   var _ref =
-      typeof offset === "function"
+      typeof offset === 'function'
         ? offset(
             Object.assign({}, rects, {
               placement: placement,
@@ -9614,10 +9476,10 @@ function offset(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 var offset$1 = {
-  name: "offset",
+  name: 'offset',
   enabled: true,
-  phase: "main",
-  requires: ["popperOffsets"],
+  phase: 'main',
+  requires: ['popperOffsets'],
   fn: offset,
 };
 
@@ -9636,15 +9498,15 @@ function popperOffsets(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 var popperOffsets$1 = {
-  name: "popperOffsets",
+  name: 'popperOffsets',
   enabled: true,
-  phase: "read",
+  phase: 'read',
   fn: popperOffsets,
   data: {},
 };
 
 function getAltAxis(axis) {
-  return axis === "x" ? "y" : "x";
+  return axis === 'x' ? 'y' : 'x';
 }
 
 function preventOverflow(_ref) {
@@ -9678,7 +9540,7 @@ function preventOverflow(_ref) {
   var referenceRect = state.rects.reference;
   var popperRect = state.rects.popper;
   var tetherOffsetValue =
-    typeof tetherOffset === "function"
+    typeof tetherOffset === 'function'
       ? tetherOffset(
           Object.assign({}, state.rects, {
             placement: state.placement,
@@ -9686,7 +9548,7 @@ function preventOverflow(_ref) {
         )
       : tetherOffset;
   var normalizedTetherOffsetValue =
-    typeof tetherOffsetValue === "number"
+    typeof tetherOffsetValue === 'number'
       ? {
           mainAxis: tetherOffsetValue,
           altAxis: tetherOffsetValue,
@@ -9698,9 +9560,7 @@ function preventOverflow(_ref) {
           },
           tetherOffsetValue,
         );
-  var offsetModifierState = state.modifiersData.offset
-    ? state.modifiersData.offset[state.placement]
-    : null;
+  var offsetModifierState = state.modifiersData.offset ? state.modifiersData.offset[state.placement] : null;
   var data = {
     x: 0,
     y: 0,
@@ -9713,9 +9573,9 @@ function preventOverflow(_ref) {
   if (checkMainAxis) {
     var _offsetModifierState$;
 
-    var mainSide = mainAxis === "y" ? top : left;
-    var altSide = mainAxis === "y" ? bottom : right;
-    var len = mainAxis === "y" ? "height" : "width";
+    var mainSide = mainAxis === 'y' ? top : left;
+    var altSide = mainAxis === 'y' ? bottom : right;
+    var len = mainAxis === 'y' ? 'height' : 'width';
     var offset = popperOffsets[mainAxis];
     var min$1 = offset + overflow[mainSide];
     var max$1 = offset - overflow[altSide];
@@ -9732,8 +9592,8 @@ function preventOverflow(_ref) {
             width: 0,
             height: 0,
           };
-    var arrowPaddingObject = state.modifiersData["arrow#persistent"]
-      ? state.modifiersData["arrow#persistent"].padding
+    var arrowPaddingObject = state.modifiersData['arrow#persistent']
+      ? state.modifiersData['arrow#persistent'].padding
       : getFreshSideObject();
     var arrowPaddingMin = arrowPaddingObject[mainSide];
     var arrowPaddingMax = arrowPaddingObject[altSide]; // If the reference length is smaller than the arrow length, we don't want
@@ -9744,28 +9604,19 @@ function preventOverflow(_ref) {
 
     var arrowLen = within(0, referenceRect[len], arrowRect[len]);
     var minOffset = isBasePlacement
-      ? referenceRect[len] / 2 -
-        additive -
-        arrowLen -
-        arrowPaddingMin -
-        normalizedTetherOffsetValue.mainAxis
+      ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis
       : minLen - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis;
     var maxOffset = isBasePlacement
-      ? -referenceRect[len] / 2 +
-        additive +
-        arrowLen +
-        arrowPaddingMax +
-        normalizedTetherOffsetValue.mainAxis
+      ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis
       : maxLen + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis;
     var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
     var clientOffset = arrowOffsetParent
-      ? mainAxis === "y"
+      ? mainAxis === 'y'
         ? arrowOffsetParent.clientTop || 0
         : arrowOffsetParent.clientLeft || 0
       : 0;
     var offsetModifierValue =
-      (_offsetModifierState$ =
-        offsetModifierState == null ? void 0 : offsetModifierState[mainAxis]) != null
+      (_offsetModifierState$ = offsetModifierState == null ? void 0 : offsetModifierState[mainAxis]) != null
         ? _offsetModifierState$
         : 0;
     var tetherMin = offset + minOffset - offsetModifierValue - clientOffset;
@@ -9782,13 +9633,13 @@ function preventOverflow(_ref) {
   if (checkAltAxis) {
     var _offsetModifierState$2;
 
-    var _mainSide = mainAxis === "x" ? top : left;
+    var _mainSide = mainAxis === 'x' ? top : left;
 
-    var _altSide = mainAxis === "x" ? bottom : right;
+    var _altSide = mainAxis === 'x' ? bottom : right;
 
     var _offset = popperOffsets[altAxis];
 
-    var _len = altAxis === "y" ? "height" : "width";
+    var _len = altAxis === 'y' ? 'height' : 'width';
 
     var _min = _offset + overflow[_mainSide];
 
@@ -9797,8 +9648,7 @@ function preventOverflow(_ref) {
     var isOriginSide = [top, left].indexOf(basePlacement) !== -1;
 
     var _offsetModifierValue =
-      (_offsetModifierState$2 =
-        offsetModifierState == null ? void 0 : offsetModifierState[altAxis]) != null
+      (_offsetModifierState$2 = offsetModifierState == null ? void 0 : offsetModifierState[altAxis]) != null
         ? _offsetModifierState$2
         : 0;
 
@@ -9831,11 +9681,11 @@ function preventOverflow(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 var preventOverflow$1 = {
-  name: "preventOverflow",
+  name: 'preventOverflow',
   enabled: true,
-  phase: "main",
+  phase: 'main',
   fn: preventOverflow,
-  requiresIfExists: ["offset"],
+  requiresIfExists: ['offset'],
 };
 
 function getHTMLElementScroll(element) {
@@ -9881,7 +9731,7 @@ function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
 
   if (isOffsetParentAnElement || (!isOffsetParentAnElement && !isFixed)) {
     if (
-      getNodeName(offsetParent) !== "body" || // https://github.com/popperjs/popper-core/issues/1078
+      getNodeName(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
       isScrollParent(documentElement)
     ) {
       scroll = getNodeScroll(offsetParent);
@@ -9983,9 +9833,9 @@ function mergeByName(modifiers) {
 }
 
 var DEFAULT_OPTIONS = {
-  placement: "bottom",
+  placement: 'bottom',
   modifiers: [],
-  strategy: "absolute",
+  strategy: 'absolute',
 };
 
 function areValidElements() {
@@ -9994,7 +9844,7 @@ function areValidElements() {
   }
 
   return !args.some(function (element) {
-    return !(element && typeof element.getBoundingClientRect === "function");
+    return !(element && typeof element.getBoundingClientRect === 'function');
   });
 }
 
@@ -10014,7 +9864,7 @@ function popperGenerator(generatorOptions) {
     }
 
     var state = {
-      placement: "bottom",
+      placement: 'bottom',
       orderedModifiers: [],
       options: Object.assign({}, DEFAULT_OPTIONS, defaultOptions),
       modifiersData: {},
@@ -10031,9 +9881,7 @@ function popperGenerator(generatorOptions) {
       state: state,
       setOptions: function setOptions(setOptionsAction) {
         var options =
-          typeof setOptionsAction === "function"
-            ? setOptionsAction(state.options)
-            : setOptionsAction;
+          typeof setOptionsAction === 'function' ? setOptionsAction(state.options) : setOptionsAction;
         cleanupModifierEffects();
         state.options = Object.assign({}, defaultOptions, state.options, options);
         state.scrollParents = {
@@ -10076,11 +9924,7 @@ function popperGenerator(generatorOptions) {
         } // Store the reference and popper rects to be read by modifiers
 
         state.rects = {
-          reference: getCompositeRect(
-            reference,
-            getOffsetParent(popper),
-            state.options.strategy === "fixed",
-          ),
+          reference: getCompositeRect(reference, getOffsetParent(popper), state.options.strategy === 'fixed'),
           popper: getLayoutRect(popper),
         }; // Modifiers have the ability to reset the current update cycle. The
         // most common use case for this is the `flip` modifier changing the
@@ -10111,7 +9955,7 @@ function popperGenerator(generatorOptions) {
             _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
             name = _state$orderedModifie.name;
 
-          if (typeof fn === "function") {
+          if (typeof fn === 'function') {
             state =
               fn({
                 state: state,
@@ -10157,7 +10001,7 @@ function popperGenerator(generatorOptions) {
           options = _ref$options === void 0 ? {} : _ref$options,
           effect = _ref.effect;
 
-        if (typeof effect === "function") {
+        if (typeof effect === 'function') {
           var cleanupFn = effect({
             state: state,
             name: name,
@@ -10353,14 +10197,14 @@ function requireUtil() {
 
       const MAX_UID = 1000000;
       const MILLISECONDS_MULTIPLIER = 1000;
-      const TRANSITION_END = "transitionend";
+      const TRANSITION_END = 'transitionend';
 
       /**
        * Properly escape IDs selectors to handle weird IDs
        * @param {string} selector
        * @returns {string}
        */
-      const parseSelector = (selector) => {
+      const parseSelector = selector => {
         if (selector && window.CSS && window.CSS.escape) {
           // document.querySelector needs escaping to handle IDs (html5+) containing for instance /
           selector = selector.replace(/#([^\s"#']+)/g, (match, id) => `#${CSS.escape(id)}`);
@@ -10369,7 +10213,7 @@ function requireUtil() {
       };
 
       // Shout-out Angus Croll (https://goo.gl/pxwQGp)
-      const toType = (object) => {
+      const toType = object => {
         if (object === null || object === undefined) {
           return `${object}`;
         }
@@ -10383,13 +10227,13 @@ function requireUtil() {
        * Public Util API
        */
 
-      const getUID = (prefix) => {
+      const getUID = prefix => {
         do {
           prefix += Math.floor(Math.random() * MAX_UID);
         } while (document.getElementById(prefix));
         return prefix;
       };
-      const getTransitionDurationFromElement = (element) => {
+      const getTransitionDurationFromElement = element => {
         if (!element) {
           return 0;
         }
@@ -10405,48 +10249,47 @@ function requireUtil() {
         }
 
         // If multiple durations are defined, take the first
-        transitionDuration = transitionDuration.split(",")[0];
-        transitionDelay = transitionDelay.split(",")[0];
+        transitionDuration = transitionDuration.split(',')[0];
+        transitionDelay = transitionDelay.split(',')[0];
         return (
           (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) *
           MILLISECONDS_MULTIPLIER
         );
       };
-      const triggerTransitionEnd = (element) => {
+      const triggerTransitionEnd = element => {
         element.dispatchEvent(new Event(TRANSITION_END));
       };
-      const isElement = (object) => {
-        if (!object || typeof object !== "object") {
+      const isElement = object => {
+        if (!object || typeof object !== 'object') {
           return false;
         }
-        if (typeof object.jquery !== "undefined") {
+        if (typeof object.jquery !== 'undefined') {
           object = object[0];
         }
-        return typeof object.nodeType !== "undefined";
+        return typeof object.nodeType !== 'undefined';
       };
-      const getElement = (object) => {
+      const getElement = object => {
         // it's a jQuery object or a node element
         if (isElement(object)) {
           return object.jquery ? object[0] : object;
         }
-        if (typeof object === "string" && object.length > 0) {
+        if (typeof object === 'string' && object.length > 0) {
           return document.querySelector(parseSelector(object));
         }
         return null;
       };
-      const isVisible = (element) => {
+      const isVisible = element => {
         if (!isElement(element) || element.getClientRects().length === 0) {
           return false;
         }
-        const elementIsVisible =
-          getComputedStyle(element).getPropertyValue("visibility") === "visible";
+        const elementIsVisible = getComputedStyle(element).getPropertyValue('visibility') === 'visible';
         // Handle `details` element as its content may falsie appear visible when it is closed
-        const closedDetails = element.closest("details:not([open])");
+        const closedDetails = element.closest('details:not([open])');
         if (!closedDetails) {
           return elementIsVisible;
         }
         if (closedDetails !== element) {
-          const summary = element.closest("summary");
+          const summary = element.closest('summary');
           if (summary && summary.parentNode !== closedDetails) {
             return false;
           }
@@ -10456,25 +10299,25 @@ function requireUtil() {
         }
         return elementIsVisible;
       };
-      const isDisabled = (element) => {
+      const isDisabled = element => {
         if (!element || element.nodeType !== Node.ELEMENT_NODE) {
           return true;
         }
-        if (element.classList.contains("disabled")) {
+        if (element.classList.contains('disabled')) {
           return true;
         }
-        if (typeof element.disabled !== "undefined") {
+        if (typeof element.disabled !== 'undefined') {
           return element.disabled;
         }
-        return element.hasAttribute("disabled") && element.getAttribute("disabled") !== "false";
+        return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
       };
-      const findShadowRoot = (element) => {
+      const findShadowRoot = element => {
         if (!document.documentElement.attachShadow) {
           return null;
         }
 
         // Can find the shadow root otherwise it'll return the document
-        if (typeof element.getRootNode === "function") {
+        if (typeof element.getRootNode === 'function') {
           const root = element.getRootNode();
           return root instanceof ShadowRoot ? root : null;
         }
@@ -10498,21 +10341,21 @@ function requireUtil() {
        *
        * @see https://www.charistheo.io/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
        */
-      const reflow = (element) => {
+      const reflow = element => {
         element.offsetHeight; // eslint-disable-line no-unused-expressions
       };
       const getjQuery = () => {
-        if (window.jQuery && !document.body.hasAttribute("data-bs-no-jquery")) {
+        if (window.jQuery && !document.body.hasAttribute('data-bs-no-jquery')) {
           return window.jQuery;
         }
         return null;
       };
       const DOMContentLoadedCallbacks = [];
-      const onDOMContentLoaded = (callback) => {
-        if (document.readyState === "loading") {
+      const onDOMContentLoaded = callback => {
+        if (document.readyState === 'loading') {
           // add listener on the first call when the document is in loading state
           if (!DOMContentLoadedCallbacks.length) {
-            document.addEventListener("DOMContentLoaded", () => {
+            document.addEventListener('DOMContentLoaded', () => {
               for (const callback of DOMContentLoadedCallbacks) {
                 callback();
               }
@@ -10523,8 +10366,8 @@ function requireUtil() {
           callback();
         }
       };
-      const isRTL = () => document.documentElement.dir === "rtl";
-      const defineJQueryPlugin = (plugin) => {
+      const isRTL = () => document.documentElement.dir === 'rtl';
+      const defineJQueryPlugin = plugin => {
         onDOMContentLoaded(() => {
           const $ = getjQuery();
           /* istanbul ignore if */
@@ -10541,7 +10384,7 @@ function requireUtil() {
         });
       };
       const execute = (possibleCallback, args = [], defaultValue = possibleCallback) => {
-        return typeof possibleCallback === "function" ? possibleCallback(...args) : defaultValue;
+        return typeof possibleCallback === 'function' ? possibleCallback(...args) : defaultValue;
       };
       const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
         if (!waitForTransition) {
@@ -10549,8 +10392,7 @@ function requireUtil() {
           return;
         }
         const durationPadding = 5;
-        const emulatedDuration =
-          getTransitionDurationFromElement(transitionElement) + durationPadding;
+        const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
         let called = false;
         const handler = ({ target }) => {
           if (target !== transitionElement) {
@@ -10613,7 +10455,7 @@ function requireUtil() {
       exports$1.toType = toType;
       exports$1.triggerTransitionEnd = triggerTransitionEnd;
 
-      Object.defineProperty(exports$1, Symbol.toStringTag, { value: "Module" });
+      Object.defineProperty(exports$1, Symbol.toStringTag, { value: 'Module' });
     });
   })(util$1, util$1.exports);
   return util$1.exports;
@@ -10652,56 +10494,56 @@ function requireEventHandler() {
       const eventRegistry = {}; // Events storage
       let uidEvent = 1;
       const customEvents = {
-        mouseenter: "mouseover",
-        mouseleave: "mouseout",
+        mouseenter: 'mouseover',
+        mouseleave: 'mouseout',
       };
       const nativeEvents = new Set([
-        "click",
-        "dblclick",
-        "mouseup",
-        "mousedown",
-        "contextmenu",
-        "mousewheel",
-        "DOMMouseScroll",
-        "mouseover",
-        "mouseout",
-        "mousemove",
-        "selectstart",
-        "selectend",
-        "keydown",
-        "keypress",
-        "keyup",
-        "orientationchange",
-        "touchstart",
-        "touchmove",
-        "touchend",
-        "touchcancel",
-        "pointerdown",
-        "pointermove",
-        "pointerup",
-        "pointerleave",
-        "pointercancel",
-        "gesturestart",
-        "gesturechange",
-        "gestureend",
-        "focus",
-        "blur",
-        "change",
-        "reset",
-        "select",
-        "submit",
-        "focusin",
-        "focusout",
-        "load",
-        "unload",
-        "beforeunload",
-        "resize",
-        "move",
-        "DOMContentLoaded",
-        "readystatechange",
-        "error",
-        "abort",
-        "scroll",
+        'click',
+        'dblclick',
+        'mouseup',
+        'mousedown',
+        'contextmenu',
+        'mousewheel',
+        'DOMMouseScroll',
+        'mouseover',
+        'mouseout',
+        'mousemove',
+        'selectstart',
+        'selectend',
+        'keydown',
+        'keypress',
+        'keyup',
+        'orientationchange',
+        'touchstart',
+        'touchmove',
+        'touchend',
+        'touchcancel',
+        'pointerdown',
+        'pointermove',
+        'pointerup',
+        'pointerleave',
+        'pointercancel',
+        'gesturestart',
+        'gesturechange',
+        'gestureend',
+        'focus',
+        'blur',
+        'change',
+        'reset',
+        'select',
+        'submit',
+        'focusin',
+        'focusout',
+        'load',
+        'unload',
+        'beforeunload',
+        'resize',
+        'move',
+        'DOMContentLoaded',
+        'readystatechange',
+        'error',
+        'abort',
+        'scroll',
       ]);
 
       /**
@@ -10749,11 +10591,11 @@ function requireEventHandler() {
       }
       function findHandler(events, callable, delegationSelector = null) {
         return Object.values(events).find(
-          (event) => event.callable === callable && event.delegationSelector === delegationSelector,
+          event => event.callable === callable && event.delegationSelector === delegationSelector,
         );
       }
       function normalizeParameters(originalTypeEvent, handler, delegationFunction) {
-        const isDelegated = typeof handler === "string";
+        const isDelegated = typeof handler === 'string';
         // TODO: tooltip passes `false` instead of selector, so we need to check
         const callable = isDelegated ? delegationFunction : handler || delegationFunction;
         let typeEvent = getTypeEvent(originalTypeEvent);
@@ -10763,7 +10605,7 @@ function requireEventHandler() {
         return [isDelegated, callable, typeEvent];
       }
       function addHandler(element, originalTypeEvent, handler, delegationFunction, oneOff) {
-        if (typeof originalTypeEvent !== "string" || !element) {
+        if (typeof originalTypeEvent !== 'string' || !element) {
           return;
         }
         let [isDelegated, callable, typeEvent] = normalizeParameters(
@@ -10775,7 +10617,7 @@ function requireEventHandler() {
         // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
         // this prevents the handler from being dispatched the same way as mouseover or mouseout does
         if (originalTypeEvent in customEvents) {
-          const wrapFunction = (fn) => {
+          const wrapFunction = fn => {
             return function (event) {
               if (
                 !event.relatedTarget ||
@@ -10795,7 +10637,7 @@ function requireEventHandler() {
           previousFunction.oneOff = previousFunction.oneOff && oneOff;
           return;
         }
-        const uid = makeEventUid(callable, originalTypeEvent.replace(namespaceRegex, ""));
+        const uid = makeEventUid(callable, originalTypeEvent.replace(namespaceRegex, ''));
         const fn = isDelegated
           ? bootstrapDelegationHandler(element, handler, callable)
           : bootstrapHandler(element, callable);
@@ -10824,7 +10666,7 @@ function requireEventHandler() {
       }
       function getTypeEvent(event) {
         // allow to get the native events from namespaced events ('click.bs.button' --> 'click')
-        event = event.replace(stripNameRegex, "");
+        event = event.replace(stripNameRegex, '');
         return customEvents[event] || event;
       }
       const EventHandler = {
@@ -10835,7 +10677,7 @@ function requireEventHandler() {
           addHandler(element, event, handler, delegationFunction, true);
         },
         off(element, originalTypeEvent, handler, delegationFunction) {
-          if (typeof originalTypeEvent !== "string" || !element) {
+          if (typeof originalTypeEvent !== 'string' || !element) {
             return;
           }
           const [isDelegated, callable, typeEvent] = normalizeParameters(
@@ -10846,8 +10688,8 @@ function requireEventHandler() {
           const inNamespace = typeEvent !== originalTypeEvent;
           const events = getElementEvents(element);
           const storeElementEvent = events[typeEvent] || {};
-          const isNamespace = originalTypeEvent.startsWith(".");
-          if (typeof callable !== "undefined") {
+          const isNamespace = originalTypeEvent.startsWith('.');
+          if (typeof callable !== 'undefined') {
             // Simplest case: handler is passed, remove that listener ONLY.
             if (!Object.keys(storeElementEvent).length) {
               return;
@@ -10861,14 +10703,14 @@ function requireEventHandler() {
             }
           }
           for (const [keyHandlers, event] of Object.entries(storeElementEvent)) {
-            const handlerKey = keyHandlers.replace(stripUidRegex, "");
+            const handlerKey = keyHandlers.replace(stripUidRegex, '');
             if (!inNamespace || originalTypeEvent.includes(handlerKey)) {
               removeHandler(element, events, typeEvent, event.callable, event.delegationSelector);
             }
           }
         },
         trigger(element, event, args) {
-          if (typeof event !== "string" || !element) {
+          if (typeof event !== 'string' || !element) {
             return null;
           }
           const $ = index_js.getjQuery();
@@ -10954,19 +10796,19 @@ function requireManipulator() {
        */
 
       function normalizeData(value) {
-        if (value === "true") {
+        if (value === 'true') {
           return true;
         }
-        if (value === "false") {
+        if (value === 'false') {
           return false;
         }
         if (value === Number(value).toString()) {
           return Number(value);
         }
-        if (value === "" || value === "null") {
+        if (value === '' || value === 'null') {
           return null;
         }
-        if (typeof value !== "string") {
+        if (typeof value !== 'string') {
           return value;
         }
         try {
@@ -10976,7 +10818,7 @@ function requireManipulator() {
         }
       }
       function normalizeDataKey(key) {
-        return key.replace(/[A-Z]/g, (chr) => `-${chr.toLowerCase()}`);
+        return key.replace(/[A-Z]/g, chr => `-${chr.toLowerCase()}`);
       }
       const Manipulator = {
         setDataAttribute(element, key, value) {
@@ -10991,10 +10833,10 @@ function requireManipulator() {
           }
           const attributes = {};
           const bsKeys = Object.keys(element.dataset).filter(
-            (key) => key.startsWith("bs") && !key.startsWith("bsConfig"),
+            key => key.startsWith('bs') && !key.startsWith('bsConfig'),
           );
           for (const key of bsKeys) {
-            let pureKey = key.replace(/^bs/, "");
+            let pureKey = key.replace(/^bs/, '');
             pureKey = pureKey.charAt(0).toLowerCase() + pureKey.slice(1, pureKey.length);
             attributes[pureKey] = normalizeData(element.dataset[key]);
           }
@@ -11060,20 +10902,20 @@ function requireConfig() {
         }
         _mergeConfigObj(config, element) {
           const jsonConfig = index_js.isElement(element)
-            ? Manipulator.getDataAttribute(element, "config")
+            ? Manipulator.getDataAttribute(element, 'config')
             : {}; // try to parse
 
           return {
             ...this.constructor.Default,
-            ...(typeof jsonConfig === "object" ? jsonConfig : {}),
+            ...(typeof jsonConfig === 'object' ? jsonConfig : {}),
             ...(index_js.isElement(element) ? Manipulator.getDataAttributes(element) : {}),
-            ...(typeof config === "object" ? config : {}),
+            ...(typeof config === 'object' ? config : {}),
           };
         }
         _typeCheckConfig(config, configTypes = this.constructor.DefaultType) {
           for (const [property, expectedTypes] of Object.entries(configTypes)) {
             const value = config[property];
-            const valueType = index_js.isElement(value) ? "element" : index_js.toType(value);
+            const valueType = index_js.isElement(value) ? 'element' : index_js.toType(value);
             if (!new RegExp(expectedTypes).test(valueType)) {
               throw new TypeError(
                 `${this.constructor.NAME.toUpperCase()}: Option "${property}" provided type "${valueType}" but expected type "${expectedTypes}".`,
@@ -11103,12 +10945,7 @@ function requireBaseComponent() {
   hasRequiredBaseComponent = 1;
   (function (module, exports$1) {
     (function (global, factory) {
-      module.exports = factory(
-        requireData(),
-        requireEventHandler(),
-        requireConfig(),
-        requireUtil(),
-      );
+      module.exports = factory(requireData(), requireEventHandler(), requireConfig(), requireUtil());
     })(baseComponent, function (Data, EventHandler, Config, index_js) {
       /**
        * --------------------------------------------------------------------------
@@ -11121,7 +10958,7 @@ function requireBaseComponent() {
        * Constants
        */
 
-      const VERSION = "5.3.3";
+      const VERSION = '5.3.3';
 
       /**
        * Class definition
@@ -11162,10 +10999,7 @@ function requireBaseComponent() {
           return Data.get(index_js.getElement(element), this.DATA_KEY);
         }
         static getOrCreateInstance(element, config = {}) {
-          return (
-            this.getInstance(element) ||
-            new this(element, typeof config === "object" ? config : null)
-          );
+          return this.getInstance(element) || new this(element, typeof config === 'object' ? config : null);
         }
         static get VERSION() {
           return VERSION;
@@ -11212,30 +11046,30 @@ function requireSelectorEngine() {
        * --------------------------------------------------------------------------
        */
 
-      const getSelector = (element) => {
-        let selector = element.getAttribute("data-bs-target");
-        if (!selector || selector === "#") {
-          let hrefAttribute = element.getAttribute("href");
+      const getSelector = element => {
+        let selector = element.getAttribute('data-bs-target');
+        if (!selector || selector === '#') {
+          let hrefAttribute = element.getAttribute('href');
 
           // The only valid content that could double as a selector are IDs or classes,
           // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
           // `document.querySelector` will rightfully complain it is invalid.
           // See https://github.com/twbs/bootstrap/issues/32273
-          if (!hrefAttribute || (!hrefAttribute.includes("#") && !hrefAttribute.startsWith("."))) {
+          if (!hrefAttribute || (!hrefAttribute.includes('#') && !hrefAttribute.startsWith('.'))) {
             return null;
           }
 
           // Just in case some CMS puts out a full URL with the anchor appended
-          if (hrefAttribute.includes("#") && !hrefAttribute.startsWith("#")) {
-            hrefAttribute = `#${hrefAttribute.split("#")[1]}`;
+          if (hrefAttribute.includes('#') && !hrefAttribute.startsWith('#')) {
+            hrefAttribute = `#${hrefAttribute.split('#')[1]}`;
           }
-          selector = hrefAttribute && hrefAttribute !== "#" ? hrefAttribute.trim() : null;
+          selector = hrefAttribute && hrefAttribute !== '#' ? hrefAttribute.trim() : null;
         }
         return selector
           ? selector
-              .split(",")
-              .map((sel) => index_js.parseSelector(sel))
-              .join(",")
+              .split(',')
+              .map(sel => index_js.parseSelector(sel))
+              .join(',')
           : null;
       };
       const SelectorEngine = {
@@ -11246,7 +11080,7 @@ function requireSelectorEngine() {
           return Element.prototype.querySelector.call(element, selector);
         },
         children(element, selector) {
-          return [].concat(...element.children).filter((child) => child.matches(selector));
+          return [].concat(...element.children).filter(child => child.matches(selector));
         },
         parents(element, selector) {
           const parents = [];
@@ -11280,19 +11114,19 @@ function requireSelectorEngine() {
         },
         focusableChildren(element) {
           const focusables = [
-            "a",
-            "button",
-            "input",
-            "textarea",
-            "select",
-            "details",
-            "[tabindex]",
+            'a',
+            'button',
+            'input',
+            'textarea',
+            'select',
+            'details',
+            '[tabindex]',
             '[contenteditable="true"]',
           ]
-            .map((selector) => `${selector}:not([tabindex^="-"])`)
-            .join(",");
+            .map(selector => `${selector}:not([tabindex^="-"])`)
+            .join(',');
           return this.find(focusables, element).filter(
-            (el) => !index_js.isDisabled(el) && index_js.isVisible(el),
+            el => !index_js.isDisabled(el) && index_js.isVisible(el),
           );
         },
         getSelectorFromElement(element) {
@@ -11340,451 +11174,426 @@ function requireDropdown() {
         requireSelectorEngine(),
         requireUtil(),
       );
-    })(
-      dropdown,
-      function (Popper, BaseComponent, EventHandler, Manipulator, SelectorEngine, index_js) {
-        function _interopNamespaceDefault(e) {
-          const n = Object.create(null, { [Symbol.toStringTag]: { value: "Module" } });
-          if (e) {
-            for (const k in e) {
-              if (k !== "default") {
-                const d = Object.getOwnPropertyDescriptor(e, k);
-                Object.defineProperty(
-                  n,
-                  k,
-                  d.get
-                    ? d
-                    : {
-                        enumerable: true,
-                        get: () => e[k],
-                      },
-                );
-              }
-            }
-          }
-          n.default = e;
-          return Object.freeze(n);
-        }
-
-        const Popper__namespace = /*#__PURE__*/ _interopNamespaceDefault(Popper);
-
-        /**
-         * --------------------------------------------------------------------------
-         * Bootstrap dropdown.js
-         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
-         * --------------------------------------------------------------------------
-         */
-
-        /**
-         * Constants
-         */
-
-        const NAME = "dropdown";
-        const DATA_KEY = "bs.dropdown";
-        const EVENT_KEY = `.${DATA_KEY}`;
-        const DATA_API_KEY = ".data-api";
-        const ESCAPE_KEY = "Escape";
-        const TAB_KEY = "Tab";
-        const ARROW_UP_KEY = "ArrowUp";
-        const ARROW_DOWN_KEY = "ArrowDown";
-        const RIGHT_MOUSE_BUTTON = 2; // MouseEvent.button value for the secondary button, usually the right button
-
-        const EVENT_HIDE = `hide${EVENT_KEY}`;
-        const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
-        const EVENT_SHOW = `show${EVENT_KEY}`;
-        const EVENT_SHOWN = `shown${EVENT_KEY}`;
-        const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
-        const EVENT_KEYDOWN_DATA_API = `keydown${EVENT_KEY}${DATA_API_KEY}`;
-        const EVENT_KEYUP_DATA_API = `keyup${EVENT_KEY}${DATA_API_KEY}`;
-        const CLASS_NAME_SHOW = "show";
-        const CLASS_NAME_DROPUP = "dropup";
-        const CLASS_NAME_DROPEND = "dropend";
-        const CLASS_NAME_DROPSTART = "dropstart";
-        const CLASS_NAME_DROPUP_CENTER = "dropup-center";
-        const CLASS_NAME_DROPDOWN_CENTER = "dropdown-center";
-        const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="dropdown"]:not(.disabled):not(:disabled)';
-        const SELECTOR_DATA_TOGGLE_SHOWN = `${SELECTOR_DATA_TOGGLE}.${CLASS_NAME_SHOW}`;
-        const SELECTOR_MENU = ".dropdown-menu";
-        const SELECTOR_NAVBAR = ".navbar";
-        const SELECTOR_NAVBAR_NAV = ".navbar-nav";
-        const SELECTOR_VISIBLE_ITEMS =
-          ".dropdown-menu .dropdown-item:not(.disabled):not(:disabled)";
-        const PLACEMENT_TOP = index_js.isRTL() ? "top-end" : "top-start";
-        const PLACEMENT_TOPEND = index_js.isRTL() ? "top-start" : "top-end";
-        const PLACEMENT_BOTTOM = index_js.isRTL() ? "bottom-end" : "bottom-start";
-        const PLACEMENT_BOTTOMEND = index_js.isRTL() ? "bottom-start" : "bottom-end";
-        const PLACEMENT_RIGHT = index_js.isRTL() ? "left-start" : "right-start";
-        const PLACEMENT_LEFT = index_js.isRTL() ? "right-start" : "left-start";
-        const PLACEMENT_TOPCENTER = "top";
-        const PLACEMENT_BOTTOMCENTER = "bottom";
-        const Default = {
-          autoClose: true,
-          boundary: "clippingParents",
-          display: "dynamic",
-          offset: [0, 2],
-          popperConfig: null,
-          reference: "toggle",
-        };
-        const DefaultType = {
-          autoClose: "(boolean|string)",
-          boundary: "(string|element)",
-          display: "string",
-          offset: "(array|string|function)",
-          popperConfig: "(null|object|function)",
-          reference: "(string|element|object)",
-        };
-
-        /**
-         * Class definition
-         */
-
-        class Dropdown extends BaseComponent {
-          constructor(element, config) {
-            super(element, config);
-            this._popper = null;
-            this._parent = this._element.parentNode; // dropdown wrapper
-            // TODO: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.3/forms/input-group/
-            this._menu =
-              SelectorEngine.next(this._element, SELECTOR_MENU)[0] ||
-              SelectorEngine.prev(this._element, SELECTOR_MENU)[0] ||
-              SelectorEngine.findOne(SELECTOR_MENU, this._parent);
-            this._inNavbar = this._detectNavbar();
-          }
-
-          // Getters
-          static get Default() {
-            return Default;
-          }
-          static get DefaultType() {
-            return DefaultType;
-          }
-          static get NAME() {
-            return NAME;
-          }
-
-          // Public
-          toggle() {
-            return this._isShown() ? this.hide() : this.show();
-          }
-          show() {
-            if (index_js.isDisabled(this._element) || this._isShown()) {
-              return;
-            }
-            const relatedTarget = {
-              relatedTarget: this._element,
-            };
-            const showEvent = EventHandler.trigger(this._element, EVENT_SHOW, relatedTarget);
-            if (showEvent.defaultPrevented) {
-              return;
-            }
-            this._createPopper();
-
-            // If this is a touch-enabled device we add extra
-            // empty mouseover listeners to the body's immediate children;
-            // only needed because of broken event delegation on iOS
-            // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
-            if (
-              "ontouchstart" in document.documentElement &&
-              !this._parent.closest(SELECTOR_NAVBAR_NAV)
-            ) {
-              for (const element of [].concat(...document.body.children)) {
-                EventHandler.on(element, "mouseover", index_js.noop);
-              }
-            }
-            this._element.focus();
-            this._element.setAttribute("aria-expanded", true);
-            this._menu.classList.add(CLASS_NAME_SHOW);
-            this._element.classList.add(CLASS_NAME_SHOW);
-            EventHandler.trigger(this._element, EVENT_SHOWN, relatedTarget);
-          }
-          hide() {
-            if (index_js.isDisabled(this._element) || !this._isShown()) {
-              return;
-            }
-            const relatedTarget = {
-              relatedTarget: this._element,
-            };
-            this._completeHide(relatedTarget);
-          }
-          dispose() {
-            if (this._popper) {
-              this._popper.destroy();
-            }
-            super.dispose();
-          }
-          update() {
-            this._inNavbar = this._detectNavbar();
-            if (this._popper) {
-              this._popper.update();
-            }
-          }
-
-          // Private
-          _completeHide(relatedTarget) {
-            const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE, relatedTarget);
-            if (hideEvent.defaultPrevented) {
-              return;
-            }
-
-            // If this is a touch-enabled device we remove the extra
-            // empty mouseover listeners we added for iOS support
-            if ("ontouchstart" in document.documentElement) {
-              for (const element of [].concat(...document.body.children)) {
-                EventHandler.off(element, "mouseover", index_js.noop);
-              }
-            }
-            if (this._popper) {
-              this._popper.destroy();
-            }
-            this._menu.classList.remove(CLASS_NAME_SHOW);
-            this._element.classList.remove(CLASS_NAME_SHOW);
-            this._element.setAttribute("aria-expanded", "false");
-            Manipulator.removeDataAttribute(this._menu, "popper");
-            EventHandler.trigger(this._element, EVENT_HIDDEN, relatedTarget);
-          }
-          _getConfig(config) {
-            config = super._getConfig(config);
-            if (
-              typeof config.reference === "object" &&
-              !index_js.isElement(config.reference) &&
-              typeof config.reference.getBoundingClientRect !== "function"
-            ) {
-              // Popper virtual elements require a getBoundingClientRect method
-              throw new TypeError(
-                `${NAME.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`,
+    })(dropdown, function (Popper, BaseComponent, EventHandler, Manipulator, SelectorEngine, index_js) {
+      function _interopNamespaceDefault(e) {
+        const n = Object.create(null, { [Symbol.toStringTag]: { value: 'Module' } });
+        if (e) {
+          for (const k in e) {
+            if (k !== 'default') {
+              const d = Object.getOwnPropertyDescriptor(e, k);
+              Object.defineProperty(
+                n,
+                k,
+                d.get
+                  ? d
+                  : {
+                      enumerable: true,
+                      get: () => e[k],
+                    },
               );
             }
-            return config;
           }
-          _createPopper() {
-            if (typeof Popper__namespace === "undefined") {
-              throw new TypeError("Bootstrap's dropdowns require Popper (https://popper.js.org)");
-            }
-            let referenceElement = this._element;
-            if (this._config.reference === "parent") {
-              referenceElement = this._parent;
-            } else if (index_js.isElement(this._config.reference)) {
-              referenceElement = index_js.getElement(this._config.reference);
-            } else if (typeof this._config.reference === "object") {
-              referenceElement = this._config.reference;
-            }
-            const popperConfig = this._getPopperConfig();
-            this._popper = Popper__namespace.createPopper(
-              referenceElement,
-              this._menu,
-              popperConfig,
-            );
-          }
-          _isShown() {
-            return this._menu.classList.contains(CLASS_NAME_SHOW);
-          }
-          _getPlacement() {
-            const parentDropdown = this._parent;
-            if (parentDropdown.classList.contains(CLASS_NAME_DROPEND)) {
-              return PLACEMENT_RIGHT;
-            }
-            if (parentDropdown.classList.contains(CLASS_NAME_DROPSTART)) {
-              return PLACEMENT_LEFT;
-            }
-            if (parentDropdown.classList.contains(CLASS_NAME_DROPUP_CENTER)) {
-              return PLACEMENT_TOPCENTER;
-            }
-            if (parentDropdown.classList.contains(CLASS_NAME_DROPDOWN_CENTER)) {
-              return PLACEMENT_BOTTOMCENTER;
-            }
+        }
+        n.default = e;
+        return Object.freeze(n);
+      }
 
-            // We need to trim the value because custom properties can also include spaces
-            const isEnd =
-              getComputedStyle(this._menu).getPropertyValue("--bs-position").trim() === "end";
-            if (parentDropdown.classList.contains(CLASS_NAME_DROPUP)) {
-              return isEnd ? PLACEMENT_TOPEND : PLACEMENT_TOP;
-            }
-            return isEnd ? PLACEMENT_BOTTOMEND : PLACEMENT_BOTTOM;
-          }
-          _detectNavbar() {
-            return this._element.closest(SELECTOR_NAVBAR) !== null;
-          }
-          _getOffset() {
-            const { offset } = this._config;
-            if (typeof offset === "string") {
-              return offset.split(",").map((value) => Number.parseInt(value, 10));
-            }
-            if (typeof offset === "function") {
-              return (popperData) => offset(popperData, this._element);
-            }
-            return offset;
-          }
-          _getPopperConfig() {
-            const defaultBsPopperConfig = {
-              placement: this._getPlacement(),
-              modifiers: [
-                {
-                  name: "preventOverflow",
-                  options: {
-                    boundary: this._config.boundary,
-                  },
-                },
-                {
-                  name: "offset",
-                  options: {
-                    offset: this._getOffset(),
-                  },
-                },
-              ],
-            };
+      const Popper__namespace = /*#__PURE__*/ _interopNamespaceDefault(Popper);
 
-            // Disable Popper if we have a static display or Dropdown is in Navbar
-            if (this._inNavbar || this._config.display === "static") {
-              Manipulator.setDataAttribute(this._menu, "popper", "static"); // TODO: v6 remove
-              defaultBsPopperConfig.modifiers = [
-                {
-                  name: "applyStyles",
-                  enabled: false,
-                },
-              ];
-            }
-            return {
-              ...defaultBsPopperConfig,
-              ...index_js.execute(this._config.popperConfig, [defaultBsPopperConfig]),
-            };
+      /**
+       * --------------------------------------------------------------------------
+       * Bootstrap dropdown.js
+       * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
+       * --------------------------------------------------------------------------
+       */
+
+      /**
+       * Constants
+       */
+
+      const NAME = 'dropdown';
+      const DATA_KEY = 'bs.dropdown';
+      const EVENT_KEY = `.${DATA_KEY}`;
+      const DATA_API_KEY = '.data-api';
+      const ESCAPE_KEY = 'Escape';
+      const TAB_KEY = 'Tab';
+      const ARROW_UP_KEY = 'ArrowUp';
+      const ARROW_DOWN_KEY = 'ArrowDown';
+      const RIGHT_MOUSE_BUTTON = 2; // MouseEvent.button value for the secondary button, usually the right button
+
+      const EVENT_HIDE = `hide${EVENT_KEY}`;
+      const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
+      const EVENT_SHOW = `show${EVENT_KEY}`;
+      const EVENT_SHOWN = `shown${EVENT_KEY}`;
+      const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
+      const EVENT_KEYDOWN_DATA_API = `keydown${EVENT_KEY}${DATA_API_KEY}`;
+      const EVENT_KEYUP_DATA_API = `keyup${EVENT_KEY}${DATA_API_KEY}`;
+      const CLASS_NAME_SHOW = 'show';
+      const CLASS_NAME_DROPUP = 'dropup';
+      const CLASS_NAME_DROPEND = 'dropend';
+      const CLASS_NAME_DROPSTART = 'dropstart';
+      const CLASS_NAME_DROPUP_CENTER = 'dropup-center';
+      const CLASS_NAME_DROPDOWN_CENTER = 'dropdown-center';
+      const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="dropdown"]:not(.disabled):not(:disabled)';
+      const SELECTOR_DATA_TOGGLE_SHOWN = `${SELECTOR_DATA_TOGGLE}.${CLASS_NAME_SHOW}`;
+      const SELECTOR_MENU = '.dropdown-menu';
+      const SELECTOR_NAVBAR = '.navbar';
+      const SELECTOR_NAVBAR_NAV = '.navbar-nav';
+      const SELECTOR_VISIBLE_ITEMS = '.dropdown-menu .dropdown-item:not(.disabled):not(:disabled)';
+      const PLACEMENT_TOP = index_js.isRTL() ? 'top-end' : 'top-start';
+      const PLACEMENT_TOPEND = index_js.isRTL() ? 'top-start' : 'top-end';
+      const PLACEMENT_BOTTOM = index_js.isRTL() ? 'bottom-end' : 'bottom-start';
+      const PLACEMENT_BOTTOMEND = index_js.isRTL() ? 'bottom-start' : 'bottom-end';
+      const PLACEMENT_RIGHT = index_js.isRTL() ? 'left-start' : 'right-start';
+      const PLACEMENT_LEFT = index_js.isRTL() ? 'right-start' : 'left-start';
+      const PLACEMENT_TOPCENTER = 'top';
+      const PLACEMENT_BOTTOMCENTER = 'bottom';
+      const Default = {
+        autoClose: true,
+        boundary: 'clippingParents',
+        display: 'dynamic',
+        offset: [0, 2],
+        popperConfig: null,
+        reference: 'toggle',
+      };
+      const DefaultType = {
+        autoClose: '(boolean|string)',
+        boundary: '(string|element)',
+        display: 'string',
+        offset: '(array|string|function)',
+        popperConfig: '(null|object|function)',
+        reference: '(string|element|object)',
+      };
+
+      /**
+       * Class definition
+       */
+
+      class Dropdown extends BaseComponent {
+        constructor(element, config) {
+          super(element, config);
+          this._popper = null;
+          this._parent = this._element.parentNode; // dropdown wrapper
+          // TODO: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.3/forms/input-group/
+          this._menu =
+            SelectorEngine.next(this._element, SELECTOR_MENU)[0] ||
+            SelectorEngine.prev(this._element, SELECTOR_MENU)[0] ||
+            SelectorEngine.findOne(SELECTOR_MENU, this._parent);
+          this._inNavbar = this._detectNavbar();
+        }
+
+        // Getters
+        static get Default() {
+          return Default;
+        }
+        static get DefaultType() {
+          return DefaultType;
+        }
+        static get NAME() {
+          return NAME;
+        }
+
+        // Public
+        toggle() {
+          return this._isShown() ? this.hide() : this.show();
+        }
+        show() {
+          if (index_js.isDisabled(this._element) || this._isShown()) {
+            return;
           }
-          _selectMenuItem({ key, target }) {
-            const items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, this._menu).filter(
-              (element) => index_js.isVisible(element),
-            );
-            if (!items.length) {
-              return;
-            }
-
-            // if target isn't included in items (e.g. when expanding the dropdown)
-            // allow cycling to get the last item in case key equals ARROW_UP_KEY
-            index_js
-              .getNextActiveElement(items, target, key === ARROW_DOWN_KEY, !items.includes(target))
-              .focus();
+          const relatedTarget = {
+            relatedTarget: this._element,
+          };
+          const showEvent = EventHandler.trigger(this._element, EVENT_SHOW, relatedTarget);
+          if (showEvent.defaultPrevented) {
+            return;
           }
+          this._createPopper();
 
-          // Static
-          static jQueryInterface(config) {
-            return this.each(function () {
-              const data = Dropdown.getOrCreateInstance(this, config);
-              if (typeof config !== "string") {
-                return;
-              }
-              if (typeof data[config] === "undefined") {
-                throw new TypeError(`No method named "${config}"`);
-              }
-              data[config]();
-            });
-          }
-          static clearMenus(event) {
-            if (
-              event.button === RIGHT_MOUSE_BUTTON ||
-              (event.type === "keyup" && event.key !== TAB_KEY)
-            ) {
-              return;
-            }
-            const openToggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE_SHOWN);
-            for (const toggle of openToggles) {
-              const context = Dropdown.getInstance(toggle);
-              if (!context || context._config.autoClose === false) {
-                continue;
-              }
-              const composedPath = event.composedPath();
-              const isMenuTarget = composedPath.includes(context._menu);
-              if (
-                composedPath.includes(context._element) ||
-                (context._config.autoClose === "inside" && !isMenuTarget) ||
-                (context._config.autoClose === "outside" && isMenuTarget)
-              ) {
-                continue;
-              }
-
-              // Tab navigation through the dropdown menu or events from contained inputs shouldn't close the menu
-              if (
-                context._menu.contains(event.target) &&
-                ((event.type === "keyup" && event.key === TAB_KEY) ||
-                  /input|select|option|textarea|form/i.test(event.target.tagName))
-              ) {
-                continue;
-              }
-              const relatedTarget = {
-                relatedTarget: context._element,
-              };
-              if (event.type === "click") {
-                relatedTarget.clickEvent = event;
-              }
-              context._completeHide(relatedTarget);
+          // If this is a touch-enabled device we add extra
+          // empty mouseover listeners to the body's immediate children;
+          // only needed because of broken event delegation on iOS
+          // https://www.quirksmode.org/blog/archives/2014/02/mouse_event_bub.html
+          if ('ontouchstart' in document.documentElement && !this._parent.closest(SELECTOR_NAVBAR_NAV)) {
+            for (const element of [].concat(...document.body.children)) {
+              EventHandler.on(element, 'mouseover', index_js.noop);
             }
           }
-          static dataApiKeydownHandler(event) {
-            // If not an UP | DOWN | ESCAPE key => not a dropdown command
-            // If input/textarea && if key is other than ESCAPE => not a dropdown command
-
-            const isInput = /input|textarea/i.test(event.target.tagName);
-            const isEscapeEvent = event.key === ESCAPE_KEY;
-            const isUpOrDownEvent = [ARROW_UP_KEY, ARROW_DOWN_KEY].includes(event.key);
-            if (!isUpOrDownEvent && !isEscapeEvent) {
-              return;
-            }
-            if (isInput && !isEscapeEvent) {
-              return;
-            }
-            event.preventDefault();
-
-            // TODO: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.3/forms/input-group/
-            const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE)
-              ? this
-              : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE)[0] ||
-                SelectorEngine.next(this, SELECTOR_DATA_TOGGLE)[0] ||
-                SelectorEngine.findOne(SELECTOR_DATA_TOGGLE, event.delegateTarget.parentNode);
-            const instance = Dropdown.getOrCreateInstance(getToggleButton);
-            if (isUpOrDownEvent) {
-              event.stopPropagation();
-              instance.show();
-              instance._selectMenuItem(event);
-              return;
-            }
-            if (instance._isShown()) {
-              // else is escape and we check if it is shown
-              event.stopPropagation();
-              instance.hide();
-              getToggleButton.focus();
-            }
+          this._element.focus();
+          this._element.setAttribute('aria-expanded', true);
+          this._menu.classList.add(CLASS_NAME_SHOW);
+          this._element.classList.add(CLASS_NAME_SHOW);
+          EventHandler.trigger(this._element, EVENT_SHOWN, relatedTarget);
+        }
+        hide() {
+          if (index_js.isDisabled(this._element) || !this._isShown()) {
+            return;
+          }
+          const relatedTarget = {
+            relatedTarget: this._element,
+          };
+          this._completeHide(relatedTarget);
+        }
+        dispose() {
+          if (this._popper) {
+            this._popper.destroy();
+          }
+          super.dispose();
+        }
+        update() {
+          this._inNavbar = this._detectNavbar();
+          if (this._popper) {
+            this._popper.update();
           }
         }
 
-        /**
-         * Data API implementation
-         */
+        // Private
+        _completeHide(relatedTarget) {
+          const hideEvent = EventHandler.trigger(this._element, EVENT_HIDE, relatedTarget);
+          if (hideEvent.defaultPrevented) {
+            return;
+          }
 
-        EventHandler.on(
-          document,
-          EVENT_KEYDOWN_DATA_API,
-          SELECTOR_DATA_TOGGLE,
-          Dropdown.dataApiKeydownHandler,
-        );
-        EventHandler.on(
-          document,
-          EVENT_KEYDOWN_DATA_API,
-          SELECTOR_MENU,
-          Dropdown.dataApiKeydownHandler,
-        );
-        EventHandler.on(document, EVENT_CLICK_DATA_API, Dropdown.clearMenus);
-        EventHandler.on(document, EVENT_KEYUP_DATA_API, Dropdown.clearMenus);
-        EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
+          // If this is a touch-enabled device we remove the extra
+          // empty mouseover listeners we added for iOS support
+          if ('ontouchstart' in document.documentElement) {
+            for (const element of [].concat(...document.body.children)) {
+              EventHandler.off(element, 'mouseover', index_js.noop);
+            }
+          }
+          if (this._popper) {
+            this._popper.destroy();
+          }
+          this._menu.classList.remove(CLASS_NAME_SHOW);
+          this._element.classList.remove(CLASS_NAME_SHOW);
+          this._element.setAttribute('aria-expanded', 'false');
+          Manipulator.removeDataAttribute(this._menu, 'popper');
+          EventHandler.trigger(this._element, EVENT_HIDDEN, relatedTarget);
+        }
+        _getConfig(config) {
+          config = super._getConfig(config);
+          if (
+            typeof config.reference === 'object' &&
+            !index_js.isElement(config.reference) &&
+            typeof config.reference.getBoundingClientRect !== 'function'
+          ) {
+            // Popper virtual elements require a getBoundingClientRect method
+            throw new TypeError(
+              `${NAME.toUpperCase()}: Option "reference" provided type "object" without a required "getBoundingClientRect" method.`,
+            );
+          }
+          return config;
+        }
+        _createPopper() {
+          if (typeof Popper__namespace === 'undefined') {
+            throw new TypeError("Bootstrap's dropdowns require Popper (https://popper.js.org)");
+          }
+          let referenceElement = this._element;
+          if (this._config.reference === 'parent') {
+            referenceElement = this._parent;
+          } else if (index_js.isElement(this._config.reference)) {
+            referenceElement = index_js.getElement(this._config.reference);
+          } else if (typeof this._config.reference === 'object') {
+            referenceElement = this._config.reference;
+          }
+          const popperConfig = this._getPopperConfig();
+          this._popper = Popper__namespace.createPopper(referenceElement, this._menu, popperConfig);
+        }
+        _isShown() {
+          return this._menu.classList.contains(CLASS_NAME_SHOW);
+        }
+        _getPlacement() {
+          const parentDropdown = this._parent;
+          if (parentDropdown.classList.contains(CLASS_NAME_DROPEND)) {
+            return PLACEMENT_RIGHT;
+          }
+          if (parentDropdown.classList.contains(CLASS_NAME_DROPSTART)) {
+            return PLACEMENT_LEFT;
+          }
+          if (parentDropdown.classList.contains(CLASS_NAME_DROPUP_CENTER)) {
+            return PLACEMENT_TOPCENTER;
+          }
+          if (parentDropdown.classList.contains(CLASS_NAME_DROPDOWN_CENTER)) {
+            return PLACEMENT_BOTTOMCENTER;
+          }
+
+          // We need to trim the value because custom properties can also include spaces
+          const isEnd = getComputedStyle(this._menu).getPropertyValue('--bs-position').trim() === 'end';
+          if (parentDropdown.classList.contains(CLASS_NAME_DROPUP)) {
+            return isEnd ? PLACEMENT_TOPEND : PLACEMENT_TOP;
+          }
+          return isEnd ? PLACEMENT_BOTTOMEND : PLACEMENT_BOTTOM;
+        }
+        _detectNavbar() {
+          return this._element.closest(SELECTOR_NAVBAR) !== null;
+        }
+        _getOffset() {
+          const { offset } = this._config;
+          if (typeof offset === 'string') {
+            return offset.split(',').map(value => Number.parseInt(value, 10));
+          }
+          if (typeof offset === 'function') {
+            return popperData => offset(popperData, this._element);
+          }
+          return offset;
+        }
+        _getPopperConfig() {
+          const defaultBsPopperConfig = {
+            placement: this._getPlacement(),
+            modifiers: [
+              {
+                name: 'preventOverflow',
+                options: {
+                  boundary: this._config.boundary,
+                },
+              },
+              {
+                name: 'offset',
+                options: {
+                  offset: this._getOffset(),
+                },
+              },
+            ],
+          };
+
+          // Disable Popper if we have a static display or Dropdown is in Navbar
+          if (this._inNavbar || this._config.display === 'static') {
+            Manipulator.setDataAttribute(this._menu, 'popper', 'static'); // TODO: v6 remove
+            defaultBsPopperConfig.modifiers = [
+              {
+                name: 'applyStyles',
+                enabled: false,
+              },
+            ];
+          }
+          return {
+            ...defaultBsPopperConfig,
+            ...index_js.execute(this._config.popperConfig, [defaultBsPopperConfig]),
+          };
+        }
+        _selectMenuItem({ key, target }) {
+          const items = SelectorEngine.find(SELECTOR_VISIBLE_ITEMS, this._menu).filter(element =>
+            index_js.isVisible(element),
+          );
+          if (!items.length) {
+            return;
+          }
+
+          // if target isn't included in items (e.g. when expanding the dropdown)
+          // allow cycling to get the last item in case key equals ARROW_UP_KEY
+          index_js
+            .getNextActiveElement(items, target, key === ARROW_DOWN_KEY, !items.includes(target))
+            .focus();
+        }
+
+        // Static
+        static jQueryInterface(config) {
+          return this.each(function () {
+            const data = Dropdown.getOrCreateInstance(this, config);
+            if (typeof config !== 'string') {
+              return;
+            }
+            if (typeof data[config] === 'undefined') {
+              throw new TypeError(`No method named "${config}"`);
+            }
+            data[config]();
+          });
+        }
+        static clearMenus(event) {
+          if (event.button === RIGHT_MOUSE_BUTTON || (event.type === 'keyup' && event.key !== TAB_KEY)) {
+            return;
+          }
+          const openToggles = SelectorEngine.find(SELECTOR_DATA_TOGGLE_SHOWN);
+          for (const toggle of openToggles) {
+            const context = Dropdown.getInstance(toggle);
+            if (!context || context._config.autoClose === false) {
+              continue;
+            }
+            const composedPath = event.composedPath();
+            const isMenuTarget = composedPath.includes(context._menu);
+            if (
+              composedPath.includes(context._element) ||
+              (context._config.autoClose === 'inside' && !isMenuTarget) ||
+              (context._config.autoClose === 'outside' && isMenuTarget)
+            ) {
+              continue;
+            }
+
+            // Tab navigation through the dropdown menu or events from contained inputs shouldn't close the menu
+            if (
+              context._menu.contains(event.target) &&
+              ((event.type === 'keyup' && event.key === TAB_KEY) ||
+                /input|select|option|textarea|form/i.test(event.target.tagName))
+            ) {
+              continue;
+            }
+            const relatedTarget = {
+              relatedTarget: context._element,
+            };
+            if (event.type === 'click') {
+              relatedTarget.clickEvent = event;
+            }
+            context._completeHide(relatedTarget);
+          }
+        }
+        static dataApiKeydownHandler(event) {
+          // If not an UP | DOWN | ESCAPE key => not a dropdown command
+          // If input/textarea && if key is other than ESCAPE => not a dropdown command
+
+          const isInput = /input|textarea/i.test(event.target.tagName);
+          const isEscapeEvent = event.key === ESCAPE_KEY;
+          const isUpOrDownEvent = [ARROW_UP_KEY, ARROW_DOWN_KEY].includes(event.key);
+          if (!isUpOrDownEvent && !isEscapeEvent) {
+            return;
+          }
+          if (isInput && !isEscapeEvent) {
+            return;
+          }
           event.preventDefault();
-          Dropdown.getOrCreateInstance(this).toggle();
-        });
 
-        /**
-         * jQuery
-         */
+          // TODO: v6 revert #37011 & change markup https://getbootstrap.com/docs/5.3/forms/input-group/
+          const getToggleButton = this.matches(SELECTOR_DATA_TOGGLE)
+            ? this
+            : SelectorEngine.prev(this, SELECTOR_DATA_TOGGLE)[0] ||
+              SelectorEngine.next(this, SELECTOR_DATA_TOGGLE)[0] ||
+              SelectorEngine.findOne(SELECTOR_DATA_TOGGLE, event.delegateTarget.parentNode);
+          const instance = Dropdown.getOrCreateInstance(getToggleButton);
+          if (isUpOrDownEvent) {
+            event.stopPropagation();
+            instance.show();
+            instance._selectMenuItem(event);
+            return;
+          }
+          if (instance._isShown()) {
+            // else is escape and we check if it is shown
+            event.stopPropagation();
+            instance.hide();
+            getToggleButton.focus();
+          }
+        }
+      }
 
-        index_js.defineJQueryPlugin(Dropdown);
+      /**
+       * Data API implementation
+       */
 
-        return Dropdown;
-      },
-    );
+      EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_DATA_TOGGLE, Dropdown.dataApiKeydownHandler);
+      EventHandler.on(document, EVENT_KEYDOWN_DATA_API, SELECTOR_MENU, Dropdown.dataApiKeydownHandler);
+      EventHandler.on(document, EVENT_CLICK_DATA_API, Dropdown.clearMenus);
+      EventHandler.on(document, EVENT_KEYUP_DATA_API, Dropdown.clearMenus);
+      EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
+        event.preventDefault();
+        Dropdown.getOrCreateInstance(this).toggle();
+      });
+
+      /**
+       * jQuery
+       */
+
+      index_js.defineJQueryPlugin(Dropdown);
+
+      return Dropdown;
+    });
   })(dropdown$1);
   return dropdown$1.exports;
 }
@@ -11825,32 +11634,32 @@ function requireCollapse() {
        * Constants
        */
 
-      const NAME = "collapse";
-      const DATA_KEY = "bs.collapse";
+      const NAME = 'collapse';
+      const DATA_KEY = 'bs.collapse';
       const EVENT_KEY = `.${DATA_KEY}`;
-      const DATA_API_KEY = ".data-api";
+      const DATA_API_KEY = '.data-api';
       const EVENT_SHOW = `show${EVENT_KEY}`;
       const EVENT_SHOWN = `shown${EVENT_KEY}`;
       const EVENT_HIDE = `hide${EVENT_KEY}`;
       const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
       const EVENT_CLICK_DATA_API = `click${EVENT_KEY}${DATA_API_KEY}`;
-      const CLASS_NAME_SHOW = "show";
-      const CLASS_NAME_COLLAPSE = "collapse";
-      const CLASS_NAME_COLLAPSING = "collapsing";
-      const CLASS_NAME_COLLAPSED = "collapsed";
+      const CLASS_NAME_SHOW = 'show';
+      const CLASS_NAME_COLLAPSE = 'collapse';
+      const CLASS_NAME_COLLAPSING = 'collapsing';
+      const CLASS_NAME_COLLAPSED = 'collapsed';
       const CLASS_NAME_DEEPER_CHILDREN = `:scope .${CLASS_NAME_COLLAPSE} .${CLASS_NAME_COLLAPSE}`;
-      const CLASS_NAME_HORIZONTAL = "collapse-horizontal";
-      const WIDTH = "width";
-      const HEIGHT = "height";
-      const SELECTOR_ACTIVES = ".collapse.show, .collapse.collapsing";
+      const CLASS_NAME_HORIZONTAL = 'collapse-horizontal';
+      const WIDTH = 'width';
+      const HEIGHT = 'height';
+      const SELECTOR_ACTIVES = '.collapse.show, .collapse.collapsing';
       const SELECTOR_DATA_TOGGLE = '[data-bs-toggle="collapse"]';
       const Default = {
         parent: null,
         toggle: true,
       };
       const DefaultType = {
-        parent: "(null|element)",
-        toggle: "boolean",
+        parent: '(null|element)',
+        toggle: 'boolean',
       };
 
       /**
@@ -11866,7 +11675,7 @@ function requireCollapse() {
           for (const elem of toggleList) {
             const selector = SelectorEngine.getSelectorFromElement(elem);
             const filterElement = SelectorEngine.find(selector).filter(
-              (foundElement) => foundElement === this._element,
+              foundElement => foundElement === this._element,
             );
             if (selector !== null && filterElement.length) {
               this._triggerArray.push(elem);
@@ -11909,8 +11718,8 @@ function requireCollapse() {
           // find active children
           if (this._config.parent) {
             activeChildren = this._getFirstLevelChildren(SELECTOR_ACTIVES)
-              .filter((element) => element !== this._element)
-              .map((element) =>
+              .filter(element => element !== this._element)
+              .map(element =>
                 Collapse.getOrCreateInstance(element, {
                   toggle: false,
                 }),
@@ -11936,7 +11745,7 @@ function requireCollapse() {
             this._isTransitioning = false;
             this._element.classList.remove(CLASS_NAME_COLLAPSING);
             this._element.classList.add(CLASS_NAME_COLLAPSE, CLASS_NAME_SHOW);
-            this._element.style[dimension] = "";
+            this._element.style[dimension] = '';
             EventHandler.trigger(this._element, EVENT_SHOWN);
           };
           const capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
@@ -11970,7 +11779,7 @@ function requireCollapse() {
             this._element.classList.add(CLASS_NAME_COLLAPSE);
             EventHandler.trigger(this._element, EVENT_HIDDEN);
           };
-          this._element.style[dimension] = "";
+          this._element.style[dimension] = '';
           this._queueCallback(complete, this._element, true);
         }
         _isShown(element = this._element) {
@@ -12002,7 +11811,7 @@ function requireCollapse() {
           const children = SelectorEngine.find(CLASS_NAME_DEEPER_CHILDREN, this._config.parent);
           // remove children if greater depth
           return SelectorEngine.find(selector, this._config.parent).filter(
-            (element) => !children.includes(element),
+            element => !children.includes(element),
           );
         }
         _addAriaAndCollapsedClass(triggerArray, isOpen) {
@@ -12011,20 +11820,20 @@ function requireCollapse() {
           }
           for (const element of triggerArray) {
             element.classList.toggle(CLASS_NAME_COLLAPSED, !isOpen);
-            element.setAttribute("aria-expanded", isOpen);
+            element.setAttribute('aria-expanded', isOpen);
           }
         }
 
         // Static
         static jQueryInterface(config) {
           const _config = {};
-          if (typeof config === "string" && /show|hide/.test(config)) {
+          if (typeof config === 'string' && /show|hide/.test(config)) {
             _config.toggle = false;
           }
           return this.each(function () {
             const data = Collapse.getOrCreateInstance(this, _config);
-            if (typeof config === "string") {
-              if (typeof data[config] === "undefined") {
+            if (typeof config === 'string') {
+              if (typeof data[config] === 'undefined') {
                 throw new TypeError(`No method named "${config}"`);
               }
               data[config]();
@@ -12039,10 +11848,7 @@ function requireCollapse() {
 
       EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
         // preventDefault only for <a> elements (which change the URL) not inside the collapsible element
-        if (
-          event.target.tagName === "A" ||
-          (event.delegateTarget && event.delegateTarget.tagName === "A")
-        ) {
+        if (event.target.tagName === 'A' || (event.delegateTarget && event.delegateTarget.tagName === 'A')) {
           event.preventDefault();
         }
         for (const element of SelectorEngine.getMultipleElementsFromSelector(this)) {

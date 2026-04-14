@@ -1,12 +1,13 @@
-import { Color } from "chessground/types";
-import { opposite } from "chessground/util";
-import { h } from "snabbdom";
-import TvCtrl from "../tv";
-import { Renderer } from "../interfaces";
-import { clockContent } from "./clock";
-import { renderBoard, renderPlayer } from "./board";
+import { Color } from 'chessground/types';
+import { opposite } from 'chessground/util';
+import { h } from 'snabbdom';
 
-export const renderTv: (ctrl: TvCtrl) => Renderer = (ctrl) => (_) => [
+import { Renderer } from '../interfaces';
+import TvCtrl from '../tv';
+import { renderBoard, renderPlayer } from './board';
+import { clockContent } from './clock';
+
+export const renderTv: (ctrl: TvCtrl) => Renderer = ctrl => _ => [
   h(
     `div.game-page.game-page--${ctrl.game.id}`,
     {

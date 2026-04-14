@@ -1,5 +1,6 @@
-import { Game } from "./interfaces";
-import page from "page";
+import page from 'page';
+
+import { Game } from './interfaces';
 
 export default class OngoingGames {
   games: Game[] = [];
@@ -23,6 +24,6 @@ export default class OngoingGames {
   };
 
   private remove = (game: Game) => {
-    this.games = this.games.filter((g) => g.gameId != game.id);
+    this.games = this.games.filter(g => g.gameId != game.id);
   };
 }

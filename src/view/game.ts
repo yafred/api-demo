@@ -1,13 +1,15 @@
-import { Color } from "chessground/types";
-import { opposite } from "chessground/util";
-import { h } from "snabbdom";
-import { GameCtrl } from "../game";
-import { Renderer } from "../interfaces";
-import { clockContent } from "./clock";
-import "../../scss/_game.scss";
-import { renderBoard, renderPlayer } from "./board";
+import { Color } from 'chessground/types';
+import { opposite } from 'chessground/util';
+import { h } from 'snabbdom';
 
-export const renderGame: (ctrl: GameCtrl) => Renderer = (ctrl) => (_) => [
+import { GameCtrl } from '../game';
+import { Renderer } from '../interfaces';
+import { renderBoard, renderPlayer } from './board';
+
+import '../../scss/_game.scss';
+import { clockContent } from './clock';
+
+export const renderGame: (ctrl: GameCtrl) => Renderer = ctrl => _ => [
   h(
     `div.game-page.game-page--${ctrl.game.id}`,
     {
@@ -16,7 +18,7 @@ export const renderGame: (ctrl: GameCtrl) => Renderer = (ctrl) => (_) => [
       },
     },
     [
-      h("aside.game-page__left-float", [
+      h('aside.game-page__left-float', [
         renderGamePlayer(ctrl, opposite(ctrl.pov)),
         renderGamePlayer(ctrl, ctrl.pov),
         ctrl.playing() ? renderButtons(ctrl) : renderState(ctrl),
@@ -27,22 +29,22 @@ export const renderGame: (ctrl: GameCtrl) => Renderer = (ctrl) => (_) => [
 ];
 
 const renderButtons = (ctrl: GameCtrl) =>
-  h("div.btn-group.mt-4", [
+  h('div.btn-group.mt-4', [
     h(
-      "button.btn.btn-secondary",
+      'button.btn.btn-secondary',
       {
-        attrs: { type: "button", disabled: !ctrl.playing() },
+        attrs: { type: 'button', disabled: !ctrl.playing() },
         on: {
           click() {
-            if (confirm("Confirm?")) ctrl.resign();
+            if (confirm('Confirm?')) ctrl.resign();
           },
         },
       },
-      ctrl.chess.fullmoves > 1 ? "Resign" : "Abort",
+      ctrl.chess.fullmoves > 1 ? 'Resign' : 'Abort',
     ),
   ]);
 
-const renderState = (ctrl: GameCtrl) => h("div.game-page__state", ctrl.game.state.status);
+const renderState = (ctrl: GameCtrl) => h('div.game-page__state', ctrl.game.state.status);
 
 const renderGamePlayer = (ctrl: GameCtrl, color: Color) => {
   const p = ctrl.game[color];
