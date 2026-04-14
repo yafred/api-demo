@@ -21,19 +21,19 @@ This app is available [here](https://yafred.github.io/Lichess3D/)
 
 ## Run it on your machine
 
-At the moment, it is a bit messy. 
+At the moment, it is a bit messy.
 We bundle chessground with Lichess3D.
 So, you need Lichess3D and chessground in the same parent folder.
 
-1. Clone https://github.com/yafred/chessground (switch to branch chess3D) 
+1. Clone https://github.com/yafred/chessground (switch to branch chess3D)
 2. `cd chessground`
 3. `pnpm install`
 4. `pnpm run compile`
 5. `cd ..`
-6. Clone https://github.com/yafred/Lichess3D (switch to branch chess3D) 
+6. Clone https://github.com/yafred/Lichess3D (switch to branch chess3D)
 7. `cd Lichess3D`
-8. `pnpm install` 
-9. `pnpm run build` 
+8. `pnpm install`
+9. `pnpm run build`
 10. `pnpm run serve`
 
 ## Work on both repos together

@@ -1,10 +1,10 @@
-import { Chess, Color } from 'chessops';
-import { Ctrl } from './ctrl';
-import { Api as CgApi } from 'chessground/api';
-import { Stream } from './ndJsonStream';
-import { parseFen } from 'chessops/fen';
-import { Key } from 'chessground/types';
-import { BoardCtrl } from './game';
+import { Chess, Color } from "chessops";
+import { Ctrl } from "./ctrl";
+import { Api as CgApi } from "chessground/api";
+import { Stream } from "./ndJsonStream";
+import { parseFen } from "chessops/fen";
+import { Key } from "chessground/types";
+import { BoardCtrl } from "./game";
 
 interface TvGame {
   id: string;
@@ -29,7 +29,11 @@ export default class TvCtrl implements BoardCtrl {
   chess: Chess = Chess.default();
   lastUpdateAt: number = Date.now();
   redrawInterval: ReturnType<typeof setInterval>;
-  constructor(readonly stream: Stream, public game: TvGame, readonly root: Ctrl) {
+  constructor(
+    readonly stream: Stream,
+    public game: TvGame,
+    readonly root: Ctrl,
+  ) {
     this.onUpdate();
     this.redrawInterval = setInterval(root.redraw, 100);
     this.awaitClose();
@@ -47,7 +51,7 @@ export default class TvCtrl implements BoardCtrl {
   player = (color: Color) => this.game.players[this.game.players[0].color == color ? 0 : 1];
 
   static open = (root: Ctrl): Promise<TvCtrl> =>
-    new Promise<TvCtrl>(async resolve => {
+    new Promise<TvCtrl>(async (resolve) => {
       let ctrl: TvCtrl;
       let stream: Stream;
       const handler = (msg: any) => {
@@ -59,13 +63,15 @@ export default class TvCtrl implements BoardCtrl {
           resolve(ctrl);
         }
       };
-      stream = await root.auth.openStream('/api/tv/feed', {}, handler);
+      stream = await root.auth.openStream("/api/tv/feed", {}, handler);
     });
 
   chessgroundConfig = () => {
     const chess = Chess.fromSetup(parseFen(this.game.fen).unwrap()).unwrap();
     const lm = this.game.lastMove;
-    const lastMove = (lm ? (lm[1] === '@' ? [lm.slice(2)] : [lm[0] + lm[1], lm[2] + lm[3]]) : []) as Key[];
+    const lastMove = (
+      lm ? (lm[1] === "@" ? [lm.slice(2)] : [lm[0] + lm[1], lm[2] + lm[3]]) : []
+    ) as Key[];
     return {
       orientation: this.game.orientation,
       fen: this.game.fen,
@@ -88,16 +94,16 @@ export default class TvCtrl implements BoardCtrl {
 
   private handle = (msg: any) => {
     switch (msg.t) {
-      case 'featured':
+      case "featured":
         this.game = msg.d;
         this.onUpdate();
         this.root.redraw();
         break;
-      case 'fen':
+      case "fen":
         this.game.fen = msg.d.fen;
         this.game.lastMove = msg.d.lm;
-        this.player('white').seconds = msg.d.wc;
-        this.player('black').seconds = msg.d.bc;
+        this.player("white").seconds = msg.d.wc;
+        this.player("black").seconds = msg.d.bc;
         this.onUpdate();
         this.ground?.set(this.chessgroundConfig());
         break;

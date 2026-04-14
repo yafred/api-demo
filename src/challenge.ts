@@ -1,16 +1,19 @@
-import { Ctrl } from './ctrl';
-import { Stream } from './ndJsonStream';
-import { formData } from './util';
-import page from 'page';
+import { Ctrl } from "./ctrl";
+import { Stream } from "./ndJsonStream";
+import { formData } from "./util";
+import page from "page";
 
 export default class ChallengeCtrl {
-  constructor(readonly stream: Stream, readonly root: Ctrl) {
+  constructor(
+    readonly stream: Stream,
+    readonly root: Ctrl,
+  ) {
     this.awaitClose();
   }
 
   awaitClose = async () => {
     await this.stream.closePromise;
-    if (this.root.page == 'challenge') page('/');
+    if (this.root.page == "challenge") page("/");
   };
 
   onUnmount = () => this.stream.close();
@@ -19,13 +22,13 @@ export default class ChallengeCtrl {
     const stream = await root.auth.openStream(
       `/api/challenge/${config.username}`,
       {
-        method: 'post',
+        method: "post",
         body: formData({
           ...config,
           keepAliveStream: true,
         }),
       },
-      _ => {}
+      (_) => {},
     );
     return new ChallengeCtrl(stream, root);
   };

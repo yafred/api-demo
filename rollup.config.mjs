@@ -7,10 +7,7 @@ import terser from "@rollup/plugin-terser";
 
 export default (args) => ({
   input: "src/main.ts",
-  external: [
-    "three",
-    /^three\/examples\/jsm\//,
-  ],
+  external: ["three", /^three\/examples\/jsm\//],
   output: {
     file: args["config-prod"] ? "dist/index.min.js" : "index.js",
     format: "es",
@@ -31,7 +28,13 @@ export default (args) => ({
       include: ["scss/*"],
       output: args["config-prod"] ? "./dist/style.min.css" : "./style.css",
       runtime: sass,
-      silenceDeprecations: ["legacy-js-api", "import", "global-builtin", "color-functions", "mixed-decls"],
+      silenceDeprecations: [
+        "legacy-js-api",
+        "import",
+        "global-builtin",
+        "color-functions",
+        "mixed-decls",
+      ],
       ...(args["config-prod"] ? { outputStyle: "compressed" } : {}),
     }),
   ],
