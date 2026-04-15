@@ -4423,7 +4423,6 @@ class PuzzleCtrl {
     constructor(root) {
         this.root = root;
         this.chess = Chess.default();
-        this.lastUpdateAt = Date.now();
         this.onUpdate = () => {
             var _a;
             (_a = this.ground) === null || _a === void 0 ? void 0 : _a.set(this.chessgroundConfig());
@@ -4432,6 +4431,10 @@ class PuzzleCtrl {
             real3D: {
                 sceneAssetUrl: 'scene.glb',
             },
+            movable: {
+                free: false,
+            },
+            viewOnly: true,
         });
         this.setGround = (cg) => (this.ground = cg);
         this.onUpdate();
@@ -9754,6 +9757,7 @@ function setupPieceInteraction({ scene, camera, renderer, controls, hoverControl
     let onMoveAttempt = undefined;
     let allowWhiteInteraction = initialAllowWhiteInteraction;
     let allowBlackInteraction = initialAllowBlackInteraction;
+    let interactionEnabled = true;
     function getPieceMeshFromObject(object) {
         let current = object;
         while (current) {
@@ -9906,6 +9910,26 @@ function setupPieceInteraction({ scene, camera, renderer, controls, hoverControl
     function setMoveAttemptCallback(callback) {
         onMoveAttempt = callback;
     }
+    function setInteractionEnabled(enabled) {
+        interactionEnabled = enabled;
+        if (!interactionEnabled) {
+            if (dragState) {
+                dragState.piece.position.copy(dragState.startPosition);
+                dragState.piece.position.y = dragState.startPosition.y;
+                hoverController.setDraggedPiece(null);
+                hoverController.setIgnoredPiece(null);
+                if (renderer.domElement.hasPointerCapture(dragState.pointerId)) {
+                    renderer.domElement.releasePointerCapture(dragState.pointerId);
+                }
+                dragState = null;
+            }
+            clearSelection();
+            hoverController.setEnabled(false);
+            controls.enabled = true;
+            return;
+        }
+        hoverController.setEnabled(true);
+    }
     function setAllowWhiteInteraction(allow) {
         allowWhiteInteraction = allow;
         hoverController.setPieceHighlightFilter(canInteractWithPiece);
@@ -10049,6 +10073,9 @@ function setupPieceInteraction({ scene, camera, renderer, controls, hoverControl
         }
     }
     renderer.domElement.addEventListener('pointerdown', event => {
+        if (!interactionEnabled) {
+            return;
+        }
         if (event.button !== 0) {
             return;
         }
@@ -10095,6 +10122,9 @@ function setupPieceInteraction({ scene, camera, renderer, controls, hoverControl
         renderer.domElement.setPointerCapture(event.pointerId);
     }, { capture: true });
     renderer.domElement.addEventListener('pointermove', event => {
+        if (!interactionEnabled) {
+            return;
+        }
         if (!dragState || event.pointerId !== dragState.pointerId) {
             return;
         }
@@ -10115,6 +10145,9 @@ function setupPieceInteraction({ scene, camera, renderer, controls, hoverControl
         dragPieceToPointer(event);
     });
     renderer.domElement.addEventListener('pointerup', event => {
+        if (!interactionEnabled) {
+            return;
+        }
         if (dragState && event.pointerId === dragState.pointerId) {
             finishDrag(event);
             return;
@@ -10122,6 +10155,9 @@ function setupPieceInteraction({ scene, camera, renderer, controls, hoverControl
         handleSelectedPieceClickTarget(event);
     });
     renderer.domElement.addEventListener('pointercancel', event => {
+        if (!interactionEnabled) {
+            return;
+        }
         finishDrag(event);
     });
     renderer.domElement.addEventListener('pointerdown', event => {
@@ -10134,6 +10170,9 @@ function setupPieceInteraction({ scene, camera, renderer, controls, hoverControl
         activeMouseButton = null;
     });
     controls.addEventListener('start', () => {
+        if (!interactionEnabled) {
+            return;
+        }
         if (activeMouseButton === 0) {
             hoverController.setEnabled(false);
             hoverDisabledForOrbit = true;
@@ -10141,6 +10180,9 @@ function setupPieceInteraction({ scene, camera, renderer, controls, hoverControl
     });
     controls.addEventListener('end', () => {
         activeMouseButton = null;
+        if (!interactionEnabled) {
+            return;
+        }
         if (hoverDisabledForOrbit) {
             hoverController.setEnabled(true);
             hoverDisabledForOrbit = false;
@@ -10153,6 +10195,7 @@ function setupPieceInteraction({ scene, camera, renderer, controls, hoverControl
         setMoveAttemptCallback,
         setAllowWhiteInteraction,
         setAllowBlackInteraction,
+        setInteractionEnabled,
     };
 }
 
@@ -10167,6 +10210,7 @@ function start3D(sceneRoot, config) {
     const sceneAssetUrl = config.real3D.sceneAssetUrl; // config.real3D is the reason we are here.
     const defaultFen = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR';
     let currentOrientation = config.orientation;
+    let isViewOnly = !!config.viewOnly;
     // Camera
     const { width: initialWidth, height: initialHeight } = getSceneRootSize();
     const camera = new THREE.PerspectiveCamera(45, initialWidth / initialHeight, 0.1, 100);
@@ -10231,6 +10275,12 @@ function start3D(sceneRoot, config) {
         });
     }
     function setAllowInteractionForColors(config) {
+        interactionController.setInteractionEnabled(!isViewOnly);
+        if (isViewOnly) {
+            interactionController.setAllowWhiteInteraction(false);
+            interactionController.setAllowBlackInteraction(false);
+            return;
+        }
         console.log('Setting allow interaction for colors based on config:', config);
         if (config?.turnColor) {
             const isWhiteTurn = config.turnColor === 'white';
@@ -10290,6 +10340,9 @@ function start3D(sceneRoot, config) {
             }
             if ('movable' in config) {
                 allowedMoveDests = config.movable?.dests;
+            }
+            if ('viewOnly' in config) {
+                isViewOnly = !!config.viewOnly;
             }
             if ('orientation' in config && config.orientation && config.orientation !== currentOrientation) {
                 setOrientation(config.orientation);
@@ -11245,6 +11298,10 @@ const renderHome = ctrl => (ctrl.auth.me ? userHome(ctrl) : anonHome());
 const userHome = (ctrl) => [
     h('div', [
         h('div.btn-group.mt-5', [
+            h('button.btn.btn-outline-primary.btn-lg', {
+                attrs: { type: 'button' },
+                on: { click: ctrl.openPuzzle },
+            }, 'Puzzles'),
             h('button.btn.btn-outline-primary.btn-lg', {
                 attrs: { type: 'button' },
                 on: { click: ctrl.playAi },

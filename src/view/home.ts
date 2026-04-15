@@ -15,9 +15,17 @@ const userHome = (ctrl: Ctrl) => [
         'button.btn.btn-outline-primary.btn-lg',
         {
           attrs: { type: 'button' },
+          on: { click: ctrl.openPuzzle },
+        },
+        'Puzzles',
+      ),
+      h(
+        'button.btn.btn-outline-primary.btn-lg',
+        {
+          attrs: { type: 'button' },
           on: { click: ctrl.playAi },
         },
-        'Play the Lichess AI'
+        'Play the Lichess AI',
       ),
       h(
         'button.btn.btn-outline-primary.btn-lg',
@@ -25,7 +33,7 @@ const userHome = (ctrl: Ctrl) => [
           attrs: { type: 'button' },
           on: { click: () => ctrl.playMaia(10, 0) },
         },
-        'Play a casual 10+0 game with the maia1 BOT'
+        'Play a casual 10+0 game with the maia1 BOT',
       ),
     ]),
     h('h2.mt-5', 'Games in progress'),

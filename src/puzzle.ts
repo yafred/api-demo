@@ -14,7 +14,6 @@ import { Stream } from './ndJsonStream';
 export class PuzzleCtrl implements BoardCtrl {
   chess: Chess = Chess.default();
   lastMove?: [Key, Key];
-  lastUpdateAt: number = Date.now();
   ground?: CgApi;
 
   constructor(private root: Ctrl) {
@@ -29,6 +28,10 @@ export class PuzzleCtrl implements BoardCtrl {
     real3D: {
       sceneAssetUrl: 'scene.glb',
     },
+    movable: {
+      free: false,
+    },
+    viewOnly: true,
   });
 
   setGround = (cg: CgApi) => (this.ground = cg);

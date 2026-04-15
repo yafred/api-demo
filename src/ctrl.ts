@@ -49,6 +49,7 @@ export class Ctrl {
     this.puzzle = new PuzzleCtrl(this);
     this.redraw();
   };
+
   openGame = async (id: string) => {
     this.page = 'game';
     this.game = undefined;
