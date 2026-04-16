@@ -51,9 +51,7 @@ export class PuzzleCtrl implements BoardCtrl {
     pgn
       .replace(/\{[^}]*\}|\([^)]*\)|\$\d+/g, ' ')
       .split(/\s+/)
-      .filter(
-        token => token && !/^\d+\.(\.\.)?$/.test(token) && !/^(1-0|0-1|1\/2-1\/2|\*)$/.test(token),
-      );
+      .filter(token => token && !/^\d+\.(\.\.)?$/.test(token) && !/^(1-0|0-1|1\/2-1\/2|\*)$/.test(token));
 
   private lastMoveFromPgn = (pgn: string, initialPly: number): [Key, Key] | undefined => {
     const chess = Chess.default();
@@ -89,11 +87,9 @@ export class PuzzleCtrl implements BoardCtrl {
     this.onUpdate();
   };
 
-
   puzzleById = async (id: string) => {
     const body = await this.root.auth.fetchBody(`/api/puzzle/${id}`, { method: 'get' });
     this.puzzle = body.puzzle;
-      console.log('Loaded daily puzzle', body);
     this.lastMove = this.lastMoveFromPgn((body.game as PuzzleGame).pgn, this.puzzle!.initialPly);
     this.chess = Chess.fromSetup(parseFen(this.puzzle!.fen).unwrap()).unwrap();
     this.onUpdate();
