@@ -53,7 +53,7 @@ export class PuzzleCtrl implements BoardCtrl {
       .split(/\s+/)
       .filter(token => token && !/^\d+\.(\.\.)?$/.test(token) && !/^(1-0|0-1|1\/2-1\/2|\*)$/.test(token));
 
-  private lastMoveFromPgn = (pgn: string, initialPly: number): [Key, Key] | undefined => {
+  private lastMoveFromPgn = (pgn: string, initialPly: number): [[Key, Key] | undefined, Chess] => {
     const chess = Chess.default();
     const moves = this.pgnMoves(pgn);
     const firstMoveOfPuzzle = Math.max(0, initialPly + 1);
@@ -61,7 +61,7 @@ export class PuzzleCtrl implements BoardCtrl {
 
     for (let i = 0; i < Math.min(firstMoveOfPuzzle, moves.length); i++) {
       const move = parseSan(chess, moves[i]);
-      if (!move) return undefined;
+      if (!move) return [undefined, chess];
 
       const uci = makeUci(move);
       if (uci.length >= 4 && uci[1] !== '@') {
@@ -70,7 +70,7 @@ export class PuzzleCtrl implements BoardCtrl {
       chess.play(move);
     }
 
-    return lastMove;
+    return [lastMove, chess];
   };
 
   setGround = (cg: CgApi) => (this.ground = cg);
@@ -82,16 +82,14 @@ export class PuzzleCtrl implements BoardCtrl {
   dailyPuzzle = async () => {
     const body = await this.root.auth.fetchBody(`/api/puzzle/daily`, { method: 'get' });
     this.puzzle = body.puzzle;
-    this.lastMove = this.lastMoveFromPgn((body.game as PuzzleGame).pgn, this.puzzle!.initialPly);
-    this.chess = Chess.fromSetup(parseFen(this.puzzle!.fen).unwrap()).unwrap();
+    [this.lastMove, this.chess] = this.lastMoveFromPgn((body.game as PuzzleGame).pgn, this.puzzle!.initialPly);
     this.onUpdate();
   };
 
   puzzleById = async (id: string) => {
     const body = await this.root.auth.fetchBody(`/api/puzzle/${id}`, { method: 'get' });
     this.puzzle = body.puzzle;
-    this.lastMove = this.lastMoveFromPgn((body.game as PuzzleGame).pgn, this.puzzle!.initialPly);
-    this.chess = Chess.fromSetup(parseFen(this.puzzle!.fen).unwrap()).unwrap();
+    [this.lastMove, this.chess] = this.lastMoveFromPgn((body.game as PuzzleGame).pgn, this.puzzle!.initialPly);
     this.onUpdate();
   };
 }
