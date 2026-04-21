@@ -1,9 +1,10 @@
 import { Api as CgApi } from 'chessground/api';
 import { Color, Key } from 'chessground/types';
 import { Chess } from 'chessops';
+import { chessgroundDests } from 'chessops/compat';
 import { makeFen, parseFen } from 'chessops/fen';
 import { parseSan } from 'chessops/san';
-import { makeUci } from 'chessops/util';
+import { makeUci, opposite, parseUci } from 'chessops/util';
 
 import { Ctrl } from './ctrl';
 import { BoardCtrl } from './game';
@@ -31,6 +32,8 @@ export class PuzzleCtrl implements BoardCtrl {
   puzzle?: Puzzle;
   puzzleGame?: PuzzleGame;
   puzzleId = '';
+  canMove = false;
+  solutionIndex = 0;
 
   constructor(private root: Ctrl) {
     this.onUpdate();
@@ -44,11 +47,17 @@ export class PuzzleCtrl implements BoardCtrl {
     real3D: {
       sceneAssetUrl: 'scene.glb',
     },
-    orientation: this.chess.turn,
+    orientation: this.puzzle ? this.puzzle.pov : 'white',
     fen: makeFen(this.chess.toSetup()),
     lastMove: this.lastMove,
+    turnColor: this.chess.turn,
     check: !!this.chess.isCheck(),
-    viewOnly: true,
+    viewOnly: !this.canMove,
+    movable: {
+      free: false,
+      color: this.canMove ? this.chess.turn : undefined,
+      dests: chessgroundDests(this.chess),
+    },
     events: {
       move: this.userMove,
     },
@@ -57,7 +66,48 @@ export class PuzzleCtrl implements BoardCtrl {
   userMove = async (orig: Key, dest: Key) => {
     console.log(`User move: ${orig} -> ${dest}`);
     console.log('Solution:', this.puzzle?.solution);
-    this.ground?.set({ viewOnly: true });
+    const beforeMoveFen = makeFen(this.chess.toSetup());
+    const beforeMoveLastMove = this.lastMove;
+    const move = parseUci(`${orig}${dest}`);
+    if (!move) return;
+
+    this.chess.play(move);
+    this.lastMove = [orig, dest];
+    this.canMove = false;
+    this.onUpdate();
+
+    // Compare move to solution after 200ms
+    setTimeout(() => {
+      if (!this.puzzle) return;
+      const userMoveUci = `${orig}${dest}`;
+      const expectedMove = this.puzzle.solution[this.solutionIndex];
+
+      if (userMoveUci === expectedMove) {
+        console.log('Correct move!');
+        if (this.solutionIndex + 2 < this.puzzle.solution.length) {
+          const opponentMove = this.puzzle.solution[this.solutionIndex + 1];
+          const opponentMoveParsed = parseUci(opponentMove);
+          if (opponentMoveParsed) {
+            this.chess.play(opponentMoveParsed);
+            this.lastMove = [opponentMove.slice(0, 2) as Key, opponentMove.slice(2, 4) as Key];
+          }
+          this.solutionIndex += 2;
+          this.canMove = true;
+          setTimeout(() => {
+            this.onUpdate();
+          }, 200);
+        } else {
+          console.log('Puzzle solved!');
+        }
+      } else {
+        console.log(`Incorrect move. Expected: ${expectedMove}, but got: ${userMoveUci}`);
+        const restoredSetup = parseFen(beforeMoveFen).unwrap();
+        this.chess = Chess.fromSetup(restoredSetup).unwrap();
+        this.lastMove = beforeMoveLastMove;
+        this.canMove = true;
+        this.onUpdate();
+      }
+    }, 200);
   };
 
   private pgnMoves = (pgn: string): string[] =>
@@ -99,7 +149,9 @@ export class PuzzleCtrl implements BoardCtrl {
         (puzzleResponse.game as PuzzleGame).pgn,
         this.puzzle.initialPly,
       );
-      this.puzzle.pov = this.chess.turn;
+      this.canMove = true;
+      this.solutionIndex = 0;
+
       this.onUpdate();
     }
   };

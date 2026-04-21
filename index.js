@@ -4496,6 +4496,8 @@ class PuzzleCtrl {
         this.root = root;
         this.chess = Chess.default();
         this.puzzleId = '';
+        this.canMove = false;
+        this.solutionIndex = 0;
         this.onUpdate = () => {
             var _a;
             (_a = this.ground) === null || _a === void 0 ? void 0 : _a.set(this.chessgroundConfig());
@@ -4504,14 +4506,69 @@ class PuzzleCtrl {
             real3D: {
                 sceneAssetUrl: 'scene.glb',
             },
+            orientation: this.puzzle ? this.puzzle.pov : 'white',
             fen: makeFen(this.chess.toSetup()),
             lastMove: this.lastMove,
-            orientation: this.chess.turn,
+            turnColor: this.chess.turn,
+            check: !!this.chess.isCheck(),
+            viewOnly: !this.canMove,
             movable: {
                 free: false,
+                color: this.canMove ? this.chess.turn : undefined,
+                dests: chessgroundDests(this.chess),
             },
-            viewOnly: true,
+            events: {
+                move: this.userMove,
+            },
         });
+        this.userMove = async (orig, dest) => {
+            var _a;
+            console.log(`User move: ${orig} -> ${dest}`);
+            console.log('Solution:', (_a = this.puzzle) === null || _a === void 0 ? void 0 : _a.solution);
+            const beforeMoveFen = makeFen(this.chess.toSetup());
+            const beforeMoveLastMove = this.lastMove;
+            const move = parseUci(`${orig}${dest}`);
+            if (!move)
+                return;
+            this.chess.play(move);
+            this.lastMove = [orig, dest];
+            this.canMove = false;
+            this.onUpdate();
+            // Compare move to solution after 200ms
+            setTimeout(() => {
+                if (!this.puzzle)
+                    return;
+                const userMoveUci = `${orig}${dest}`;
+                const expectedMove = this.puzzle.solution[this.solutionIndex];
+                if (userMoveUci === expectedMove) {
+                    console.log('Correct move!');
+                    if (this.solutionIndex + 2 < this.puzzle.solution.length) {
+                        const opponentMove = this.puzzle.solution[this.solutionIndex + 1];
+                        const opponentMoveParsed = parseUci(opponentMove);
+                        if (opponentMoveParsed) {
+                            this.chess.play(opponentMoveParsed);
+                            this.lastMove = [opponentMove.slice(0, 2), opponentMove.slice(2, 4)];
+                        }
+                        this.solutionIndex += 2;
+                        this.canMove = true;
+                        setTimeout(() => {
+                            this.onUpdate();
+                        }, 200);
+                    }
+                    else {
+                        console.log('Puzzle solved!');
+                    }
+                }
+                else {
+                    console.log(`Incorrect move. Expected: ${expectedMove}, but got: ${userMoveUci}`);
+                    const restoredSetup = parseFen(beforeMoveFen).unwrap();
+                    this.chess = Chess.fromSetup(restoredSetup).unwrap();
+                    this.lastMove = beforeMoveLastMove;
+                    this.canMove = true;
+                    this.onUpdate();
+                }
+            }, 200);
+        };
         this.pgnMoves = (pgn) => pgn
             .replace(/\{[^}]*\}|\([^)]*\)|\$\d+/g, ' ')
             .split(/\s+/)
@@ -4537,17 +4594,20 @@ class PuzzleCtrl {
         this.setPuzzleId = (id) => {
             this.puzzleId = id;
         };
+        this.initPuzzle = async (puzzleResponse) => {
+            this.puzzle = puzzleResponse.puzzle;
+            if (this.puzzle) {
+                [this.lastMove, this.chess] = this.lastMoveFromPgn(puzzleResponse.game.pgn, this.puzzle.initialPly);
+                this.canMove = true;
+                this.solutionIndex = 0;
+                this.onUpdate();
+            }
+        };
         this.dailyPuzzle = async () => {
-            const body = await this.root.auth.fetchBody(`/api/puzzle/daily`, { method: 'get' });
-            this.puzzle = body.puzzle;
-            [this.lastMove, this.chess] = this.lastMoveFromPgn(body.game.pgn, this.puzzle.initialPly);
-            this.onUpdate();
+            this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/daily`, { method: 'get' }));
         };
         this.puzzleById = async (id) => {
-            const body = await this.root.auth.fetchBody(`/api/puzzle/${id}`, { method: 'get' });
-            this.puzzle = body.puzzle;
-            [this.lastMove, this.chess] = this.lastMoveFromPgn(body.game.pgn, this.puzzle.initialPly);
-            this.onUpdate();
+            this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/${id}`, { method: 'get' }));
         };
         this.onUpdate();
     }
