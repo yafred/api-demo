@@ -1,5 +1,5 @@
 import { Api as CgApi } from 'chessground/api';
-import { Key } from 'chessground/types';
+import { Color, Key } from 'chessground/types';
 import { Chess } from 'chessops';
 import { makeFen, parseFen } from 'chessops/fen';
 import { parseSan } from 'chessops/san';
@@ -10,13 +10,18 @@ import { BoardCtrl } from './game';
 
 interface Puzzle {
   id: string;
-  fen: string;
   solution: string[];
   initialPly: number;
+  pov: Color;
 }
 
 interface PuzzleGame {
   pgn: string;
+}
+
+interface PuzzleResponse {
+  puzzle: Puzzle;
+  game: PuzzleGame;
 }
 
 export class PuzzleCtrl implements BoardCtrl {
@@ -24,6 +29,7 @@ export class PuzzleCtrl implements BoardCtrl {
   lastMove?: [Key, Key];
   ground?: CgApi;
   puzzle?: Puzzle;
+  puzzleGame?: PuzzleGame;
   puzzleId = '';
 
   constructor(private root: Ctrl) {
@@ -38,14 +44,21 @@ export class PuzzleCtrl implements BoardCtrl {
     real3D: {
       sceneAssetUrl: 'scene.glb',
     },
+    orientation: this.chess.turn,
     fen: makeFen(this.chess.toSetup()),
     lastMove: this.lastMove,
-    orientation: this.chess.turn,
-    movable: {
-      free: false,
-    },
+    check: !!this.chess.isCheck(),
     viewOnly: true,
+    events: {
+      move: this.userMove,
+    },
   });
+
+  userMove = async (orig: Key, dest: Key) => {
+    console.log(`User move: ${orig} -> ${dest}`);
+    console.log('Solution:', this.puzzle?.solution);
+    this.ground?.set({ viewOnly: true });
+  };
 
   private pgnMoves = (pgn: string): string[] =>
     pgn
@@ -79,17 +92,23 @@ export class PuzzleCtrl implements BoardCtrl {
     this.puzzleId = id;
   };
 
+  private initPuzzle = async (puzzleResponse: PuzzleResponse) => {
+    this.puzzle = puzzleResponse.puzzle;
+    if (this.puzzle) {
+      [this.lastMove, this.chess] = this.lastMoveFromPgn(
+        (puzzleResponse.game as PuzzleGame).pgn,
+        this.puzzle.initialPly,
+      );
+      this.puzzle.pov = this.chess.turn;
+      this.onUpdate();
+    }
+  };
+
   dailyPuzzle = async () => {
-    const body = await this.root.auth.fetchBody(`/api/puzzle/daily`, { method: 'get' });
-    this.puzzle = body.puzzle;
-    [this.lastMove, this.chess] = this.lastMoveFromPgn((body.game as PuzzleGame).pgn, this.puzzle!.initialPly);
-    this.onUpdate();
+    this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/daily`, { method: 'get' }));
   };
 
   puzzleById = async (id: string) => {
-    const body = await this.root.auth.fetchBody(`/api/puzzle/${id}`, { method: 'get' });
-    this.puzzle = body.puzzle;
-    [this.lastMove, this.chess] = this.lastMoveFromPgn((body.game as PuzzleGame).pgn, this.puzzle!.initialPly);
-    this.onUpdate();
+    this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/${id}`, { method: 'get' }));
   };
 }
