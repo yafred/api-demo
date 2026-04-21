@@ -2582,7 +2582,7 @@ const href = (path) => ({ href: url(path) });
 
 const lichessHost = 'https://lichess.org';
 // export const lichessHost = 'http://l.org';
-const scopes = ['board:play'];
+const scopes = ['board:play', 'puzzle:read'];
 const clientId = 'lichess-api-demo';
 const clientUrl = `${location.protocol}//${location.host}${BASE_PATH || '/'}`;
 class Auth {
@@ -4600,6 +4600,7 @@ class PuzzleCtrl {
                 [this.lastMove, this.chess] = this.lastMoveFromPgn(puzzleResponse.game.pgn, this.puzzle.initialPly);
                 this.canMove = true;
                 this.solutionIndex = 0;
+                this.puzzle.pov = this.chess.turn;
                 this.onUpdate();
             }
         };
@@ -4608,6 +4609,10 @@ class PuzzleCtrl {
         };
         this.puzzleById = async (id) => {
             this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/${id}`, { method: 'get' }));
+        };
+        this.nextPuzzle = async () => {
+            console.log('Loading next puzzle...');
+            this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/next?angle=mateIn1`, { method: 'get' }));
         };
         this.onUpdate();
     }
@@ -11609,6 +11614,14 @@ const renderButtons = (ctrl) => h('div.d-flex.flex-column.gap-2.mt-4', [
             },
         },
     }, 'daily puzzle'),
+    h('button.btn.btn-secondary', {
+        attrs: { type: 'button' },
+        on: {
+            click() {
+                ctrl.nextPuzzle();
+            },
+        },
+    }, 'next puzzle'),
     h('div.input-group', [
         h('input.form-control', {
             attrs: {

@@ -151,6 +151,7 @@ export class PuzzleCtrl implements BoardCtrl {
       );
       this.canMove = true;
       this.solutionIndex = 0;
+      this.puzzle.pov = this.chess.turn;
 
       this.onUpdate();
     }
@@ -162,5 +163,12 @@ export class PuzzleCtrl implements BoardCtrl {
 
   puzzleById = async (id: string) => {
     this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/${id}`, { method: 'get' }));
+  };
+
+  nextPuzzle = async () => {
+    console.log('Loading next puzzle...');
+    this.initPuzzle(
+      await this.root.auth.fetchBody(`/api/puzzle/next?angle=mateIn1`, { method: 'get'}),
+    );
   };
 }

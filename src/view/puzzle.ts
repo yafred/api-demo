@@ -27,6 +27,18 @@ const renderButtons = (ctrl: PuzzleCtrl) =>
       },
       'daily puzzle',
     ),
+    h(
+      'button.btn.btn-secondary',
+      {
+        attrs: { type: 'button' },
+        on: {
+          click() {
+            ctrl.nextPuzzle();
+          },
+        },
+      },
+      'next puzzle',
+    ),
     h('div.input-group', [
       h('input.form-control', {
         attrs: {
