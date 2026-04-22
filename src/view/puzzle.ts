@@ -37,7 +37,7 @@ const renderButtons = (ctrl: PuzzleCtrl) =>
           },
         },
       },
-      'next puzzle',
+      'next puzzle (Mate in 2)',
     ),
     h('div.input-group', [
       h('input.form-control', {

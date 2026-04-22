@@ -98,8 +98,8 @@ export class PuzzleCtrl implements BoardCtrl {
             this.onUpdate();
           }, 200);
         } else {
-          console.log('Puzzle solved!');
           this.markAsSolved(true);
+          alert('Puzzle solved!');
         }
       } else {
         console.log(`Incorrect move. Expected: ${expectedMove}, but got: ${userMoveUci}`);
@@ -171,14 +171,14 @@ export class PuzzleCtrl implements BoardCtrl {
 
   nextPuzzle = async () => {
     console.log('Loading next puzzle...');
-    this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/next?angle=mateIn1`, { method: 'get' }));
+    this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/next?angle=mateIn2`, { method: 'get' }));
   };
 
   markAsSolved = async (solved: boolean) => {
     if (!this.puzzle) return;
-    await this.root.auth.fetchBody(`/api/puzzle/batch/mateIn1`, {
+    await this.root.auth.fetchBody(`/api/puzzle/batch/mateIn2`, {
       method: 'post',
-      headers: { "Content-Type": "application/json" },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ solutions: [{ id: this.puzzleId, win: solved, rated: false }] }),
     });
   };
