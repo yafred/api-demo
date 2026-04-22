@@ -17440,18 +17440,6 @@ body {
   justify-content: flex-end;
 }
 
-.seek-page {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: space-evenly;
-  height: 50vh;
-}
-.seek-page__awaiting {
-  display: flex;
-  align-items: center;
-}
-
 .games {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -17606,4 +17594,15 @@ body {
     width: auto;
     padding: 0.85rem;
   }
+}
+.seek-page {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-evenly;
+  height: 50vh;
+}
+.seek-page__awaiting {
+  display: flex;
+  align-items: center;
 }

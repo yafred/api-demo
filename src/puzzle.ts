@@ -8,6 +8,7 @@ import { makeUci, opposite, parseUci } from 'chessops/util';
 
 import { Ctrl } from './ctrl';
 import { BoardCtrl } from './game';
+import { sleep } from './util';
 
 interface Puzzle {
   id: string;
@@ -98,6 +99,7 @@ export class PuzzleCtrl implements BoardCtrl {
           }, 200);
         } else {
           console.log('Puzzle solved!');
+          this.markAsSolved(true);
         }
       } else {
         console.log(`Incorrect move. Expected: ${expectedMove}, but got: ${userMoveUci}`);
@@ -145,6 +147,7 @@ export class PuzzleCtrl implements BoardCtrl {
   private initPuzzle = async (puzzleResponse: PuzzleResponse) => {
     this.puzzle = puzzleResponse.puzzle;
     if (this.puzzle) {
+      this.setPuzzleId(this.puzzle.id);
       [this.lastMove, this.chess] = this.lastMoveFromPgn(
         (puzzleResponse.game as PuzzleGame).pgn,
         this.puzzle.initialPly,
@@ -152,6 +155,7 @@ export class PuzzleCtrl implements BoardCtrl {
       this.canMove = true;
       this.solutionIndex = 0;
       this.puzzle.pov = this.chess.turn;
+      console.log('Initialized puzzle:', this.puzzle);
 
       this.onUpdate();
     }
@@ -167,8 +171,15 @@ export class PuzzleCtrl implements BoardCtrl {
 
   nextPuzzle = async () => {
     console.log('Loading next puzzle...');
-    this.initPuzzle(
-      await this.root.auth.fetchBody(`/api/puzzle/next?angle=mateIn1`, { method: 'get'}),
-    );
+    this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/next?angle=mateIn1`, { method: 'get' }));
+  };
+
+  markAsSolved = async (solved: boolean) => {
+    if (!this.puzzle) return;
+    await this.root.auth.fetchBody(`/api/puzzle/batch/mateIn1`, {
+      method: 'post',
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ solutions: [{ id: this.puzzleId, win: solved, rated: false }] }),
+    });
   };
 }
