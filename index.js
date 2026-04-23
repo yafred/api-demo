@@ -4496,6 +4496,7 @@ class PuzzleCtrl {
         this.root = root;
         this.chess = Chess.default();
         this.puzzleId = '';
+        this.puzzleTheme = '';
         this.canMove = false;
         this.solutionIndex = 0;
         this.onUpdate = () => {
@@ -4522,9 +4523,6 @@ class PuzzleCtrl {
             },
         });
         this.userMove = async (orig, dest) => {
-            var _a;
-            console.log(`User move: ${orig} -> ${dest}`);
-            console.log('Solution:', (_a = this.puzzle) === null || _a === void 0 ? void 0 : _a.solution);
             const beforeMoveFen = makeFen(this.chess.toSetup());
             const beforeMoveLastMove = this.lastMove;
             const move = parseUci(`${orig}${dest}`);
@@ -4541,7 +4539,6 @@ class PuzzleCtrl {
                 const userMoveUci = `${orig}${dest}`;
                 const expectedMove = this.puzzle.solution[this.solutionIndex];
                 if (userMoveUci === expectedMove) {
-                    console.log('Correct move!');
                     if (this.solutionIndex + 2 < this.puzzle.solution.length) {
                         const opponentMove = this.puzzle.solution[this.solutionIndex + 1];
                         const opponentMoveParsed = parseUci(opponentMove);
@@ -4561,7 +4558,6 @@ class PuzzleCtrl {
                     }
                 }
                 else {
-                    console.log(`Incorrect move. Expected: ${expectedMove}, but got: ${userMoveUci}`);
                     const restoredSetup = parseFen(beforeMoveFen).unwrap();
                     this.chess = Chess.fromSetup(restoredSetup).unwrap();
                     this.lastMove = beforeMoveLastMove;
@@ -4595,6 +4591,9 @@ class PuzzleCtrl {
         this.setPuzzleId = (id) => {
             this.puzzleId = id;
         };
+        this.setPuzzleTheme = (theme) => {
+            this.puzzleTheme = theme;
+        };
         this.initPuzzle = async (puzzleResponse) => {
             this.puzzle = puzzleResponse.puzzle;
             if (this.puzzle) {
@@ -4603,7 +4602,6 @@ class PuzzleCtrl {
                 this.canMove = true;
                 this.solutionIndex = 0;
                 this.puzzle.pov = this.chess.turn;
-                console.log('Initialized puzzle:', this.puzzle);
                 this.onUpdate();
             }
         };
@@ -4614,13 +4612,12 @@ class PuzzleCtrl {
             this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/${id}`, { method: 'get' }));
         };
         this.nextPuzzle = async () => {
-            console.log('Loading next puzzle...');
-            this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/next?angle=mateIn2`, { method: 'get' }));
+            this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/next?angle=${this.puzzleTheme ? this.puzzleTheme : 'mix'}`, { method: 'get' }));
         };
         this.markAsSolved = async (solved) => {
             if (!this.puzzle)
                 return;
-            await this.root.auth.fetchBody(`/api/puzzle/batch/mateIn2`, {
+            await this.root.auth.fetchBody(`/api/puzzle/batch/mix`, {
                 method: 'post',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ solutions: [{ id: this.puzzleId, win: solved, rated: false }] }),
@@ -11626,14 +11623,28 @@ const renderButtons = (ctrl) => h('div.d-flex.flex-column.gap-2.mt-4', [
             },
         },
     }, 'daily puzzle'),
-    h('button.btn.btn-secondary', {
-        attrs: { type: 'button' },
-        on: {
-            click() {
-                ctrl.nextPuzzle();
+    h('div.input-group', [
+        h('input.form-control', {
+            attrs: {
+                type: 'text',
+                placeholder: 'Puzzle theme',
+                value: ctrl.puzzleTheme,
             },
-        },
-    }, 'next puzzle (Mate in 2)'),
+            on: {
+                input(event) {
+                    ctrl.setPuzzleTheme(event.target.value);
+                },
+            },
+        }),
+        h('button.btn.btn-secondary', {
+            attrs: { type: 'button' },
+            on: {
+                click() {
+                    ctrl.nextPuzzle();
+                },
+            },
+        }, 'next puzzle'),
+    ]),
     h('div.input-group', [
         h('input.form-control', {
             attrs: {

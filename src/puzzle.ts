@@ -33,6 +33,7 @@ export class PuzzleCtrl implements BoardCtrl {
   puzzle?: Puzzle;
   puzzleGame?: PuzzleGame;
   puzzleId = '';
+  puzzleTheme = '';
   canMove = false;
   solutionIndex = 0;
 
@@ -65,8 +66,6 @@ export class PuzzleCtrl implements BoardCtrl {
   });
 
   userMove = async (orig: Key, dest: Key) => {
-    console.log(`User move: ${orig} -> ${dest}`);
-    console.log('Solution:', this.puzzle?.solution);
     const beforeMoveFen = makeFen(this.chess.toSetup());
     const beforeMoveLastMove = this.lastMove;
     const move = parseUci(`${orig}${dest}`);
@@ -84,7 +83,6 @@ export class PuzzleCtrl implements BoardCtrl {
       const expectedMove = this.puzzle.solution[this.solutionIndex];
 
       if (userMoveUci === expectedMove) {
-        console.log('Correct move!');
         if (this.solutionIndex + 2 < this.puzzle.solution.length) {
           const opponentMove = this.puzzle.solution[this.solutionIndex + 1];
           const opponentMoveParsed = parseUci(opponentMove);
@@ -102,7 +100,6 @@ export class PuzzleCtrl implements BoardCtrl {
           alert('Puzzle solved!');
         }
       } else {
-        console.log(`Incorrect move. Expected: ${expectedMove}, but got: ${userMoveUci}`);
         const restoredSetup = parseFen(beforeMoveFen).unwrap();
         this.chess = Chess.fromSetup(restoredSetup).unwrap();
         this.lastMove = beforeMoveLastMove;
@@ -144,6 +141,10 @@ export class PuzzleCtrl implements BoardCtrl {
     this.puzzleId = id;
   };
 
+  setPuzzleTheme = (theme: string) => {
+    this.puzzleTheme = theme;
+  };
+
   private initPuzzle = async (puzzleResponse: PuzzleResponse) => {
     this.puzzle = puzzleResponse.puzzle;
     if (this.puzzle) {
@@ -155,7 +156,6 @@ export class PuzzleCtrl implements BoardCtrl {
       this.canMove = true;
       this.solutionIndex = 0;
       this.puzzle.pov = this.chess.turn;
-      console.log('Initialized puzzle:', this.puzzle);
 
       this.onUpdate();
     }
@@ -170,13 +170,17 @@ export class PuzzleCtrl implements BoardCtrl {
   };
 
   nextPuzzle = async () => {
-    console.log('Loading next puzzle...');
-    this.initPuzzle(await this.root.auth.fetchBody(`/api/puzzle/next?angle=mateIn2`, { method: 'get' }));
+    this.initPuzzle(
+      await this.root.auth.fetchBody(
+        `/api/puzzle/next?angle=${this.puzzleTheme ? this.puzzleTheme : 'mix'}`,
+        { method: 'get' },
+      ),
+    );
   };
 
   markAsSolved = async (solved: boolean) => {
     if (!this.puzzle) return;
-    await this.root.auth.fetchBody(`/api/puzzle/batch/mateIn2`, {
+    await this.root.auth.fetchBody(`/api/puzzle/batch/mix`, {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ solutions: [{ id: this.puzzleId, win: solved, rated: false }] }),

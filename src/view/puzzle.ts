@@ -27,18 +27,32 @@ const renderButtons = (ctrl: PuzzleCtrl) =>
       },
       'daily puzzle',
     ),
-    h(
-      'button.btn.btn-secondary',
-      {
-        attrs: { type: 'button' },
+    h('div.input-group', [
+      h('input.form-control', {
+        attrs: {
+          type: 'text',
+          placeholder: 'Puzzle theme',
+          value: ctrl.puzzleTheme,
+        },
         on: {
-          click() {
-            ctrl.nextPuzzle();
+          input(event: Event) {
+            ctrl.setPuzzleTheme((event.target as HTMLInputElement).value);
           },
         },
-      },
-      'next puzzle (Mate in 2)',
-    ),
+      }),
+      h(
+        'button.btn.btn-secondary',
+        {
+          attrs: { type: 'button' },
+          on: {
+            click() {
+              ctrl.nextPuzzle();
+            },
+          },
+        },
+        'next puzzle',
+      ),
+    ]),
     h('div.input-group', [
       h('input.form-control', {
         attrs: {
