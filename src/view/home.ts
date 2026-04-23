@@ -103,7 +103,7 @@ const renderAbout = () =>
         h(
           'a',
           {
-            attrs: { href: 'https://github.com/yafred/lichess3D' },
+            attrs: { href: 'https://github.com/yafred/api-demo/tree/chess3D' },
           },
           'Source code',
         ),

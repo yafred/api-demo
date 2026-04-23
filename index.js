@@ -11545,7 +11545,7 @@ const renderAbout = () => h('div.about', [
     h('p', 'WORK IN PROGRESS ...'),
     h('ul', [
         h('li', h('a', {
-            attrs: { href: 'https://github.com/yafred/lichess3D' },
+            attrs: { href: 'https://github.com/yafred/api-demo/tree/chess3D' },
         }, 'Source code')),
         h('li', h('a', {
             attrs: { href: 'https://lichess-org.github.io/api-demo/' },
