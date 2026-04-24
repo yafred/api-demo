@@ -10398,7 +10398,6 @@ function createViewStatePersistence({ sceneAssetUrl, camera, controls, }) {
             if (!rawState)
                 return undefined;
             const parsedState = JSON.parse(rawState);
-            console.log('Restoring view state', parsedState);
             if (!isFiniteTuple3(parsedState.cameraPosition) ||
                 !isFiniteTuple3(parsedState.controlsTarget) ||
                 typeof parsedState.cameraZoom !== 'number' ||
@@ -10422,22 +10421,16 @@ function createViewStatePersistence({ sceneAssetUrl, camera, controls, }) {
                 cameraZoom: camera.zoom,
                 controlsTarget: [controls.target.x, controls.target.y, controls.target.z],
             };
-            console.log('Persisting view state', state);
             window.localStorage.setItem(storageKey, JSON.stringify(state));
         }
         catch {
             // Ignore persistence errors (private mode, quota, or disabled storage).
         }
     }
-    let persistQueued = false;
+    let debounceTimer;
     const schedulePersist = () => {
-        if (persistQueued)
-            return;
-        persistQueued = true;
-        requestAnimationFrame(() => {
-            persistQueued = false;
-            persist();
-        });
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(persist, 300);
     };
     function restore() {
         const storedState = getStoredViewState();
@@ -10554,7 +10547,6 @@ function start3D(sceneRoot, config) {
             interactionController.setAllowBlackInteraction(false);
             return;
         }
-        console.log('Setting allow interaction for colors based on config:', config);
         if (config?.turnColor) {
             const isWhiteTurn = config.turnColor === 'white';
             const isMyTurn = (isWhiteTurn && config.movable?.color === 'white') ||
@@ -10562,7 +10554,6 @@ function start3D(sceneRoot, config) {
                 config.movable?.color === 'both';
             interactionController.setAllowWhiteInteraction(isWhiteTurn && isMyTurn);
             interactionController.setAllowBlackInteraction(!isWhiteTurn && isMyTurn);
-            console.log(`Turn color: ${config.turnColor}, isMyTurn: ${isMyTurn}, allowWhiteInteraction: ${isWhiteTurn && isMyTurn}, allowBlackInteraction: ${!isWhiteTurn && isMyTurn}`);
         }
     }
     setAllowInteractionForColors(config);
