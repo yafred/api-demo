@@ -10496,7 +10496,9 @@ function start3D(sceneRoot, config) {
     a1Marker.position.set(-3.87, 0.02, 3.87);
     a1Marker.renderOrder = 7;
     scene.add(a1Marker);
-    function setView() {
+    function setOrientation(orientation) {
+        currentOrientation = orientation;
+        const side = orientation === 'black' ? -1 : 1;
         camera.position.set(0, 15, 8 * side);
         controls.target.set(0, 0, 0);
         camera.updateProjectionMatrix();
@@ -10508,7 +10510,7 @@ function start3D(sceneRoot, config) {
         controls,
     });
     if (!viewStatePersistence.restore()) {
-        setView();
+        setOrientation(config.orientation);
     }
     controls.addEventListener('change', viewStatePersistence.schedulePersist);
     // Resize event
