@@ -4906,7 +4906,7 @@ function isShadowRoot(node) {
 
 // and applies them to the HTMLElements such as popper and arrow
 
-function applyStyles(_ref) {
+function applyStyles$1(_ref) {
   var state = _ref.state;
   Object.keys(state.elements).forEach(function (name) {
     var style = state.styles[name] || {};
@@ -4978,11 +4978,11 @@ function effect$2(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var applyStyles$1 = {
+var applyStyles = {
   name: 'applyStyles',
   enabled: true,
   phase: 'write',
-  fn: applyStyles,
+  fn: applyStyles$1,
   effect: effect$2,
   requires: ['computeStyles']
 };
@@ -5229,7 +5229,7 @@ var toPaddingObject = function toPaddingObject(padding, state) {
   return mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
 };
 
-function arrow(_ref) {
+function arrow$1(_ref) {
   var _state$modifiersData$;
 
   var state = _ref.state,
@@ -5293,11 +5293,11 @@ function effect$1(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var arrow$1 = {
+var arrow = {
   name: 'arrow',
   enabled: true,
   phase: 'main',
-  fn: arrow,
+  fn: arrow$1,
   effect: effect$1,
   requires: ['popperOffsets'],
   requiresIfExists: ['preventOverflow']
@@ -5418,7 +5418,7 @@ function mapToStyles(_ref2) {
   return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
 }
 
-function computeStyles(_ref5) {
+function computeStyles$1(_ref5) {
   var state = _ref5.state,
       options = _ref5.options;
   var _options$gpuAccelerat = options.gpuAcceleration,
@@ -5460,11 +5460,11 @@ function computeStyles(_ref5) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var computeStyles$1 = {
+var computeStyles = {
   name: 'computeStyles',
   enabled: true,
   phase: 'beforeWrite',
-  fn: computeStyles,
+  fn: computeStyles$1,
   data: {}
 };
 
@@ -5892,7 +5892,7 @@ function getExpandedFallbackPlacements(placement) {
   return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
 }
 
-function flip(_ref) {
+function flip$1(_ref) {
   var state = _ref.state,
       options = _ref.options,
       name = _ref.name;
@@ -6012,11 +6012,11 @@ function flip(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var flip$1 = {
+var flip = {
   name: 'flip',
   enabled: true,
   phase: 'main',
-  fn: flip,
+  fn: flip$1,
   requiresIfExists: ['offset'],
   data: {
     _skip: false
@@ -6045,7 +6045,7 @@ function isAnySideFullyClipped(overflow) {
   });
 }
 
-function hide(_ref) {
+function hide$1(_ref) {
   var state = _ref.state,
       name = _ref.name;
   var referenceRect = state.rects.reference;
@@ -6074,12 +6074,12 @@ function hide(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var hide$1 = {
+var hide = {
   name: 'hide',
   enabled: true,
   phase: 'main',
   requiresIfExists: ['preventOverflow'],
-  fn: hide
+  fn: hide$1
 };
 
 function distanceAndSkiddingToXY(placement, rects, offset) {
@@ -6103,7 +6103,7 @@ function distanceAndSkiddingToXY(placement, rects, offset) {
   };
 }
 
-function offset(_ref2) {
+function offset$1(_ref2) {
   var state = _ref2.state,
       options = _ref2.options,
       name = _ref2.name;
@@ -6126,15 +6126,15 @@ function offset(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var offset$1 = {
+var offset = {
   name: 'offset',
   enabled: true,
   phase: 'main',
   requires: ['popperOffsets'],
-  fn: offset
+  fn: offset$1
 };
 
-function popperOffsets(_ref) {
+function popperOffsets$1(_ref) {
   var state = _ref.state,
       name = _ref.name;
   // Offsets are the actual position the popper needs to have to be
@@ -6149,11 +6149,11 @@ function popperOffsets(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var popperOffsets$1 = {
+var popperOffsets = {
   name: 'popperOffsets',
   enabled: true,
   phase: 'read',
-  fn: popperOffsets,
+  fn: popperOffsets$1,
   data: {}
 };
 
@@ -6161,7 +6161,7 @@ function getAltAxis(axis) {
   return axis === 'x' ? 'y' : 'x';
 }
 
-function preventOverflow(_ref) {
+function preventOverflow$1(_ref) {
   var state = _ref.state,
       options = _ref.options,
       name = _ref.name;
@@ -6284,11 +6284,11 @@ function preventOverflow(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var preventOverflow$1 = {
+var preventOverflow = {
   name: 'preventOverflow',
   enabled: true,
   phase: 'main',
-  fn: preventOverflow,
+  fn: preventOverflow$1,
   requiresIfExists: ['offset']
 };
 
@@ -6620,12 +6620,12 @@ function popperGenerator(generatorOptions) {
 }
 var createPopper$2 = /*#__PURE__*/popperGenerator(); // eslint-disable-next-line import/no-unused-modules
 
-var defaultModifiers$1 = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1];
+var defaultModifiers$1 = [eventListeners, popperOffsets, computeStyles, applyStyles];
 var createPopper$1 = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers$1
 }); // eslint-disable-next-line import/no-unused-modules
 
-var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1, offset$1, flip$1, preventOverflow$1, arrow$1, hide$1];
+var defaultModifiers = [eventListeners, popperOffsets, computeStyles, applyStyles, offset, flip, preventOverflow, arrow, hide];
 var createPopper = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers
 }); // eslint-disable-next-line import/no-unused-modules
@@ -6635,8 +6635,8 @@ var lib = /*#__PURE__*/Object.freeze({
     afterMain: afterMain,
     afterRead: afterRead,
     afterWrite: afterWrite,
-    applyStyles: applyStyles$1,
-    arrow: arrow$1,
+    applyStyles: applyStyles,
+    arrow: arrow,
     auto: auto,
     basePlacements: basePlacements,
     beforeMain: beforeMain,
@@ -6644,24 +6644,24 @@ var lib = /*#__PURE__*/Object.freeze({
     beforeWrite: beforeWrite,
     bottom: bottom,
     clippingParents: clippingParents,
-    computeStyles: computeStyles$1,
+    computeStyles: computeStyles,
     createPopper: createPopper,
     createPopperBase: createPopper$2,
     createPopperLite: createPopper$1,
     detectOverflow: detectOverflow,
     end: end$2,
     eventListeners: eventListeners,
-    flip: flip$1,
-    hide: hide$1,
+    flip: flip,
+    hide: hide,
     left: left,
     main: main$1,
     modifierPhases: modifierPhases,
-    offset: offset$1,
+    offset: offset,
     placements: placements,
     popper: popper,
     popperGenerator: popperGenerator,
-    popperOffsets: popperOffsets$1,
-    preventOverflow: preventOverflow$1,
+    popperOffsets: popperOffsets,
+    preventOverflow: preventOverflow,
     read: read$1,
     reference: reference,
     right: right,
@@ -10385,6 +10385,76 @@ function setupPieceInteraction({ scene, camera, renderer, controls, hoverControl
     };
 }
 
+function isFiniteTuple3(value) {
+    return (Array.isArray(value) &&
+        value.length === 3 &&
+        value.every(item => typeof item === 'number' && Number.isFinite(item)));
+}
+function createViewStatePersistence({ sceneAssetUrl, camera, controls, }) {
+    const storageKey = `chessground:real3d:view:${sceneAssetUrl}`;
+    function getStoredViewState() {
+        try {
+            const rawState = window.localStorage.getItem(storageKey);
+            if (!rawState)
+                return undefined;
+            const parsedState = JSON.parse(rawState);
+            if (!isFiniteTuple3(parsedState.cameraPosition) ||
+                !isFiniteTuple3(parsedState.controlsTarget) ||
+                typeof parsedState.cameraZoom !== 'number' ||
+                !Number.isFinite(parsedState.cameraZoom)) {
+                return undefined;
+            }
+            return {
+                cameraPosition: parsedState.cameraPosition,
+                cameraZoom: parsedState.cameraZoom,
+                controlsTarget: parsedState.controlsTarget,
+            };
+        }
+        catch {
+            return undefined;
+        }
+    }
+    function persist() {
+        try {
+            const state = {
+                cameraPosition: [camera.position.x, camera.position.y, camera.position.z],
+                cameraZoom: camera.zoom,
+                controlsTarget: [controls.target.x, controls.target.y, controls.target.z],
+            };
+            window.localStorage.setItem(storageKey, JSON.stringify(state));
+        }
+        catch {
+            // Ignore persistence errors (private mode, quota, or disabled storage).
+        }
+    }
+    let persistQueued = false;
+    const schedulePersist = () => {
+        if (persistQueued)
+            return;
+        persistQueued = true;
+        requestAnimationFrame(() => {
+            persistQueued = false;
+            persist();
+        });
+    };
+    function restore() {
+        const storedState = getStoredViewState();
+        if (!storedState)
+            return false;
+        camera.position.set(...storedState.cameraPosition);
+        camera.zoom = storedState.cameraZoom;
+        controls.target.set(...storedState.controlsTarget);
+        camera.updateProjectionMatrix();
+        controls.update();
+        return true;
+    }
+    return {
+        persist,
+        schedulePersist,
+        restore,
+    };
+}
+
 function start3D(sceneRoot, config) {
     // Scene setup
     const scene = new THREE.Scene();
@@ -10430,7 +10500,15 @@ function start3D(sceneRoot, config) {
         camera.updateProjectionMatrix();
         controls.update();
     }
-    setOrientation(config.orientation);
+    const viewStatePersistence = createViewStatePersistence({
+        sceneAssetUrl,
+        camera,
+        controls,
+    });
+    if (!viewStatePersistence.restore()) {
+        setOrientation(config.orientation);
+    }
+    controls.addEventListener('change', viewStatePersistence.schedulePersist);
     // Resize event
     window.addEventListener('resize', () => {
         const { width, height } = getSceneRootSize();
@@ -10591,7 +10669,9 @@ function start3D(sceneRoot, config) {
             console.warn('Dragging new pieces is not implemented in this 3D scene.');
         },
         destroy() {
-            console.warn('Destroying the 3D scene is not implemented. You may want to remove the canvas from the DOM instead.');
+            controls.removeEventListener('change', viewStatePersistence.schedulePersist);
+            viewStatePersistence.persist();
+            console.warn('Destroying the 3D scene is not fully implemented. You may want to remove the canvas from the DOM instead.');
         },
         redrawAll() {
             // No internal state to redraw, but we can trigger a render if needed
