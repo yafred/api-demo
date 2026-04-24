@@ -4906,7 +4906,7 @@ function isShadowRoot(node) {
 
 // and applies them to the HTMLElements such as popper and arrow
 
-function applyStyles$1(_ref) {
+function applyStyles(_ref) {
   var state = _ref.state;
   Object.keys(state.elements).forEach(function (name) {
     var style = state.styles[name] || {};
@@ -4978,11 +4978,11 @@ function effect$2(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var applyStyles = {
+var applyStyles$1 = {
   name: 'applyStyles',
   enabled: true,
   phase: 'write',
-  fn: applyStyles$1,
+  fn: applyStyles,
   effect: effect$2,
   requires: ['computeStyles']
 };
@@ -5229,7 +5229,7 @@ var toPaddingObject = function toPaddingObject(padding, state) {
   return mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
 };
 
-function arrow$1(_ref) {
+function arrow(_ref) {
   var _state$modifiersData$;
 
   var state = _ref.state,
@@ -5293,11 +5293,11 @@ function effect$1(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var arrow = {
+var arrow$1 = {
   name: 'arrow',
   enabled: true,
   phase: 'main',
-  fn: arrow$1,
+  fn: arrow,
   effect: effect$1,
   requires: ['popperOffsets'],
   requiresIfExists: ['preventOverflow']
@@ -5418,7 +5418,7 @@ function mapToStyles(_ref2) {
   return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
 }
 
-function computeStyles$1(_ref5) {
+function computeStyles(_ref5) {
   var state = _ref5.state,
       options = _ref5.options;
   var _options$gpuAccelerat = options.gpuAcceleration,
@@ -5460,11 +5460,11 @@ function computeStyles$1(_ref5) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var computeStyles = {
+var computeStyles$1 = {
   name: 'computeStyles',
   enabled: true,
   phase: 'beforeWrite',
-  fn: computeStyles$1,
+  fn: computeStyles,
   data: {}
 };
 
@@ -5892,7 +5892,7 @@ function getExpandedFallbackPlacements(placement) {
   return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
 }
 
-function flip$1(_ref) {
+function flip(_ref) {
   var state = _ref.state,
       options = _ref.options,
       name = _ref.name;
@@ -6012,11 +6012,11 @@ function flip$1(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var flip = {
+var flip$1 = {
   name: 'flip',
   enabled: true,
   phase: 'main',
-  fn: flip$1,
+  fn: flip,
   requiresIfExists: ['offset'],
   data: {
     _skip: false
@@ -6045,7 +6045,7 @@ function isAnySideFullyClipped(overflow) {
   });
 }
 
-function hide$1(_ref) {
+function hide(_ref) {
   var state = _ref.state,
       name = _ref.name;
   var referenceRect = state.rects.reference;
@@ -6074,12 +6074,12 @@ function hide$1(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var hide = {
+var hide$1 = {
   name: 'hide',
   enabled: true,
   phase: 'main',
   requiresIfExists: ['preventOverflow'],
-  fn: hide$1
+  fn: hide
 };
 
 function distanceAndSkiddingToXY(placement, rects, offset) {
@@ -6103,7 +6103,7 @@ function distanceAndSkiddingToXY(placement, rects, offset) {
   };
 }
 
-function offset$1(_ref2) {
+function offset(_ref2) {
   var state = _ref2.state,
       options = _ref2.options,
       name = _ref2.name;
@@ -6126,15 +6126,15 @@ function offset$1(_ref2) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var offset = {
+var offset$1 = {
   name: 'offset',
   enabled: true,
   phase: 'main',
   requires: ['popperOffsets'],
-  fn: offset$1
+  fn: offset
 };
 
-function popperOffsets$1(_ref) {
+function popperOffsets(_ref) {
   var state = _ref.state,
       name = _ref.name;
   // Offsets are the actual position the popper needs to have to be
@@ -6149,11 +6149,11 @@ function popperOffsets$1(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var popperOffsets = {
+var popperOffsets$1 = {
   name: 'popperOffsets',
   enabled: true,
   phase: 'read',
-  fn: popperOffsets$1,
+  fn: popperOffsets,
   data: {}
 };
 
@@ -6161,7 +6161,7 @@ function getAltAxis(axis) {
   return axis === 'x' ? 'y' : 'x';
 }
 
-function preventOverflow$1(_ref) {
+function preventOverflow(_ref) {
   var state = _ref.state,
       options = _ref.options,
       name = _ref.name;
@@ -6284,11 +6284,11 @@ function preventOverflow$1(_ref) {
 } // eslint-disable-next-line import/no-unused-modules
 
 
-var preventOverflow = {
+var preventOverflow$1 = {
   name: 'preventOverflow',
   enabled: true,
   phase: 'main',
-  fn: preventOverflow$1,
+  fn: preventOverflow,
   requiresIfExists: ['offset']
 };
 
@@ -6620,12 +6620,12 @@ function popperGenerator(generatorOptions) {
 }
 var createPopper$2 = /*#__PURE__*/popperGenerator(); // eslint-disable-next-line import/no-unused-modules
 
-var defaultModifiers$1 = [eventListeners, popperOffsets, computeStyles, applyStyles];
+var defaultModifiers$1 = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1];
 var createPopper$1 = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers$1
 }); // eslint-disable-next-line import/no-unused-modules
 
-var defaultModifiers = [eventListeners, popperOffsets, computeStyles, applyStyles, offset, flip, preventOverflow, arrow, hide];
+var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1, offset$1, flip$1, preventOverflow$1, arrow$1, hide$1];
 var createPopper = /*#__PURE__*/popperGenerator({
   defaultModifiers: defaultModifiers
 }); // eslint-disable-next-line import/no-unused-modules
@@ -6635,8 +6635,8 @@ var lib = /*#__PURE__*/Object.freeze({
     afterMain: afterMain,
     afterRead: afterRead,
     afterWrite: afterWrite,
-    applyStyles: applyStyles,
-    arrow: arrow,
+    applyStyles: applyStyles$1,
+    arrow: arrow$1,
     auto: auto,
     basePlacements: basePlacements,
     beforeMain: beforeMain,
@@ -6644,24 +6644,24 @@ var lib = /*#__PURE__*/Object.freeze({
     beforeWrite: beforeWrite,
     bottom: bottom,
     clippingParents: clippingParents,
-    computeStyles: computeStyles,
+    computeStyles: computeStyles$1,
     createPopper: createPopper,
     createPopperBase: createPopper$2,
     createPopperLite: createPopper$1,
     detectOverflow: detectOverflow,
     end: end$2,
     eventListeners: eventListeners,
-    flip: flip,
-    hide: hide,
+    flip: flip$1,
+    hide: hide$1,
     left: left,
     main: main$1,
     modifierPhases: modifierPhases,
-    offset: offset,
+    offset: offset$1,
     placements: placements,
     popper: popper,
     popperGenerator: popperGenerator,
-    popperOffsets: popperOffsets,
-    preventOverflow: preventOverflow,
+    popperOffsets: popperOffsets$1,
+    preventOverflow: preventOverflow$1,
     read: read$1,
     reference: reference,
     right: right,
@@ -10492,6 +10492,15 @@ function start3D(sceneRoot, config) {
     light2.position.set(0, 1, -1);
     light2.target.position.set(0, 0, 0);
     scene.add(light2);
+    const a1Marker = new THREE.Mesh(new THREE.CircleGeometry(0.08, 20), new THREE.MeshBasicMaterial({
+        color: 15790320,
+        depthWrite: false,
+        side: THREE.DoubleSide,
+    }));
+    a1Marker.rotation.x = -Math.PI / 2;
+    a1Marker.position.set(-3.87, 0.02, 3.87);
+    a1Marker.renderOrder = 7;
+    scene.add(a1Marker);
     function setOrientation(orientation) {
         currentOrientation = orientation;
         const side = orientation === 'black' ? -1 : 1;
