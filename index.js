@@ -10398,6 +10398,7 @@ function createViewStatePersistence({ sceneAssetUrl, camera, controls, }) {
             if (!rawState)
                 return undefined;
             const parsedState = JSON.parse(rawState);
+            console.log('Restoring view state', parsedState);
             if (!isFiniteTuple3(parsedState.cameraPosition) ||
                 !isFiniteTuple3(parsedState.controlsTarget) ||
                 typeof parsedState.cameraZoom !== 'number' ||
@@ -10421,6 +10422,7 @@ function createViewStatePersistence({ sceneAssetUrl, camera, controls, }) {
                 cameraZoom: camera.zoom,
                 controlsTarget: [controls.target.x, controls.target.y, controls.target.z],
             };
+            console.log('Persisting view state', state);
             window.localStorage.setItem(storageKey, JSON.stringify(state));
         }
         catch {
@@ -10501,9 +10503,7 @@ function start3D(sceneRoot, config) {
     a1Marker.position.set(-3.87, 0.02, 3.87);
     a1Marker.renderOrder = 7;
     scene.add(a1Marker);
-    function setOrientation(orientation) {
-        currentOrientation = orientation;
-        const side = orientation === 'black' ? -1 : 1;
+    function setView() {
         camera.position.set(0, 15, 8 * side);
         controls.target.set(0, 0, 0);
         camera.updateProjectionMatrix();
@@ -10514,6 +10514,9 @@ function start3D(sceneRoot, config) {
         camera,
         controls,
     });
+    if (!viewStatePersistence.restore()) {
+        setView();
+    }
     controls.addEventListener('change', viewStatePersistence.schedulePersist);
     // Resize event
     window.addEventListener('resize', () => {
