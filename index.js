@@ -10514,9 +10514,6 @@ function start3D(sceneRoot, config) {
         camera,
         controls,
     });
-    if (!viewStatePersistence.restore()) {
-        setOrientation(config.orientation);
-    }
     controls.addEventListener('change', viewStatePersistence.schedulePersist);
     // Resize event
     window.addEventListener('resize', () => {
