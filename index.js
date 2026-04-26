@@ -10390,7 +10390,7 @@ function isFiniteTuple3(value) {
         value.length === 3 &&
         value.every(item => typeof item === 'number' && Number.isFinite(item)));
 }
-function createViewStatePersistence({ sceneAssetUrl, camera, controls, }) {
+function createViewStatePersistence({ sceneAssetUrl, camera, controls, getOrientation, setOrientation, }) {
     const storageKey = `chessground:real3d:view:${sceneAssetUrl}`;
     function getStoredViewState() {
         try {
@@ -10408,6 +10408,7 @@ function createViewStatePersistence({ sceneAssetUrl, camera, controls, }) {
                 cameraPosition: parsedState.cameraPosition,
                 cameraZoom: parsedState.cameraZoom,
                 controlsTarget: parsedState.controlsTarget,
+                orientation: parsedState.orientation === 'white' || parsedState.orientation === 'black' ? parsedState.orientation : undefined,
             };
         }
         catch {
@@ -10420,6 +10421,7 @@ function createViewStatePersistence({ sceneAssetUrl, camera, controls, }) {
                 cameraPosition: [camera.position.x, camera.position.y, camera.position.z],
                 cameraZoom: camera.zoom,
                 controlsTarget: [controls.target.x, controls.target.y, controls.target.z],
+                orientation: getOrientation?.(),
             };
             window.localStorage.setItem(storageKey, JSON.stringify(state));
         }
@@ -10436,6 +10438,7 @@ function createViewStatePersistence({ sceneAssetUrl, camera, controls, }) {
         const storedState = getStoredViewState();
         if (!storedState)
             return false;
+        setOrientation?.(storedState.orientation);
         camera.position.set(...storedState.cameraPosition);
         camera.zoom = storedState.cameraZoom;
         controls.target.set(...storedState.controlsTarget);
@@ -10497,17 +10500,20 @@ function start3D(sceneRoot, config) {
     a1Marker.renderOrder = 7;
     scene.add(a1Marker);
     function setOrientation(orientation) {
+        if (!orientation || orientation === currentOrientation)
+            return;
         currentOrientation = orientation;
-        const side = orientation === 'black' ? -1 : 1;
-        camera.position.set(0, 15, 8 * side);
-        controls.target.set(0, 0, 0);
+        camera.position.set(camera.position.x, camera.position.y, camera.position.z * -1);
         camera.updateProjectionMatrix();
         controls.update();
+        viewStatePersistence.schedulePersist();
     }
     const viewStatePersistence = createViewStatePersistence({
         sceneAssetUrl,
         camera,
         controls,
+        getOrientation: () => currentOrientation,
+        setOrientation,
     });
     if (!viewStatePersistence.restore()) {
         setOrientation(config.orientation);
